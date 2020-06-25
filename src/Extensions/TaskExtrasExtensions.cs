@@ -7,14 +7,16 @@
 //--------------------------------------------------------------------------
 
 using System.Linq;
+#if NETFRAMEWORK
 using System.Windows.Threading;
+#endif
 
 namespace System.Threading.Tasks
 {
     /// <summary>Extensions methods for Task.</summary>
     public static class TaskExtrasExtensions
     {
-        #region ContinueWith accepting TaskFactory
+#region ContinueWith accepting TaskFactory
         /// <summary>Creates a continuation task using the specified TaskFactory.</summary>
         /// <param name="task">The antecedent Task.</param>
         /// <param name="continuationAction">The continuation action.</param>
@@ -36,9 +38,9 @@ namespace System.Threading.Tasks
         {
             return task.ContinueWith(continuationFunction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler);
         }
-        #endregion
+#endregion
 
-        #region ContinueWith accepting TaskFactory<TResult>
+#region ContinueWith accepting TaskFactory<TResult>
         /// <summary>Creates a continuation task using the specified TaskFactory.</summary>
         /// <param name="task">The antecedent Task.</param>
         /// <param name="continuationAction">The continuation action.</param>
@@ -60,9 +62,9 @@ namespace System.Threading.Tasks
         {
             return task.ContinueWith(continuationFunction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler);
         }
-        #endregion
+#endregion
 
-        #region ToAsync(AsyncCallback, object)
+#region ToAsync(AsyncCallback, object)
         /// <summary>
         /// Creates a Task that represents the completion of another Task, and 
         /// that schedules an AsyncCallback to run upon completion.
@@ -104,9 +106,9 @@ namespace System.Threading.Tasks
             });
             return tcs.Task;
         }
-        #endregion
+#endregion
 
-        #region Exception Handling
+#region Exception Handling
         /// <summary>Suppresses default exception handling of a Task that would otherwise reraise the exception on the finalizer thread.</summary>
         /// <param name="task">The Task to be monitored.</param>
         /// <returns>The original Task.</returns>
@@ -164,9 +166,9 @@ namespace System.Threading.Tasks
             if (tasks.Any(t => !t.IsCompleted)) throw new InvalidOperationException("A task has not completed.");
             Task.WaitAll(tasks);
         }
-        #endregion
+#endregion
 
-        #region Observables
+#region Observables
         /// <summary>Creates an IObservable that represents the completion of a Task.</summary>
         /// <typeparam name="TResult">Specifies the type of data returned by the Task.</typeparam>
         /// <param name="task">The Task to be represented as an IObservable.</param>
@@ -222,9 +224,9 @@ namespace System.Threading.Tasks
             internal CancellationTokenSource Source;
             void IDisposable.Dispose() { Source.Cancel(); }
         }
-        #endregion
+#endregion
 
-        #region Timeouts
+#region Timeouts
         /// <summary>Creates a new Task that mirrors the supplied task but that will be canceled after the specified timeout.</summary>
         /// <typeparam name="TResult">Specifies the type of data contained in the task.</typeparam>
         /// <param name="task">The task.</param>
@@ -258,9 +260,9 @@ namespace System.Threading.Tasks
             }, TaskContinuationOptions.ExecuteSynchronously);
             return result.Task;
         }
-        #endregion
+#endregion
 
-        #region Children
+#region Children
         /// <summary>
         /// Ensures that a parent task can't transition into a completed state
         /// until the specified task has also completed, even if it's not
@@ -276,7 +278,8 @@ namespace System.Threading.Tasks
         }
         #endregion
 
-        #region Waiting
+#region Waiting
+#if NETFRAMEWORK
         /// <summary>Waits for the task to complete execution, pumping in the meantime.</summary>
         /// <param name="task">The task for which to wait.</param>
         /// <remarks>This method is intended for usage with Windows Presentation Foundation.</remarks>
@@ -288,6 +291,7 @@ namespace System.Threading.Tasks
             Dispatcher.PushFrame(nestedFrame);
             task.Wait();
         }
+#endif
 
         /// <summary>Waits for the task to complete execution, returning the task's final status.</summary>
         /// <param name="task">The task for which to wait.</param>
@@ -299,7 +303,7 @@ namespace System.Threading.Tasks
             ((IAsyncResult)task).AsyncWaitHandle.WaitOne();
             return task.Status;
         }
-        #endregion
+#endregion
 
         #region Then
         /// <summary>Creates a task that represents the completion of a follow-up action when a task completes.</summary>
@@ -513,6 +517,6 @@ namespace System.Threading.Tasks
             }, TaskScheduler.Default);
             return tcs.Task;
         }
-        #endregion
+#endregion
     }
 }

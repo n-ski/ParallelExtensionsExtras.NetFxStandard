@@ -11,6 +11,8 @@
     <PackageTags>pfx tpl plinq task parallel extensions extras</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageProjectUrl>https://devblogs.microsoft.com/pfxteam/tag/parallelextensionsextras/</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/n-ski/ParallelExtensionsExtras.NetFxStandard</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

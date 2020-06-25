@@ -14,6 +14,7 @@ namespace System.Net
     /// <summary>Extension methods for working with WebRequest asynchronously.</summary>
     public static class WebRequestExtensions
     {
+#if NETFRAMEWORK
         /// <summary>Creates a Task that represents an asynchronous request to GetResponse.</summary>
         /// <param name="webRequest">The WebRequest.</param>
         /// <returns>A Task containing the retrieved WebResponse.</returns>
@@ -33,6 +34,7 @@ namespace System.Net
             return Task<Stream>.Factory.FromAsync(
                 webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, webRequest /* object state for debugging */);
         }
+#endif
 
         /// <summary>Creates a Task that respresents downloading all of the data from a WebRequest.</summary>
         /// <param name="webRequest">The WebRequest.</param>

@@ -157,6 +157,11 @@ namespace System.Threading
     {
         /// <summary>Initializes the HtmlCache.</summary>
         public HtmlAsyncCache() :
-            base(uri => new WebClient().DownloadStringTask(uri)) { }
+#if NETFRAMEWORK
+            base(uri => new WebClient().DownloadStringTask(uri))
+#else
+            base(uri => new WebClient().DownloadStringTaskAsync(uri))
+#endif
+        { }
     }
 }

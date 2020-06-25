@@ -9,6 +9,7 @@
 using System.Net.Mail;
 using System.Threading.Tasks;
 
+#if NETFRAMEWORK
 namespace System.Net.NetworkInformation
 {
     /// <summary>Extension methods for working with SmtpClient asynchronously.</summary>
@@ -77,3 +78,4 @@ namespace System.Net.NetworkInformation
         }
     }
 }
+#endif

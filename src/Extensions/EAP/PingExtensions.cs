@@ -8,6 +8,7 @@
 
 using System.Threading.Tasks;
 
+#if NETFRAMEWORK
 namespace System.Net.NetworkInformation
 {
     /// <summary>Extension methods for working with Ping asynchronously.</summary>
@@ -202,3 +203,4 @@ namespace System.Net.NetworkInformation
         }
     }
 }
+#endif

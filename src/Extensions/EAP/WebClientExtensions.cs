@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 
+#if NETFRAMEWORK
 namespace System.Net
 {
     /// <summary>Extension methods for working with WebClient asynchronously.</summary>
@@ -352,3 +353,4 @@ namespace System.Net
         }
     }
 }
+#endif

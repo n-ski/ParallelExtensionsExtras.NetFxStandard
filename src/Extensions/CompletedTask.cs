@@ -8,6 +8,7 @@
 
 namespace System.Threading.Tasks
 {
+#if NETFRAMEWORK
     /// <summary>Provides access to an already completed task.</summary>
     /// <remarks>A completed task can be useful for using ContinueWith overloads where there aren't StartNew equivalents.</remarks>
     public static class CompletedTask
@@ -31,4 +32,5 @@ namespace System.Threading.Tasks
         /// <summary>Gets a completed Task.</summary>
         public readonly static Task<TResult> Default;
     }
+#endif
 }

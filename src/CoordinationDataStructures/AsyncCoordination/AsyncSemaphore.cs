@@ -60,7 +60,11 @@ namespace System.Threading.Async
                 if (_currentCount > 0)
                 {
                     _currentCount--;
+#if NETFRAMEWORK
                     return CompletedTask.Default;
+#else
+                    return Task.CompletedTask;
+#endif
                 }
                 else
                 {

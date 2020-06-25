@@ -14,6 +14,7 @@ namespace System.IO
     /// <summary>Extension methods for asynchronously working with streams.</summary>
     public static class StreamExtensions
     {
+#if NETFRAMEWORK
         private const int BUFFER_SIZE = 0x2000;
 
         /// <summary>Read from a stream asynchronously.</summary>
@@ -45,6 +46,7 @@ namespace System.IO
                 stream.BeginWrite, stream.EndWrite,
                 buffer, offset, count, stream);
         }
+#endif
 
         /// <summary>Reads the contents of the stream asynchronously.</summary>
         /// <param name="stream">The stream.</param>
@@ -58,7 +60,11 @@ namespace System.IO
             var readData = new MemoryStream(initialCapacity);
 
             // Copy from the source stream to the memory stream and return the copied data
+#if NETFRAMEWORK
             return stream.CopyStreamToStreamAsync(readData).ContinueWith(t =>
+#else
+            return stream.CopyToAsync(readData).ContinueWith(t =>
+#endif
             {
                 t.PropagateExceptions();
                 return readData.ToArray();
@@ -126,7 +132,11 @@ namespace System.IO
             var destinationStream = FileAsync.OpenWrite(destinationPath);
 
             // Copy the source to the destination stream, then close the output file.
+#if NETFRAMEWORK
             return CopyStreamToStreamAsync(source, destinationStream).ContinueWith(t =>
+#else
+            return source.CopyToAsync(destinationStream).ContinueWith(t =>
+#endif
             {
                 var e = t.Exception;
                 destinationStream.Close();
@@ -134,6 +144,7 @@ namespace System.IO
             }, TaskContinuationOptions.ExecuteSynchronously);
         }
 
+#if NETFRAMEWORK
         /// <summary>Copies the contents of one stream to another, asynchronously.</summary>
         /// <param name="source">The source stream.</param>
         /// <param name="destination">The destination stream.</param>
@@ -192,5 +203,6 @@ namespace System.IO
                 filledBufferNum ^= 1;
             }
         }
+#endif
     }
 }

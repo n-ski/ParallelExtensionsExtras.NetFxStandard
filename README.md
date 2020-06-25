@@ -1,4 +1,4 @@
-# Parallel Extensions Extras
+# Parallel Extensions Extras [![NuGet package](https://img.shields.io/nuget/v/ParallelExtensionsExtras.NetFxStandard)](https://www.nuget.org/packages/ParallelExtensionsExtras.NetFxStandard)
 
 In 2010, Microsoft released [Samples for Parallel Programming with the .NET Framework](http://archive.is/vtcRb) (archive), along with the ParallelExtensionsExtras, a library of various extensions, which was based on .NET Framework 4. This is a port of sample ParallelExtensionsExtras source code, targeting both .NET Framework 4.0 and .NET Standard 2.0.
 

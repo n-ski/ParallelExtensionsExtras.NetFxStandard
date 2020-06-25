@@ -13,7 +13,7 @@ namespace System.Threading.Tasks.Schedulers
 {
     /// <summary>
     /// Provides a task scheduler that ensures a maximum concurrency level while
-    /// running on top of the ThreadPool.
+    /// running on top of the <see cref="ThreadPool"/>.
     /// </summary>
     public class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {
@@ -28,7 +28,7 @@ namespace System.Threading.Tasks.Schedulers
         private int _delegatesQueuedOrRunning = 0; // protected by lock(_tasks)
 
         /// <summary>
-        /// Initializes an instance of the LimitedConcurrencyLevelTaskScheduler class with the
+        /// Initializes an instance of the <see cref="LimitedConcurrencyLevelTaskScheduler"/> class with the
         /// specified degree of parallelism.
         /// </summary>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism provided by this scheduler.</param>
@@ -56,7 +56,7 @@ namespace System.Threading.Tasks.Schedulers
         }
 
         /// <summary>
-        /// Informs the ThreadPool that there's work to be executed for this scheduler.
+        /// Informs the <see cref="ThreadPool"/> that there's work to be executed for this scheduler.
         /// </summary>
         private void NotifyThreadPoolOfPendingWork()
         {
@@ -98,7 +98,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Attempts to execute the specified task on the current thread.</summary>
         /// <param name="task">The task to be executed.</param>
         /// <param name="taskWasPreviouslyQueued"></param>
-        /// <returns>Whether the task could be executed on the current thread.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be executed on the current thread.</returns>
         protected sealed override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             // If this thread isn't already processing a task, we don't support inlining
@@ -113,7 +113,7 @@ namespace System.Threading.Tasks.Schedulers
 
         /// <summary>Attempts to remove a previously scheduled task from the scheduler.</summary>
         /// <param name="task">The task to be removed.</param>
-        /// <returns>Whether the task could be found and removed.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be found and removed.</returns>
         protected sealed override bool TryDequeue(Task task)
         {
             lock (_tasks) return _tasks.Remove(task);

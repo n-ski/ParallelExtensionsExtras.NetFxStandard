@@ -8,13 +8,13 @@
 
 namespace System.Threading.Tasks
 {
-    /// <summary>Extensions for TaskFactory.</summary>
+    /// <summary>Extensions for <see cref="TaskFactory"/>.</summary>
     public static partial class TaskFactoryExtensions
     {
-        /// <summary>Creates a Task that will be completed when the specified WaitHandle is signaled.</summary>
+        /// <summary>Creates a <see cref="Task"/> that will be completed when the specified <see cref="WaitHandle"/> is signaled.</summary>
         /// <param name="factory">The target factory.</param>
-        /// <param name="waitHandle">The WaitHandle.</param>
-        /// <returns>The created Task.</returns>
+        /// <param name="waitHandle">The <see cref="WaitHandle"/>.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task FromAsync(this TaskFactory factory, WaitHandle waitHandle)
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));

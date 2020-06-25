@@ -13,24 +13,24 @@ namespace System.Threading.Algorithms
 {
     public static partial class ParallelAlgorithms
     {
-        /// <summary>Executes a map operation, converting an input list into an output list, in parallel.</summary>
+        /// <summary>Executes a map operation, converting an <paramref name="input"/> list into an output list, in parallel.</summary>
         /// <typeparam name="TInput">Specifies the type of the input data.</typeparam>
         /// <typeparam name="TOutput">Specifies the type of the output data.</typeparam>
-        /// <param name="input">The input list to be mapped used the transform function.</param>
+        /// <param name="input">The input list to be mapped used the <paramref name="transform"/> function.</param>
         /// <param name="transform">The transform function to use to map the input data to the output data.</param>
-        /// <returns>The output data, transformed using the transform function.</returns>
+        /// <returns>The output data, transformed using the <paramref name="transform"/> function.</returns>
         public static TOutput[] Map<TInput, TOutput>(IList<TInput> input, Func<TInput, TOutput> transform)
         {
             return Map(input, s_defaultParallelOptions, transform);
         }
 
-        /// <summary>Executes a map operation, converting an input list into an output list, in parallel.</summary>
+        /// <summary>Executes a map operation, converting an <paramref name="input"/> list into an output list, in parallel.</summary>
         /// <typeparam name="TInput">Specifies the type of the input data.</typeparam>
         /// <typeparam name="TOutput">Specifies the type of the output data.</typeparam>
-        /// <param name="input">The input list to be mapped used the transform function.</param>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="input">The input list to be mapped used the <paramref name="transform"/> function.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="transform">The transform function to use to map the input data to the output data.</param>
-        /// <returns>The output data, transformed using the transform function.</returns>
+        /// <returns>The output data, transformed using the <paramref name="transform"/> function.</returns>
         public static TOutput[] Map<TInput, TOutput>(IList<TInput> input, ParallelOptions parallelOptions, Func<TInput, TOutput> transform)
         {
             if (input == null) throw new ArgumentNullException(nameof(input));

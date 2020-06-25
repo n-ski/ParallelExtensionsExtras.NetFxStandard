@@ -25,7 +25,7 @@ namespace System.Threading.Algorithms
 
         /// <summary>Processes data in parallel, allowing the processing function to add more data to be processed.</summary>
         /// <typeparam name="T">Specifies the type of data being processed.</typeparam>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="initialValues">The initial set of data to be processed.</param>
         /// <param name="body">The operation to execute for each value.</param>
         public static void WhileNotEmpty<T>(

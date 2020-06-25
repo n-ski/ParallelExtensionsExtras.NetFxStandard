@@ -8,15 +8,15 @@
 
 namespace System.Threading
 {
-    /// <summary>Runs an action when the CountdownEvent reaches zero.</summary>
+    /// <summary>Runs an action when the <see cref="CountdownEvent"/> reaches zero.</summary>
     public class ActionCountdownEvent : IDisposable
     {
         private readonly CountdownEvent _event;
         private readonly Action _action;
         private readonly ExecutionContext _context;
 
-        /// <summary>Initializes the ActionCountdownEvent.</summary>
-        /// <param name="initialCount">The number of signals required to set the CountdownEvent.</param>
+        /// <summary>Initializes the <see cref="ActionCountdownEvent"/>.</summary>
+        /// <param name="initialCount">The number of signals required to set the <see cref="CountdownEvent"/>.</param>
         /// <param name="action">The delegate to be invoked when the count reaches zero.</param>
         public ActionCountdownEvent(int initialCount, Action action)
         {
@@ -65,7 +65,7 @@ namespace System.Threading
 
         /// <summary>Releases all resources used by the current instance.</summary>
         /// <param name="disposing">
-        /// true if called because the object is being disposed; otherwise, false.
+        /// <see langword="true"/> if called because the object is being disposed; otherwise, <see langword="false"/>.
         /// </param>
         protected void Dispose(bool disposing)
         {

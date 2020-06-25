@@ -28,7 +28,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Runs the provided task on the current thread.</summary>
         /// <param name="task">The task to be executed.</param>
         /// <param name="taskWasPreviouslyQueued">Ignored.</param>
-        /// <returns>Whether the task could be executed on the current thread.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be executed on the current thread.</returns>
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             return TryExecuteTask(task);

@@ -14,13 +14,13 @@ using System.Linq;
 namespace System.Threading.Tasks.Schedulers
 {
     /// <summary>
-    /// Provides a TaskScheduler that provides control over priorities, fairness, and the underlying threads utilized.
+    /// Provides a <see cref="TaskScheduler"/> that provides control over priorities, fairness, and the underlying threads utilized.
     /// </summary>
     [DebuggerTypeProxy(typeof(QueuedTaskSchedulerDebugView))]
     [DebuggerDisplay("Id={Id}, Queues={DebugQueueCount}, ScheduledTasks = {DebugTaskCount}")]
     public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
     {
-        /// <summary>Debug view for the QueuedTaskScheduler.</summary>
+        /// <summary>Debug view for the <see cref="QueuedTaskScheduler"/>.</summary>
         private class QueuedTaskSchedulerDebugView
         {
             /// <summary>The scheduler.</summary>
@@ -95,14 +95,14 @@ namespace System.Threading.Tasks.Schedulers
 
         // ***
 
-        /// <summary>Initializes the scheduler.</summary>
+        /// <summary>Initializes the <see cref="QueuedTaskScheduler"/>.</summary>
         public QueuedTaskScheduler() : this(TaskScheduler.Default, 0) { }
 
-        /// <summary>Initializes the scheduler.</summary>
+        /// <summary>Initializes the <see cref="QueuedTaskScheduler"/>.</summary>
         /// <param name="targetScheduler">The target underlying scheduler onto which this sceduler's work is queued.</param>
         public QueuedTaskScheduler(TaskScheduler targetScheduler) : this(targetScheduler, 0) { }
 
-        /// <summary>Initializes the scheduler.</summary>
+        /// <summary>Initializes the <see cref="QueuedTaskScheduler"/>.</summary>
         /// <param name="targetScheduler">The target underlying scheduler onto which this sceduler's work is queued.</param>
         /// <param name="maxConcurrencyLevel">The maximum degree of concurrency allowed for this scheduler's work.</param>
         public QueuedTaskScheduler(
@@ -128,14 +128,14 @@ namespace System.Threading.Tasks.Schedulers
             }
         }
 
-        /// <summary>Initializes the scheduler.</summary>
+        /// <summary>Initializes the <see cref="QueuedTaskScheduler"/>.</summary>
         /// <param name="threadCount">The number of threads to create and use for processing work items.</param>
         public QueuedTaskScheduler(int threadCount) : this(threadCount, string.Empty, false, ThreadPriority.Normal, ApartmentState.MTA, 0, null, null) { }
 
-        /// <summary>Initializes the scheduler.</summary>
+        /// <summary>Initializes the <see cref="QueuedTaskScheduler"/>.</summary>
         /// <param name="threadCount">The number of threads to create and use for processing work items.</param>
         /// <param name="threadName">The name to use for each of the created threads.</param>
-        /// <param name="useForegroundThreads">A Boolean value that indicates whether to use foreground threads instead of background.</param>
+        /// <param name="useForegroundThreads">A <see cref="bool"/> value that indicates whether to use foreground threads instead of background.</param>
         /// <param name="threadPriority">The priority to assign to each thread.</param>
         /// <param name="threadApartmentState">The apartment state to use for each thread.</param>
         /// <param name="threadMaxStackSize">The stack size to use for each thread.</param>
@@ -264,7 +264,7 @@ namespace System.Threading.Tasks.Schedulers
         }
 
         /// <summary>Find the next task that should be executed, based on priorities and fairness and the like.</summary>
-        /// <param name="targetTask">The found task, or null if none was found.</param>
+        /// <param name="targetTask">The found task, or <see langword="null"/> if none was found.</param>
         /// <param name="queueForTargetTask">
         /// The scheduler associated with the found task.  Due to security checks inside of TPL,  
         /// this scheduler needs to be used to execute that task.
@@ -410,7 +410,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Tries to execute a task synchronously on the current thread.</summary>
         /// <param name="task">The task to execute.</param>
         /// <param name="taskWasPreviouslyQueued">Whether the task was previously queued.</param>
-        /// <returns>true if the task was executed; otherwise, false.</returns>
+        /// <returns><see langword="true"/> if the <paramref name="task"/> was executed; otherwise, <see langword="false"/>.</returns>
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             // If we're already running tasks on this threads, enable inlining
@@ -574,7 +574,7 @@ namespace System.Threading.Tasks.Schedulers
             /// <summary>Tries to execute a task synchronously on the current thread.</summary>
             /// <param name="task">The task to execute.</param>
             /// <param name="taskWasPreviouslyQueued">Whether the task was previously queued.</param>
-            /// <returns>true if the task was executed; otherwise, false.</returns>
+            /// <returns><see langword="true"/> if the task was executed; otherwise, <see langword="false"/>.</returns>
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
             {
                 // If we're using our own threads and if this is being called from one of them,

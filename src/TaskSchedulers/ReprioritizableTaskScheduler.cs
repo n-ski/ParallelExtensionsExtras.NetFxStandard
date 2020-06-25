@@ -27,7 +27,7 @@ namespace System.Threading.Tasks.Schedulers
 
         /// <summary>Reprioritizes a previously queued task to the front of the queue.</summary>
         /// <param name="task">The task to be reprioritized.</param>
-        /// <returns>Whether the task could be found and moved to the front of the queue.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be found and moved to the front of the queue.</returns>
         public bool Prioritize(Task task)
         {
             lock (_tasks)
@@ -45,7 +45,7 @@ namespace System.Threading.Tasks.Schedulers
 
         /// <summary>Reprioritizes a previously queued task to the back of the queue.</summary>
         /// <param name="task">The task to be reprioritized.</param>
-        /// <returns>Whether the task could be found and moved to the back of the queue.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be found and moved to the back of the queue.</returns>
         public bool Deprioritize(Task task)
         {
             lock (_tasks)
@@ -63,7 +63,7 @@ namespace System.Threading.Tasks.Schedulers
 
         /// <summary>Removes a previously queued item from the scheduler.</summary>
         /// <param name="task">The task to be removed.</param>
-        /// <returns>Whether the task could be removed from the scheduler.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be removed from the scheduler.</returns>
         protected override bool TryDequeue(Task task)
         {
             lock (_tasks) return _tasks.Remove(task);
@@ -89,7 +89,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Executes the specified task inline.</summary>
         /// <param name="task">The task to be executed.</param>
         /// <param name="taskWasPreviouslyQueued">Whether the task was previously queued.</param>
-        /// <returns>Whether the task could be executed inline.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be executed inline.</returns>
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             return TryExecuteTask(task);

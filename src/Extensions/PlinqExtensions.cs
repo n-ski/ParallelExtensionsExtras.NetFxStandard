@@ -121,7 +121,7 @@ namespace System.Linq
         /// <typeparam name="TSource">Specifies the type of elements provided to the query.</typeparam>
         /// <param name="source">The source query.</param>
         /// <param name="parallelOptions">The options to use for query processing.</param>
-        /// <returns>The source as a ParallelQuery to bind to ParallelEnumerable extension methods.</returns>
+        /// <returns>The source as a <see cref="ParallelQuery"/> to bind to <see cref="ParallelEnumerable"/> extension methods.</returns>
         public static ParallelQuery<TSource> AsParallel<TSource>(
             this IEnumerable<TSource> source,
             ParallelLinqOptions parallelOptions)

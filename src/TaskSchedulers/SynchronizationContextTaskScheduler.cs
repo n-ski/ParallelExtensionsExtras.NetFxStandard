@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace System.Threading.Tasks.Schedulers
 {
-    /// <summary>Provides a task scheduler that targets a specific SynchronizationContext.</summary>
+    /// <summary>Provides a task scheduler that targets a specific <see cref="SynchronizationContext"/>.</summary>
     public sealed class SynchronizationContextTaskScheduler : TaskScheduler
     {
         /// <summary>The queue of tasks to execute, maintained for debugging purposes.</summary>
@@ -21,17 +21,17 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>The target context under which to execute the queued tasks.</summary>
         private readonly SynchronizationContext _context;
 
-        /// <summary>Initializes an instance of the SynchronizationContextTaskScheduler class.</summary>
+        /// <summary>Initializes an instance of the <see cref="SynchronizationContextTaskScheduler"/> class.</summary>
         public SynchronizationContextTaskScheduler() :
             this(SynchronizationContext.Current)
         {
         }
 
         /// <summary>
-        /// Initializes an instance of the SynchronizationContextTaskScheduler class
-        /// with the specified SynchronizationContext.
+        /// Initializes an instance of the <see cref="SynchronizationContextTaskScheduler"/> class
+        /// with the specified <see cref="SynchronizationContext"/>.
         /// </summary>
-        /// <param name="context">The SynchronizationContext under which to execute tasks.</param>
+        /// <param name="context">The <see cref="SynchronizationContext"/> under which to execute tasks.</param>
         public SynchronizationContextTaskScheduler(SynchronizationContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -39,8 +39,8 @@ namespace System.Threading.Tasks.Schedulers
             _tasks = new ConcurrentQueue<Task>();
         }
 
-        /// <summary>Queues a task to the scheduler for execution on the I/O ThreadPool.</summary>
-        /// <param name="task">The Task to queue.</param>
+        /// <summary>Queues a task to the scheduler for execution on the I/O <see cref="ThreadPool"/>.</summary>
+        /// <param name="task">The <see cref="Task"/> to queue.</param>
         protected override void QueueTask(Task task)
         {
             _tasks.Enqueue(task);
@@ -54,7 +54,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Tries to execute a task on the current thread.</summary>
         /// <param name="task">The task to be executed.</param>
         /// <param name="taskWasPreviouslyQueued">Ignored.</param>
-        /// <returns>Whether the task could be executed.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be executed.</returns>
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             return _context == SynchronizationContext.Current && TryExecuteTask(task);

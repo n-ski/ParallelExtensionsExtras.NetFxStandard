@@ -8,12 +8,12 @@
 
 namespace System.Threading.Tasks
 {
-    /// <summary>Extension methods for TaskCompletionSource.</summary>
+    /// <summary>Extension methods for <see cref="TaskCompletionSource{TResult}"/>.</summary>
     public static class TaskCompletionSourceExtensions
     {
-        /// <summary>Transfers the result of a Task to the TaskCompletionSource.</summary>
+        /// <summary>Transfers the result of a <see cref="Task"/> to the <see cref="TaskCompletionSource{TResult}"/>.</summary>
         /// <typeparam name="TResult">Specifies the type of the result.</typeparam>
-        /// <param name="resultSetter">The TaskCompletionSource.</param>
+        /// <param name="resultSetter">The <see cref="TaskCompletionSource{TResult}"/>.</param>
         /// <param name="task">The task whose completion results should be transfered.</param>
         public static void SetFromTask<TResult>(this TaskCompletionSource<TResult> resultSetter, Task task)
         {
@@ -26,18 +26,18 @@ namespace System.Threading.Tasks
             }
         }
 
-        /// <summary>Transfers the result of a Task to the TaskCompletionSource.</summary>
+        /// <summary>Transfers the result of a <see cref="Task{TResult}"/> to the <see cref="TaskCompletionSource{TResult}"/>.</summary>
         /// <typeparam name="TResult">Specifies the type of the result.</typeparam>
-        /// <param name="resultSetter">The TaskCompletionSource.</param>
+        /// <param name="resultSetter">The <see cref="TaskCompletionSource{TResult}"/>.</param>
         /// <param name="task">The task whose completion results should be transfered.</param>
         public static void SetFromTask<TResult>(this TaskCompletionSource<TResult> resultSetter, Task<TResult> task)
         {
             SetFromTask(resultSetter, (Task)task);
         }
 
-        /// <summary>Attempts to transfer the result of a Task to the TaskCompletionSource.</summary>
+        /// <summary>Attempts to transfer the result of a <see cref="Task"/> to the <see cref="TaskCompletionSource{TResult}"/>.</summary>
         /// <typeparam name="TResult">Specifies the type of the result.</typeparam>
-        /// <param name="resultSetter">The TaskCompletionSource.</param>
+        /// <param name="resultSetter">The <see cref="TaskCompletionSource{TResult}"/>.</param>
         /// <param name="task">The task whose completion results should be transfered.</param>
         /// <returns>Whether the transfer could be completed.</returns>
         public static bool TrySetFromTask<TResult>(this TaskCompletionSource<TResult> resultSetter, Task task)
@@ -51,9 +51,9 @@ namespace System.Threading.Tasks
             }
         }
 
-        /// <summary>Attempts to transfer the result of a Task to the TaskCompletionSource.</summary>
+        /// <summary>Attempts to transfer the result of a <see cref="Task{TResult}"/> to the <see cref="TaskCompletionSource{TResult}"/>.</summary>
         /// <typeparam name="TResult">Specifies the type of the result.</typeparam>
-        /// <param name="resultSetter">The TaskCompletionSource.</param>
+        /// <param name="resultSetter">The <see cref="TaskCompletionSource{TResult}"/>.</param>
         /// <param name="task">The task whose completion results should be transfered.</param>
         /// <returns>Whether the transfer could be completed.</returns>
         public static bool TrySetFromTask<TResult>(this TaskCompletionSource<TResult> resultSetter, Task<TResult> task)

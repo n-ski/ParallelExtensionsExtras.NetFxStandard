@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace System.Linq
 {
     /// <summary>
-    /// Provides LINQ support for Tasks by implementing the primary standard query operators.
+    /// Provides LINQ support for <see cref="Task"/>s by implementing the primary standard query operators.
     /// </summary>
     public static class LinqToTasks
     {

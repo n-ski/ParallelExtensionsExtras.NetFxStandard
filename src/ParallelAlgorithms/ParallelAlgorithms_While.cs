@@ -14,7 +14,7 @@ namespace System.Threading.Algorithms
 {
     public static partial class ParallelAlgorithms
     {
-        /// <summary>Repeatedly executes an operation in parallel while the specified condition evaluates to true.</summary>
+        /// <summary>Repeatedly executes an operation in parallel while the specified <paramref name="condition"/> evaluates to <see langword="true"/>.</summary>
         /// <param name="condition">The condition to evaluate.</param>
         /// <param name="body">The loop body.</param>
         public static void ParallelWhile(Func<bool> condition, Action body)
@@ -23,8 +23,8 @@ namespace System.Threading.Algorithms
             ParallelWhile(s_defaultParallelOptions, condition, body);
         }
 
-        /// <summary>Repeatedly executes an operation in parallel while the specified condition evaluates to true.</summary>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <summary>Repeatedly executes an operation in parallel while the specified <paramref name="condition"/> evaluates to <see langword="true"/>.</summary>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="condition">The condition to evaluate.</param>
         /// <param name="body">The loop body.</param>
         public static void ParallelWhile(

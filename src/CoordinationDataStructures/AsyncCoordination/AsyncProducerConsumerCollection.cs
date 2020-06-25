@@ -41,7 +41,7 @@ namespace System.Threading.Async
         }
 
         /// <summary>Takes an element from the collection asynchronously.</summary>
-        /// <returns>A Task that represents the element removed from the collection.</returns>
+        /// <returns>A <see cref="Task"/> that represents the element removed from the collection.</returns>
         public Task<T> Take()
         {
             return _semaphore.WaitAsync().ContinueWith(_ =>

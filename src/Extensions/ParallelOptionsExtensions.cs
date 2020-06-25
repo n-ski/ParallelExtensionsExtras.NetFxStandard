@@ -8,10 +8,10 @@
 
 namespace System.Threading.Tasks
 {
-    /// <summary>Extension methods for ParallelOptions.</summary>
+    /// <summary>Extension methods for <see cref="ParallelOptions"/>.</summary>
     public static class ParallelOptionsExtensions
     {
-        /// <summary>Copies a ParallelOptions instance to a shallow clone.</summary>
+        /// <summary>Copies a <see cref="ParallelOptions"/> instance to a shallow clone.</summary>
         /// <param name="options">The options to be cloned.</param>
         /// <returns>The shallow clone.</returns>
         public static ParallelOptions ShallowClone(this ParallelOptions options)

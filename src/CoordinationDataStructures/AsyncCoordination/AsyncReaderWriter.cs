@@ -29,11 +29,11 @@ namespace System.Threading.Async
         /// <summary>The non-generic factory to use for task creation.</summary>
         private TaskFactory _factory;
 
-        /// <summary>Initializes the ReaderWriterAsync.</summary>
+        /// <summary>Initializes the <see cref="AsyncReaderWriter"/>.</summary>
         public AsyncReaderWriter() { _factory = Task.Factory; }
 
-        /// <summary>Initializes the ReaderWriterAsync with the specified TaskFactory for us in creating all tasks.</summary>
-        /// <param name="factory">The TaskFactory to use to create all tasks.</param>
+        /// <summary>Initializes the <see cref="AsyncReaderWriter"/> with the specified <see cref="TaskFactory"/> for us in creating all tasks.</summary>
+        /// <param name="factory">The <see cref="TaskFactory"/> to use to create all tasks.</param>
         public AsyncReaderWriter(TaskFactory factory)
         {
             if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -49,9 +49,9 @@ namespace System.Threading.Async
         /// <summary>Gets whether an exclusive operation is currently executing.</summary>
         public bool CurrentlyExclusive { get { lock (_lock) return _currentlyExclusive; } }
 
-        /// <summary>Queues an exclusive writer action to the ReaderWriterAsync.</summary>
+        /// <summary>Queues an exclusive writer action to the <see cref="AsyncReaderWriter"/>.</summary>
         /// <param name="action">The action to be executed exclusively.</param>
-        /// <returns>A Task that represents the execution of the provided action.</returns>
+        /// <returns>A <see cref="Task"/> that represents the execution of the provided <paramref name="action"/>.</returns>
         public Task QueueExclusiveWriter(Action action)
         {
             // Create the task.  This Task will be started by the coordination primitive
@@ -78,9 +78,9 @@ namespace System.Threading.Async
             return task;
         }
 
-        /// <summary>Queues an exclusive writer function to the ReaderWriterAsync.</summary>
+        /// <summary>Queues an exclusive writer function to the <see cref="AsyncReaderWriter"/>.</summary>
         /// <param name="function">The function to be executed exclusively.</param>
-        /// <returns>A Task that represents the execution of the provided function.</returns>
+        /// <returns>A <see cref="Task{TResult}"/> that represents the execution of the provided <paramref name="function"/>.</returns>
         public Task<TResult> QueueExclusiveWriter<TResult>(Func<TResult> function)
         {
             // Create the task.  This Task will be started by the coordination primitive
@@ -107,9 +107,9 @@ namespace System.Threading.Async
             return task;
         }
 
-        /// <summary>Queues a concurrent reader action to the ReaderWriterAsync.</summary>
+        /// <summary>Queues a concurrent reader action to the <see cref="AsyncReaderWriter"/>.</summary>
         /// <param name="action">The action to be executed concurrently.</param>
-        /// <returns>A Task that represents the execution of the provided action.</returns>
+        /// <returns>A <see cref="Task"/> that represents the execution of the provided <paramref name="action"/>.</returns>
         public Task QueueConcurrentReader(Action action)
         {
             // Create the task.  This Task will be started by the coordination primitive
@@ -136,9 +136,9 @@ namespace System.Threading.Async
             return task;
         }
 
-        /// <summary>Queues a concurrent reader function to the ReaderWriterAsync.</summary>
+        /// <summary>Queues a concurrent reader function to the <see cref="AsyncReaderWriter"/>.</summary>
         /// <param name="function">The function to be executed concurrently.</param>
-        /// <returns>A Task that represents the execution of the provided function.</returns>
+        /// <returns>A <see cref="Task"/> that represents the execution of the provided <paramref name="function"/>.</returns>
         public Task<TResult> QueueConcurrentReader<TResult>(Func<TResult> function)
         {
             // Create the task.  This Task will be started by the coordination primitive

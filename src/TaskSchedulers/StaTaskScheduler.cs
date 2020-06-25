@@ -20,7 +20,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>The STA threads used by the scheduler.</summary>
         private readonly List<Thread> _threads;
 
-        /// <summary>Initializes a new instance of the StaTaskScheduler class with the specified concurrency level.</summary>
+        /// <summary>Initializes a new instance of the <see cref="StaTaskScheduler"/> class with the specified concurrency level.</summary>
         /// <param name="numberOfThreads">The number of threads that should be created and used by this scheduler.</param>
         public StaTaskScheduler(int numberOfThreads)
         {
@@ -51,7 +51,7 @@ namespace System.Threading.Tasks.Schedulers
             _threads.ForEach(t => t.Start());
         }
 
-        /// <summary>Queues a Task to be executed by this scheduler.</summary>
+        /// <summary>Queues a <see cref="Task"/> to be executed by this scheduler.</summary>
         /// <param name="task">The task to be executed.</param>
         protected override void QueueTask(Task task)
         {
@@ -67,10 +67,10 @@ namespace System.Threading.Tasks.Schedulers
             return _tasks.ToArray();
         }
 
-        /// <summary>Determines whether a Task may be inlined.</summary>
+        /// <summary>Determines whether a <see cref="Task"/> may be inlined.</summary>
         /// <param name="task">The task to be executed.</param>
-        /// <param name="taskWasPreviouslyQueued">Whether the task was previously queued.</param>
-        /// <returns>true if the task was successfully inlined; otherwise, false.</returns>
+        /// <param name="taskWasPreviouslyQueued">Whether the <paramref name="task"/> was previously queued.</param>
+        /// <returns><see langword="true"/> if the <paramref name="task"/> was successfully inlined; otherwise, <see langword="false"/>.</returns>
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             // Try to inline if the current thread is STA

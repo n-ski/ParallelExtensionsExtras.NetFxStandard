@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace System.Threading.Tasks.Schedulers
 {
-    /// <summary>Provides a task scheduler that targets the I/O ThreadPool.</summary>
+    /// <summary>Provides a task scheduler that targets the I/O <see cref="ThreadPool"/>.</summary>
     public sealed class IOTaskScheduler : TaskScheduler, IDisposable
     {
         /// <summary>Represents a task queued to the I/O pool.</summary>
@@ -37,7 +37,7 @@ namespace System.Threading.Tasks.Schedulers
         // A pool of available WorkItem instances that can be used to schedule tasks
         private ObjectPool<WorkItem> _availableWorkItems;
 
-        /// <summary>Initializes a new instance of the IOTaskScheduler class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="IOTaskScheduler"/> class.</summary>
         public unsafe IOTaskScheduler()
         {
             // Configure the object pool of work items
@@ -49,8 +49,8 @@ namespace System.Threading.Tasks.Schedulers
             }, new ConcurrentStack<WorkItem>());
         }
 
-        /// <summary>Queues a task to the scheduler for execution on the I/O ThreadPool.</summary>
-        /// <param name="task">The Task to queue.</param>
+        /// <summary>Queues a task to the scheduler for execution on the I/O <see cref="ThreadPool"/>.</summary>
+        /// <param name="task">The <see cref="Task"/> to queue.</param>
         protected override unsafe void QueueTask(Task task)
         {
             var pool = _availableWorkItems;
@@ -63,7 +63,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Executes a task on the current thread.</summary>
         /// <param name="task">The task to be executed.</param>
         /// <param name="taskWasPreviouslyQueued">Ignored.</param>
-        /// <returns>Whether the task could be executed.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be executed.</returns>
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             return TryExecuteTask(task);

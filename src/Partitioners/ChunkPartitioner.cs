@@ -28,7 +28,7 @@ namespace System.Collections.Concurrent.Partitioners
             return new ChunkPartitioner<TSource>(source, nextChunkSizeFunc);
         }
 
-        /// <summary>Creates a partitioner that always uses a user-specified chunk size.</summary>
+        /// <summary>Creates a partitioner that always uses a user-specified <paramref name="chunkSize"/>.</summary>
         /// <typeparam name="TSource">The type of the data being partitioned.</typeparam>
         /// <param name="source">The data being partitioned.</param>
         /// <param name="chunkSize">The chunk size to be used.</param>
@@ -39,7 +39,7 @@ namespace System.Collections.Concurrent.Partitioners
             return new ChunkPartitioner<TSource>(source, chunkSize);
         }
 
-        /// <summary>Creates a partitioner that chooses chunk sizes between the user-specified min and max.</summary>
+        /// <summary>Creates a partitioner that chooses chunk sizes between the user-specified <paramref name="minChunkSize"/> and <paramref name="maxChunkSize"/>.</summary>
         /// <typeparam name="TSource">The type of the data being partitioned.</typeparam>
         /// <param name="source">The data being partitioned.</param>
         /// <param name="minChunkSize">The minimum chunk size to use.</param>

@@ -32,11 +32,11 @@ namespace System.Threading.Tasks
         /// <summary>Whether a processing task has been scheduled.</summary>
         private int _processingCount;
 
-        /// <summary>Initializes the AsyncCall with an action to execute for each element.</summary>
+        /// <summary>Initializes the <see cref="AsyncCall{T}"/> with an action to execute for each element.</summary>
         /// <param name="actionHandler">The action to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
-        /// <param name="scheduler">The scheduler to use.  If null, the default scheduler is used.</param>
-        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, Int32.MaxValue is used.</param>
+        /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
+        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
         public AsyncCall(Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null) :
             this(maxDegreeOfParallelism, maxItemsPerTask, scheduler)
         {
@@ -45,12 +45,12 @@ namespace System.Threading.Tasks
         }
 
         /// <summary>
-        /// Initializes the AsyncCall with a function to execute for each element.  The function returns an Task 
+        /// Initializes the <see cref="AsyncCall{T}"/> with a function to execute for each element.  The function returns a <see cref="Task"/> 
         /// that represents the asynchronous completion of that element's processing.
         /// </summary>
         /// <param name="functionHandler">The function to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
-        /// <param name="scheduler">The scheduler to use.  If null, the default scheduler is used.</param>
+        /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
         public AsyncCall(Func<T,Task> functionHandler, int maxDegreeOfParallelism = 1, TaskScheduler scheduler = null) :
             this(maxDegreeOfParallelism, 1, scheduler)
         {
@@ -58,10 +58,10 @@ namespace System.Threading.Tasks
             _handler = functionHandler;
         }
 
-        /// <summary>General initialization of the AsyncCall.  Another constructor must initialize the delegate.</summary>
+        /// <summary>General initialization of the <see cref="AsyncCall{T}"/>.  Another constructor must initialize the delegate.</summary>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
-        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, Int32.MaxValue is used.</param>
-        /// <param name="scheduler">The scheduler to use.  If null, the default scheduler is used.</param>
+        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
+        /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
         private AsyncCall(int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null)
         {
             // Validate arguments
@@ -199,37 +199,36 @@ namespace System.Threading.Tasks
         }
     }
 
-    /// <summary>Provides static factory methods for creating AsyncCall(Of T) instances.</summary>
+    /// <summary>Provides static factory methods for creating <see cref="AsyncCall{T}"/> instances.</summary>
     public static class AsyncCall
     {
-        /// <summary>Initializes the AsyncCall with an action to execute for each element.</summary>
+        /// <summary>Initializes the <see cref="AsyncCall{T}"/> with an action to execute for each element.</summary>
         /// <param name="actionHandler">The action to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
-        /// <param name="scheduler">The scheduler to use.  If null, the default scheduler is used.</param>
-        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, Int32.MaxValue is used.</param>
+        /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
+        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
         public static AsyncCall<T> Create<T>(Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null)
         {
             return new AsyncCall<T>(actionHandler, maxDegreeOfParallelism, maxItemsPerTask, scheduler);
         }
 
         /// <summary>
-        /// Initializes the AsyncCall with a function to execute for each element.  The function returns an Task 
+        /// Initializes the <see cref="AsyncCall{T}"/> with a function to execute for each element.  The function returns a <see cref="Task"/> 
         /// that represents the asynchronous completion of that element's processing.
         /// </summary>
         /// <param name="functionHandler">The function to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
-        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, Int32.MaxValue is used.</param>
-        /// <param name="scheduler">The scheduler to use.  If null, the default scheduler is used.</param>
+        /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
         public static AsyncCall<T> Create<T>(Func<T, Task> functionHandler, int maxDegreeOfParallelism = 1, TaskScheduler scheduler = null)
         {
             return new AsyncCall<T>(functionHandler, maxDegreeOfParallelism, scheduler);
         }
 
 #if NETFRAMEWORK
-        /// <summary>Initializes the AsyncCall in the specified AppDomain with an action to execute for each element.</summary>
+        /// <summary>Initializes the <see cref="AsyncCall{T}"/> in the specified <see cref="AppDomain"/> with an action to execute for each element.</summary>
         /// <param name="actionHandler">The action to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
-        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, Int32.MaxValue is used.</param>
+        /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
         public static AsyncCall<T> CreateInTargetAppDomain<T>(AppDomain targetDomain, Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue)
         {
             return (AsyncCall<T>)targetDomain.CreateInstanceAndUnwrap(
@@ -240,8 +239,8 @@ namespace System.Threading.Tasks
         }
 
         /// <summary>
-        /// Initializes the AsyncCall in the specified AppDomain with a function to execute for each element.  
-        /// The function returns an Task that represents the asynchronous completion of that element's processing.
+        /// Initializes the <see cref="AsyncCall{T}"/> in the specified <see cref="AppDomain"/> with a function to execute for each element.  
+        /// The function returns a <see cref="Task"/> that represents the asynchronous completion of that element's processing.
         /// </summary>
         /// <param name="functionHandler">The action to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>

@@ -36,7 +36,7 @@ namespace System.Threading
         /// <summary>Initializes the instances.</summary>
         /// <param name="seedFactory">
         /// The function invoked to provide the initial value for a thread.  
-        /// If null, the default value of T will be used as the seed.
+        /// If <see langword="null"/>, the default value of &lt;T&gt; will be used as the seed.
         /// </param>
         public ReductionVariable(Func<T> seedFactory) : this()
         {
@@ -74,6 +74,7 @@ namespace System.Threading
         /// Applies an accumulator function over the values in this variable.
         /// The specified seed is used as the initial accumulator value.
         /// </summary>
+        /// <param name="seed">The initial accumulator value.</param>
         /// <param name="function">An accumulator function to be invoked on each value.</param>
         /// <returns>The accumulated value.</returns>
         public TAccumulate Reduce<TAccumulate>(TAccumulate seed, Func<TAccumulate, T, TAccumulate> function)

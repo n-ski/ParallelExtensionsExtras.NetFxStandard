@@ -14,7 +14,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace System.Threading.Tasks.Schedulers
 {
-    /// <summary>Provides a TaskScheduler that uses an I/O completion port for concurrency control.</summary>
+    /// <summary>Provides a <see cref="TaskScheduler"/> that uses an I/O completion port for concurrency control.</summary>
     public sealed class IOCompletionPortTaskScheduler : TaskScheduler, IDisposable
     {
         /// <summary>The queue of tasks to be scheduled.</summary>
@@ -26,7 +26,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Event used to wait for all threads to shutdown.</summary>
         private CountdownEvent m_remainingThreadsToShutdown;
 
-        /// <summary>Initializes the IOCompletionPortTaskScheduler.</summary>
+        /// <summary>Initializes the <see cref="IOCompletionPortTaskScheduler"/>.</summary>
         /// <param name="maxConcurrencyLevel">The maximum number of threads in the scheduler to be executing concurrently.</param>
         /// <param name="numAvailableThreads">The number of threads to have available in the scheduler for executing tasks.</param>
         public IOCompletionPortTaskScheduler(int maxConcurrencyLevel, int numAvailableThreads)
@@ -136,7 +136,7 @@ namespace System.Threading.Tasks.Schedulers
             }
 
             /// <summary>Waits for an item on the I/O completion port.</summary>
-            /// <returns>true if an item was available; false if the completion port closed before an item could be retrieved.</returns>
+            /// <returns><see langword="true"/> if an item was available; <see langword="false"/> if the completion port closed before an item could be retrieved.</returns>
             public bool WaitOne()
             {
                 // Wait for an item to be posted.

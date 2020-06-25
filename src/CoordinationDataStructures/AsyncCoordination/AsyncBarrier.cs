@@ -22,7 +22,7 @@ namespace System.Threading.Async
         /// <summary>The number of participants remaining to arrive for this round.</summary>
         private int _remainingParticipants;
 
-        /// <summary>Initializes the BarrierAsync with the specified number of participants.</summary>
+        /// <summary>Initializes the <see cref="AsyncBarrier"/> with the specified number of participants.</summary>
         /// <param name="participantCount">The number of participants in the barrier.</param>
         public AsyncBarrier(int participantCount)
         {
@@ -39,7 +39,7 @@ namespace System.Threading.Async
         public int RemainingCount { get { return _remainingParticipants; } }
 
         /// <summary>Signals that a participant has arrived.</summary>
-        /// <returns>A Task that will be signaled when the current round completes.</returns>
+        /// <returns>A <see cref="Task"/> that will be signaled when the current round completes.</returns>
         public Task SignalAndWait()
         {
             var curCts = _currentSignalTask;

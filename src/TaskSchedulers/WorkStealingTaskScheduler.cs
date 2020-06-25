@@ -22,11 +22,11 @@ namespace System.Threading.Tasks.Schedulers
         [ThreadStatic]
         private static WorkStealingQueue<Task> m_wsq;
 
-        /// <summary>Initializes a new instance of the WorkStealingTaskScheduler class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WorkStealingTaskScheduler"/> class.</summary>
         /// <remarks>This constructors defaults to using twice as many threads as there are processors.</remarks>
         public WorkStealingTaskScheduler() : this(Environment.ProcessorCount * 2) { }
 
-        /// <summary>Initializes a new instance of the WorkStealingTaskScheduler class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="WorkStealingTaskScheduler"/> class.</summary>
         /// <param name="concurrencyLevel">The number of threads to use in the scheduler.</param>
         public WorkStealingTaskScheduler(int concurrencyLevel)
         {
@@ -93,7 +93,7 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Executes a task on the current thread.</summary>
         /// <param name="task">The task to be executed.</param>
         /// <param name="taskWasPreviouslyQueued">Ignored.</param>
-        /// <returns>Whether the task could be executed.</returns>
+        /// <returns>Whether the <paramref name="task"/> could be executed.</returns>
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             return TryExecuteTask(task);

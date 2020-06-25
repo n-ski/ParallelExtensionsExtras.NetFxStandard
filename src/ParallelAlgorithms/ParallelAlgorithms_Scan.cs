@@ -15,13 +15,16 @@ namespace System.Threading.Algorithms
 {
     public static partial class ParallelAlgorithms
     {
-        /// <summary>Computes a parallel prefix scan over the source enumerable using the specified function.</summary>
+        /// <summary>
+        /// Computes a parallel prefix scan over the <paramref name="source"/> enumerable 
+        /// using the specified <paramref name="function"/>.
+        /// </summary>
         /// <typeparam name="T">The type of the data in the source.</typeparam>
         /// <param name="source">The source data over which a prefix scan should be computed.</param>
         /// <param name="function">The function to use for the scan.</param>
         /// <returns>The results of the scan operation.</returns>
         /// <remarks>
-        /// For very small functions, such as additions, an implementation targeted
+        /// For very small <paramref name="function"/>s, such as additions, an implementation targeted
         /// at the relevant type and operation will perform significantly better than
         /// this generalized implementation.
         /// </remarks>
@@ -30,14 +33,17 @@ namespace System.Threading.Algorithms
             return Scan(source, function, loadBalance: false);
         }
 
-        /// <summary>Computes a parallel prefix scan over the source enumerable using the specified function.</summary>
+        /// <summary>
+        /// Computes a parallel prefix scan over the <paramref name="source"/> enumerable 
+        /// using the specified <paramref name="function"/>.
+        /// </summary>
         /// <typeparam name="T">The type of the data in the source.</typeparam>
         /// <param name="source">The source data over which a prefix scan should be computed.</param>
         /// <param name="function">The function to use for the scan.</param>
         /// <param name="loadBalance">Whether to load-balance during process.</param>
         /// <returns>The results of the scan operation.</returns>
         /// <remarks>
-        /// For very small functions, such as additions, an implementation targeted
+        /// For very small <paramref name="function"/>s, such as additions, an implementation targeted
         /// at the relevant type and operation will perform significantly better than
         /// this generalized implementation.
         /// </remarks>
@@ -54,36 +60,42 @@ namespace System.Threading.Algorithms
             return output;
         }
 
-        /// <summary>Computes a parallel prefix scan in-place on an array using the specified function.</summary>
+        /// <summary>
+        /// Computes a parallel prefix scan in-place on an <paramref name="array"/>
+        /// using the specified <paramref name="function"/>.
+        /// </summary>
         /// <typeparam name="T">The type of the data in the source.</typeparam>
-        /// <param name="data">The data over which a prefix scan should be computed. Upon exit, stores the results.</param>
+        /// <param name="array">The data over which a prefix scan should be computed. Upon exit, stores the results.</param>
         /// <param name="function">The function to use for the scan.</param>
         /// <returns>The results of the scan operation.</returns>
         /// <remarks>
-        /// For very small functions, such as additions, an implementation targeted
+        /// For very small <paramref name="function"/>s, such as additions, an implementation targeted
         /// at the relevant type and operation will perform significantly better than
         /// this generalized implementation.
         /// </remarks>
-        public static void ScanInPlace<T>(T[] data, Func<T, T, T> function)
+        public static void ScanInPlace<T>(T[] array, Func<T, T, T> function)
         {
-            ScanInPlace(data, function, loadBalance:false);
+            ScanInPlace(array, function, loadBalance:false);
         }
 
-        /// <summary>Computes a parallel prefix scan in-place on an array using the specified function.</summary>
+        /// <summary>
+        /// Computes a parallel prefix scan in-place on an <paramref name="array"/>
+        /// using the specified <paramref name="function"/>.
+        /// </summary>
         /// <typeparam name="T">The type of the data in the source.</typeparam>
-        /// <param name="data">The data over which a prefix scan should be computed. Upon exit, stores the results.</param>
+        /// <param name="array">The data over which a prefix scan should be computed. Upon exit, stores the results.</param>
         /// <param name="function">The function to use for the scan.</param>
         /// <param name="loadBalance">Whether to load-balance during process.</param>
         /// <returns>The results of the scan operation.</returns>
         /// <remarks>
-        /// For very small functions, such as additions, an implementation targeted
+        /// For very small <paramref name="function"/>s, such as additions, an implementation targeted
         /// at the relevant type and operation will perform significantly better than
         /// this generalized implementation.
         /// </remarks>
-        public static void ScanInPlace<T>(T [] data, Func<T, T, T> function, bool loadBalance)
+        public static void ScanInPlace<T>(T[] array, Func<T, T, T> function, bool loadBalance)
         {
             // Validate arguments
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (array == null) throw new ArgumentNullException(nameof(array));
             if (function == null) throw new ArgumentNullException(nameof(function));
 
             // Do the prefix scan in-place and return the results.  This implementation
@@ -92,60 +104,68 @@ namespace System.Threading.Algorithms
             // will the parallel version have a chance of running faster than sequential.
             if (Environment.ProcessorCount <= 2)
             {
-                InclusiveScanInPlaceSerial(data, function, 0, data.Length, 1);
+                InclusiveScanInPlaceSerial(array, function, 0, array.Length, 1);
             }
             else if (loadBalance)
             {
-                InclusiveScanInPlaceWithLoadBalancingParallel(data, function, 0, data.Length, 1);
+                InclusiveScanInPlaceWithLoadBalancingParallel(array, function, 0, array.Length, 1);
             }
             else // parallel, non-loadbalance
             {
-                InclusiveScanInPlaceParallel(data, function);
+                InclusiveScanInPlaceParallel(array, function);
             }
         }
 
-        /// <summary>Computes a sequential prefix scan over the array using the specified function.</summary>
+        /// <summary>
+        /// Computes a sequential prefix scan over the <paramref name="array"/>
+        /// using the specified <paramref name="function"/>.
+        /// </summary>
         /// <typeparam name="T">The type of the data in the array.</typeparam>
-        /// <param name="arr">The data, which will be overwritten with the computed prefix scan.</param>
+        /// <param name="array">The data, which will be overwritten with the computed prefix scan.</param>
         /// <param name="function">The function to use for the scan.</param>
-        /// <param name="arrStart">The start of the data in arr over which the scan is being computed.</param>
-        /// <param name="arrLength">The length of the data in arr over which the scan is being computed.</param>
+        /// <param name="arrStart">The start of the data in <paramref name="array"/> over which the scan is being computed.</param>
+        /// <param name="arrLength">The length of the data in <paramref name="array"/> over which the scan is being computed.</param>
         /// <param name="skip">The inclusive distance between elements over which the scan is being computed.</param>
         /// <remarks>No parameter validation is performed.</remarks>
-        private static void InclusiveScanInPlaceSerial<T>(T[] arr, Func<T, T, T> function, int arrStart, int arrLength, int skip)
+        private static void InclusiveScanInPlaceSerial<T>(T[] array, Func<T, T, T> function, int arrStart, int arrLength, int skip)
         {
             for (int i = arrStart; i + skip < arrLength; i += skip)
             {
-                arr[i + skip] = function(arr[i], arr[i + skip]);
+                array[i + skip] = function(array[i], array[i + skip]);
             }
         }
 
-        /// <summary>Computes a sequential exclusive prefix scan over the array using the specified function.</summary>
-        /// <param name="arr">The data, which will be overwritten with the computed prefix scan.</param>
+        /// <summary>
+        /// Computes a sequential exclusive prefix scan over the <paramref name="array"/>
+        /// using the specified <paramref name="function"/>.
+        /// </summary>
+        /// <param name="array">The data, which will be overwritten with the computed prefix scan.</param>
         /// <param name="function">The function to use for the scan.</param>
-        /// <param name="lowerBoundInclusive">The inclusive lower bound of the array at which to start the scan.</param>
-        /// <param name="upperBoundExclusive">The exclusive upper bound of the array at which to end the scan.</param>
-        public static void ExclusiveScanInPlaceSerial<T>(T[] arr, Func<T, T, T> function, int lowerBoundInclusive, int upperBoundExclusive)
+        /// <param name="lowerBoundInclusive">The inclusive lower bound of the <paramref name="array"/> at which to start the scan.</param>
+        /// <param name="upperBoundExclusive">The exclusive upper bound of the <paramref name="array"/> at which to end the scan.</param>
+        public static void ExclusiveScanInPlaceSerial<T>(T[] array, Func<T, T, T> function, int lowerBoundInclusive, int upperBoundExclusive)
         {
-            T total = arr[lowerBoundInclusive];
-            arr[lowerBoundInclusive] = default(T);
+            T total = array[lowerBoundInclusive];
+            array[lowerBoundInclusive] = default(T);
             for (int i = lowerBoundInclusive + 1; i < upperBoundExclusive; i++)
             {
                 T prevTotal = total;
-                total = function(total, arr[i]);
-                arr[i] = prevTotal;
+                total = function(total, array[i]);
+                array[i] = prevTotal;
             }
         }
 
-        /// <summary>Computes a parallel prefix scan over the array using the specified function.</summary>
+        /// <summary>
+        /// Computes a parallel prefix scan over the <paramref name="array"/>
+        /// using the specified <paramref name="function"/>.</summary>
         /// <typeparam name="T">The type of the data in the array.</typeparam>
-        /// <param name="arr">The data, which will be overwritten with the computed prefix scan.</param>
+        /// <param name="array">The data, which will be overwritten with the computed prefix scan.</param>
         /// <param name="function">The function to use for the scan.</param>
-        /// <param name="arrStart">The start of the data in arr over which the scan is being computed.</param>
-        /// <param name="arrLength">The length of the data in arr over which the scan is being computed.</param>
+        /// <param name="arrStart">The start of the data in <paramref name="array"/> over which the scan is being computed.</param>
+        /// <param name="arrLength">The length of the data in <paramref name="array"/> over which the scan is being computed.</param>
         /// <param name="skip">The inclusive distance between elements over which the scan is being computed.</param>
         /// <remarks>No parameter validation is performed.</remarks>
-        private static void InclusiveScanInPlaceWithLoadBalancingParallel<T>(T[] arr, Func<T, T, T> function, 
+        private static void InclusiveScanInPlaceWithLoadBalancingParallel<T>(T[] array, Func<T, T, T> function, 
             int arrStart, int arrLength, int skip)
         {
             // If the length is 0 or 1, just return a copy of the original array.
@@ -157,22 +177,26 @@ namespace System.Threading.Algorithms
             Parallel.For(0, halfInputLength, i =>
             {
                 int loc = arrStart + (i * 2 * skip);
-                arr[loc + skip] = function(arr[loc], arr[loc + skip]);
+                array[loc + skip] = function(array[loc], array[loc + skip]);
             });
 
             // Recursively prefix scan the pairwise computations.
-            InclusiveScanInPlaceWithLoadBalancingParallel(arr, function, arrStart + skip, halfInputLength, skip * 2);
+            InclusiveScanInPlaceWithLoadBalancingParallel(array, function, arrStart + skip, halfInputLength, skip * 2);
 
             // Generate output. As before, use static partitioning.
             Parallel.For(0, (arrLength % 2) == 0 ? halfInputLength - 1 : halfInputLength, i =>
             {
                 int loc = arrStart + (i * 2 * skip) + skip;
-                arr[loc + skip] = function(arr[loc], arr[loc + skip]);
+                array[loc + skip] = function(array[loc], array[loc + skip]);
             });
         }
 
-        /// <summary>Computes a parallel inclusive prefix scan over the array using the specified function.</summary>
-        public static void InclusiveScanInPlaceParallel<T>(T[] arr, Func<T, T, T> function)
+        /// <summary>
+        /// Computes a parallel inclusive prefix scan over the <paramref name="array"/>
+        /// using the specified <paramref name="function"/>.</summary>
+        /// <param name="array">The data, which will be overwritten with the computed prefix scan.</param>
+        /// <param name="function">The function to use for the scan.</param>
+        public static void InclusiveScanInPlaceParallel<T>(T[] array, Func<T, T, T> function)
         {
             int procCount = Environment.ProcessorCount;
             T[] intermediatePartials = new T[procCount];
@@ -180,7 +204,7 @@ namespace System.Threading.Algorithms
                 _ => ExclusiveScanInPlaceSerial(intermediatePartials, function, 0, intermediatePartials.Length)))
             {
                 // Compute the size of each range
-                int rangeSize = arr.Length / procCount;
+                int rangeSize = array.Length / procCount;
                 int nextRangeStart = 0;
 
                 // Create, store, and wait on all of the tasks
@@ -190,12 +214,12 @@ namespace System.Threading.Algorithms
                     // Get the range for each task, then start it
                     int rangeNum = i;
                     int lowerRangeInclusive = nextRangeStart;
-                    int upperRangeExclusive = i < procCount - 1 ? nextRangeStart + rangeSize : arr.Length;
+                    int upperRangeExclusive = i < procCount - 1 ? nextRangeStart + rangeSize : array.Length;
                     tasks[rangeNum] = Task.Factory.StartNew(() =>
                     {
                         // Phase 1: Prefix scan assigned range, and copy upper bound to intermediate partials
-                        InclusiveScanInPlaceSerial(arr, function, lowerRangeInclusive, upperRangeExclusive, 1);
-                        intermediatePartials[rangeNum] = arr[upperRangeExclusive - 1];
+                        InclusiveScanInPlaceSerial(array, function, lowerRangeInclusive, upperRangeExclusive, 1);
+                        intermediatePartials[rangeNum] = array[upperRangeExclusive - 1];
 
                         // Phase 2: One thread only should prefix scan the intermediaries... done implicitly by the barrier
                         phaseBarrier.SignalAndWait();
@@ -205,7 +229,7 @@ namespace System.Threading.Algorithms
                         {
                             for (int j = lowerRangeInclusive; j < upperRangeExclusive; j++)
                             {
-                                arr[j] = function(intermediatePartials[rangeNum], arr[j]);
+                                array[j] = function(intermediatePartials[rangeNum], array[j]);
                             }
                         }
                     });

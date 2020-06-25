@@ -22,7 +22,7 @@ namespace System.Threading
         /// <summary>The Task to use for background writing.</summary>
         private Task _processingTask;
 
-        /// <summary>Initializes a new instance of the TransferStream.</summary>
+        /// <summary>Initializes a new instance of the <see cref="TransferStream"/>.</summary>
         /// <param name="writeableStream">The underlying stream to which to write.</param>
         public TransferStream(Stream writeableStream)
         {

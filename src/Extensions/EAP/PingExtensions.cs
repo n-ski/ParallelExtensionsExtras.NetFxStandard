@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 #if NETFRAMEWORK
 namespace System.Net.NetworkInformation
 {
-    /// <summary>Extension methods for working with Ping asynchronously.</summary>
+    /// <summary>Extension methods for working with <see cref="Ping"/> asynchronously.</summary>
     public static class PingExtensions
     {
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
-        /// <param name="address">An IPAddress that identifies the computer that is the destination for the ICMP echo message.</param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
+        /// <param name="address">An <see cref="IPAddress"/> that identifies the computer that is the destination for the ICMP echo message.</param>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, IPAddress address, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(address, tcs));
@@ -29,13 +29,13 @@ namespace System.Net.NetworkInformation
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
         /// <param name="hostNameOrAddress">
-        /// A String that identifies the computer that is the destination for the ICMP echo message. 
+        /// A <see cref="string"/> that identifies the computer that is the destination for the ICMP echo message. 
         /// The value specified for this parameter can be a host name or a string representation of an IP address.
         /// </param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, string hostNameOrAddress, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(hostNameOrAddress, tcs));
@@ -44,14 +44,14 @@ namespace System.Net.NetworkInformation
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
-        /// <param name="address">An IPAddress that identifies the computer that is the destination for the ICMP echo message.</param>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
+        /// <param name="address">An <see cref="IPAddress"/> that identifies the computer that is the destination for the ICMP echo message.</param>
         /// <param name="timeout">
-        /// An Int32 value that specifies the maximum number of milliseconds (after sending the echo message) 
+        /// An <see cref="int"/> value that specifies the maximum number of milliseconds (after sending the echo message) 
         /// to wait for the ICMP echo reply message.
         /// </param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, IPAddress address, int timeout, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(address, timeout, tcs));
@@ -60,17 +60,17 @@ namespace System.Net.NetworkInformation
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
         /// <param name="hostNameOrAddress">
-        /// A String that identifies the computer that is the destination for the ICMP echo message. 
+        /// A <see cref="string"/> that identifies the computer that is the destination for the ICMP echo message. 
         /// The value specified for this parameter can be a host name or a string representation of an IP address.
         /// </param>
         /// <param name="timeout">
-        /// An Int32 value that specifies the maximum number of milliseconds (after sending the echo message) 
+        /// An <see cref="int"/> value that specifies the maximum number of milliseconds (after sending the echo message) 
         /// to wait for the ICMP echo reply message.
         /// </param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, string hostNameOrAddress, int timeout, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(hostNameOrAddress, timeout, tcs));
@@ -79,18 +79,18 @@ namespace System.Net.NetworkInformation
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
-        /// <param name="address">An IPAddress that identifies the computer that is the destination for the ICMP echo message.</param>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
+        /// <param name="address">An <see cref="IPAddress"/> that identifies the computer that is the destination for the ICMP echo message.</param>
         /// <param name="timeout">
-        /// An Int32 value that specifies the maximum number of milliseconds (after sending the echo message) 
+        /// An <see cref="int"/> value that specifies the maximum number of milliseconds (after sending the echo message) 
         /// to wait for the ICMP echo reply message.
         /// </param>
         /// <param name="buffer">
-        /// A Byte array that contains data to be sent with the ICMP echo message and returned 
+        /// A <see cref="byte"/> array that contains data to be sent with the ICMP echo message and returned 
         /// in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.
         /// </param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, IPAddress address, int timeout, byte[] buffer, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(address, timeout, buffer, tcs));
@@ -99,21 +99,21 @@ namespace System.Net.NetworkInformation
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
         /// <param name="hostNameOrAddress">
-        /// A String that identifies the computer that is the destination for the ICMP echo message. 
+        /// A <see cref="string"/> that identifies the computer that is the destination for the ICMP echo message. 
         /// The value specified for this parameter can be a host name or a string representation of an IP address.
         /// </param>
         /// <param name="timeout">
-        /// An Int32 value that specifies the maximum number of milliseconds (after sending the echo message) 
+        /// An <see cref="int"/> value that specifies the maximum number of milliseconds (after sending the echo message) 
         /// to wait for the ICMP echo reply message.
         /// </param>
         /// <param name="buffer">
-        /// A Byte array that contains data to be sent with the ICMP echo message and returned 
+        /// A <see cref="byte"/> array that contains data to be sent with the ICMP echo message and returned 
         /// in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.
         /// </param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, string hostNameOrAddress, int timeout, byte[] buffer, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(hostNameOrAddress, timeout, buffer, tcs));
@@ -122,19 +122,19 @@ namespace System.Net.NetworkInformation
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
-        /// <param name="address">An IPAddress that identifies the computer that is the destination for the ICMP echo message.</param>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
+        /// <param name="address">An <see cref="IPAddress"/> that identifies the computer that is the destination for the ICMP echo message.</param>
         /// <param name="timeout">
-        /// An Int32 value that specifies the maximum number of milliseconds (after sending the echo message) 
+        /// An <see cref="int"/> value that specifies the maximum number of milliseconds (after sending the echo message) 
         /// to wait for the ICMP echo reply message.
         /// </param>
         /// <param name="buffer">
-        /// A Byte array that contains data to be sent with the ICMP echo message and returned 
+        /// A <see cref="byte"/> array that contains data to be sent with the ICMP echo message and returned 
         /// in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.
         /// </param>
-        /// <param name="options">A PingOptions object used to control fragmentation and Time-to-Live values for the ICMP echo message packet.</param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="options">A <see cref="PingOptions"/> object used to control fragmentation and Time-to-Live values for the ICMP echo message packet.</param>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, IPAddress address, int timeout, byte[] buffer, PingOptions options, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(address, timeout, buffer, options, tcs));
@@ -143,22 +143,22 @@ namespace System.Net.NetworkInformation
         /// <summary>
         /// Asynchronously attempts to send an Internet Control Message Protocol (ICMP) echo message.
         /// </summary>
-        /// <param name="ping">The Ping.</param>
+        /// <param name="ping">The <see cref="Ping"/>.</param>
         /// <param name="hostNameOrAddress">
-        /// A String that identifies the computer that is the destination for the ICMP echo message. 
+        /// A <see cref="string"/> that identifies the computer that is the destination for the ICMP echo message. 
         /// The value specified for this parameter can be a host name or a string representation of an IP address.
         /// </param>
         /// <param name="timeout">
-        /// An Int32 value that specifies the maximum number of milliseconds (after sending the echo message) 
+        /// An <see cref="int"/> value that specifies the maximum number of milliseconds (after sending the echo message) 
         /// to wait for the ICMP echo reply message.
         /// </param>
         /// <param name="buffer">
-        /// A Byte array that contains data to be sent with the ICMP echo message and returned 
+        /// A <see cref="byte"/> array that contains data to be sent with the ICMP echo message and returned 
         /// in the ICMP echo reply message. The array cannot contain more than 65,500 bytes.
         /// </param>
-        /// <param name="options">A PingOptions object used to control fragmentation and Time-to-Live values for the ICMP echo message packet.</param>
-        /// <param name="userToken">A user-defined object stored in the resulting Task.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="options">A <see cref="PingOptions"/> object used to control fragmentation and Time-to-Live values for the ICMP echo message packet.</param>
+        /// <param name="userToken">A user-defined object stored in the resulting <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task<PingReply> SendTask(this Ping ping, string hostNameOrAddress, int timeout, byte[] buffer, PingOptions options, object userToken)
         {
             return SendTaskCore(ping, userToken, tcs => ping.SendAsync(hostNameOrAddress, timeout, buffer, options, tcs));

@@ -14,7 +14,7 @@ namespace System.Threading.Algorithms
 {
     public static partial class ParallelAlgorithms
     {
-        /// <summary>Executes a for loop in which iterations may run in parallel.</summary>
+        /// <summary>Executes a <see langword="for"/> loop in which iterations may run in parallel.</summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
@@ -23,10 +23,10 @@ namespace System.Threading.Algorithms
             For(fromInclusive, toExclusive, s_defaultParallelOptions, body);
         }
 
-        /// <summary>Executes a for loop in which iterations may run in parallel.</summary>
+        /// <summary>Executes a <see langword="for"/> loop in which iterations may run in parallel.</summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="options">A System.Threading.Tasks.ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="options">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="body">The delegate that is invoked once per iteration.</param>
         public static void For(BigInteger fromInclusive, BigInteger toExclusive, ParallelOptions options, Action<BigInteger> body)
         {
@@ -56,7 +56,7 @@ namespace System.Threading.Algorithms
             }
         }
 
-        /// <summary>Creates an enumerable that iterates the range [fromInclusive, toExclusive).</summary>
+        /// <summary>Creates an enumerable that iterates the range [<paramref name="fromInclusive"/>, <paramref name="toExclusive"/>).</summary>
         /// <param name="fromInclusive">The lower bound, inclusive.</param>
         /// <param name="toExclusive">The upper bound, exclusive.</param>
         /// <returns>The enumerable of the range.</returns>

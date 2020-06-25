@@ -8,24 +8,25 @@
 
 namespace System.Threading.Tasks
 {
+    /// <summary>Extensions for <see cref="TaskFactory"/>.</summary>
     public static partial class TaskFactoryExtensions
     {
         #region TaskFactory No Action
-        /// <summary>Creates a Task that will complete after the specified delay.</summary>
-        /// <param name="factory">The TaskFactory.</param>
-        /// <param name="millisecondsDelay">The delay after which the Task should transition to RanToCompletion.</param>
-        /// <returns>A Task that will be completed after the specified duration.</returns>
+        /// <summary>Creates a <see cref="Task"/> that will complete after the specified delay.</summary>
+        /// <param name="factory">The <see cref="TaskFactory"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> should transition to <see cref="TaskStatus.RanToCompletion"/>.</param>
+        /// <returns>A <see cref="Task"/> that will be completed after the specified duration.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory, int millisecondsDelay)
         {
             return StartNewDelayed(factory, millisecondsDelay, CancellationToken.None);
         }
 
-        /// <summary>Creates a Task that will complete after the specified delay.</summary>
-        /// <param name="factory">The TaskFactory.</param>
-        /// <param name="millisecondsDelay">The delay after which the Task should transition to RanToCompletion.</param>
+        /// <summary>Creates a <see cref="Task"/> that will complete after the specified delay.</summary>
+        /// <param name="factory">The <see cref="TaskFactory"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> should transition to <see cref="TaskStatus.RanToCompletion"/>.</param>
         /// <param name="cancellationToken">The cancellation token that can be used to cancel the timed task.</param>
-        /// <returns>A Task that will be completed after the specified duration and that's cancelable with the specified token.</returns>
+        /// <returns>A <see cref="Task"/> that will be completed after the specified duration and that's cancelable with the specified token.</returns>
         public static Task StartNewDelayed(this TaskFactory factory, int millisecondsDelay, CancellationToken cancellationToken)
         {
             // Validate arguments
@@ -71,11 +72,11 @@ namespace System.Threading.Tasks
         #endregion
 
         #region TaskFactory with Action
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action action)
@@ -84,12 +85,12 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, action, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action action,
@@ -99,12 +100,12 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, action, factory.CancellationToken, creationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
-        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the created <see cref="Task"/>.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action action,
@@ -114,14 +115,14 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, action, cancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
-        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the created <see cref="Task"/>.</param>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <param name="scheduler">The scheduler to which the <see cref="Task"/> will be scheduled.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action action, 
@@ -137,12 +138,12 @@ namespace System.Threading.Tasks
                 .ContinueWith(_ => action(), cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion, scheduler);
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <returns>The created Task.</returns>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action<object> action, object state)
@@ -151,13 +152,13 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, action, state, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <returns>The created Task.</returns>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action<object> action, object state,
@@ -167,13 +168,13 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, action, state, factory.CancellationToken, creationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
-        /// <returns>The created Task.</returns>
+        /// <param name="cancellationToken">The cancellation token to assign to the created <see cref="Task"/>.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action<object> action, object state,
@@ -183,15 +184,15 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, action, state, cancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="action">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="action">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
-        /// <returns>The created Task.</returns>
+        /// <param name="cancellationToken">The cancellation token to assign to the created <see cref="Task"/>.</param>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <param name="scheduler">The scheduler to which the <see cref="Task"/> will be scheduled.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
             int millisecondsDelay, Action<object> action, object state,
@@ -228,11 +229,11 @@ namespace System.Threading.Tasks
         #endregion
 
         #region TaskFactory<TResult> with Func
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<TResult> function)
@@ -241,12 +242,12 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, function, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<TResult> function,
@@ -256,12 +257,12 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, function, factory.CancellationToken, creationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
-        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the <see cref="Task"/>.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<TResult> function,
@@ -271,14 +272,14 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, function, cancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
-        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
-        /// <returns>The created Task.</returns>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the <see cref="Task"/>.</param>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <param name="scheduler">The scheduler to which the <see cref="Task"/> will be scheduled.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<TResult> function,
@@ -302,12 +303,12 @@ namespace System.Threading.Tasks
             }, cancellationToken, ContinuationOptionsFromCreationOptions(creationOptions), scheduler);
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <returns>The created Task.</returns>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<object, TResult> function, object state)
@@ -316,13 +317,13 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, function, state, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
-        /// <returns>The created Task.</returns>
+        /// <param name="cancellationToken">The cancellation token to assign to the <see cref="Task"/>.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<object, TResult> function, object state,
@@ -332,13 +333,13 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, function, state, cancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <returns>The created Task.</returns>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<object, TResult> function, object state,
@@ -348,15 +349,15 @@ namespace System.Threading.Tasks
             return StartNewDelayed(factory, millisecondsDelay, function, state, factory.CancellationToken, creationOptions, factory.GetTargetScheduler());
         }
 
-        /// <summary>Creates and schedules a task for execution after the specified time delay.</summary>
-        /// <param name="factory">The factory to use to create the task.</param>
-        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name="function">The delegate executed by the task.</param>
+        /// <summary>Creates and schedules a <see cref="Task"/> for execution after the specified time delay.</summary>
+        /// <param name="factory">The factory to use to create the <see cref="Task"/>.</param>
+        /// <param name="millisecondsDelay">The delay after which the <see cref="Task"/> will be scheduled.</param>
+        /// <param name="function">The delegate executed by the <see cref="Task"/>.</param>
         /// <param name="state">An object provided to the delegate.</param>
-        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
-        /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
-        /// <returns>The created Task.</returns>
+        /// <param name="cancellationToken">The cancellation token to assign to the <see cref="Task"/>.</param>
+        /// <param name="creationOptions">Options that control the <see cref="Task"/>'s behavior.</param>
+        /// <param name="scheduler">The scheduler to which the <see cref="Task"/> will be scheduled.</param>
+        /// <returns>The created <see cref="Task"/>.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
             int millisecondsDelay, Func<object, TResult> function, object state,

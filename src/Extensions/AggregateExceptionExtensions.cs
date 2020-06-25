@@ -10,17 +10,17 @@ using System.Collections.Generic;
 
 namespace System
 {
-    /// <summary>Extension methods for AggregateException.</summary>
+    /// <summary>Extension methods for <see cref="AggregateException"/>.</summary>
     public static class AggregateExceptionExtensions
     {
-        /// <summary>Invokes a handler on each Exception contained by this AggregateException.</summary>
-        /// <param name="aggregateException">The AggregateException.</param>
+        /// <summary>Invokes a handler on each <see cref="Exception"/> contained by this <see cref="AggregateException"/>.</summary>
+        /// <param name="aggregateException">The <see cref="AggregateException"/>.</param>
         /// <param name="predicate">
-        /// The predicate to execute for each exception. The predicate accepts as an argument the Exception
-        /// to be processed and returns a Boolean to indicate whether the exception was handled.
+        /// The predicate to execute for each exception. The predicate accepts as an argument the <see cref="Exception"/>
+        /// to be processed and returns a <see cref="bool"/> to indicate whether the exception was handled.
         /// </param>
         /// <param name="leaveStructureIntact">
-        /// Whether the rethrown AggregateException should maintain the same hierarchy as the original.
+        /// Whether the rethrown <see cref="AggregateException"/> should maintain the same hierarchy as the original.
         /// </param>
         public static void Handle(
             this AggregateException aggregateException,

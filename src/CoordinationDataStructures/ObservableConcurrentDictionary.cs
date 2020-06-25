@@ -28,7 +28,7 @@ namespace System.Collections.Concurrent
         private readonly ConcurrentDictionary<TKey, TValue> _dictionary;
 
         /// <summary>
-        /// Initializes an instance of the ObservableConcurrentDictionary class.
+        /// Initializes an instance of the <see cref="ObservableConcurrentDictionary{TKey, TValue}"/> class.
         /// </summary>
         public ObservableConcurrentDictionary()
         {
@@ -42,7 +42,7 @@ namespace System.Collections.Concurrent
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.
+        /// Notifies observers of <see cref="CollectionChanged"/> or <see cref="PropertyChanged"/> of an update to the dictionary.
         /// </summary>
         private void NotifyObserversOfChange()
         {

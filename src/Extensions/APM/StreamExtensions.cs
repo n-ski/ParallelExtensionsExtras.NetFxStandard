@@ -17,12 +17,12 @@ namespace System.IO
 #if NETFRAMEWORK
         private const int BUFFER_SIZE = 0x2000;
 
-        /// <summary>Read from a stream asynchronously.</summary>
+        /// <summary>Read from a <paramref name="stream"/> asynchronously.</summary>
         /// <param name="stream">The stream.</param>
         /// <param name="buffer">An array of bytes to be filled by the read operation.</param>
         /// <param name="offset">The offset at which data should be stored.</param>
         /// <param name="count">The number of bytes to be read.</param>
-        /// <returns>A Task containing the number of bytes read.</returns>
+        /// <returns>A <see cref="Task"/> containing the number of bytes read.</returns>
         public static Task<int> ReadAsync(
             this Stream stream, byte[] buffer, int offset, int count)
         {
@@ -32,12 +32,12 @@ namespace System.IO
                 buffer, offset, count, stream /* object state */);
         }
 
-        /// <summary>Write to a stream asynchronously.</summary>
+        /// <summary>Write to a <paramref name="stream"/> asynchronously.</summary>
         /// <param name="stream">The stream.</param>
         /// <param name="buffer">An array of bytes to be written.</param>
         /// <param name="offset">The offset from which data should be read to be written.</param>
         /// <param name="count">The number of bytes to be written.</param>
-        /// <returns>A Task representing the completion of the asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> representing the completion of the asynchronous operation.</returns>
         public static Task WriteAsync(
             this Stream stream, byte[] buffer, int offset, int count)
         {
@@ -48,9 +48,9 @@ namespace System.IO
         }
 #endif
 
-        /// <summary>Reads the contents of the stream asynchronously.</summary>
+        /// <summary>Reads the contents of the <paramref name="stream"/> asynchronously.</summary>
         /// <param name="stream">The stream.</param>
-        /// <returns>A Task representing the contents of the file in bytes.</returns>
+        /// <returns>A <see cref="Task"/> representing the contents of the file in bytes.</returns>
         public static Task<byte[]> ReadAllBytesAsync(this Stream stream)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -71,11 +71,11 @@ namespace System.IO
             });
         }
 
-        /// <summary>Read the content of the stream, yielding its data in buffers to the provided delegate.</summary>
+        /// <summary>Read the content of the <paramref name="stream"/>, yielding its data in buffers to the provided delegate.</summary>
         /// <param name="stream">The stream.</param>
         /// <param name="bufferSize">The size of the buffers to use.</param>
         /// <param name="bufferAvailable">The delegate to be called when a new buffer is available.</param>
-        /// <returns>A Task that represents the completion of the asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the completion of the asynchronous operation.</returns>
         public static Task ReadBuffersAsync(this Stream stream, int bufferSize, Action<byte[], int> bufferAvailable)
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
@@ -89,14 +89,14 @@ namespace System.IO
         }
 
         /// <summary>
-        /// Creates an enumerable to be used with TaskFactoryExtensions.Iterate that reads data
-        /// from an input stream and passes it to a user-provided delegate.
+        /// Creates an enumerable to be used with <see cref="TaskFactoryExtensions"/>.Iterate that reads data
+        /// from an <paramref name="input"/> stream and passes it to a user-provided delegate.
         /// </summary>
         /// <param name="input">The source stream.</param>
         /// <param name="bufferSize">The size of the buffers to be used.</param>
         /// <param name="bufferAvailable">
         /// A delegate to be invoked when a buffer is available (provided the
-        /// buffer and the number of bytes in the buffer starting at offset 0.
+        /// buffer and the number of bytes in the buffer starting at offset 0).
         /// </param>
         /// <returns>An enumerable containing yielded tasks from the operation.</returns>
         private static IEnumerable<Task> ReadIterator(Stream input, int bufferSize, Action<byte[], int> bufferAvailable)
@@ -122,7 +122,7 @@ namespace System.IO
         /// <summary>Copies the contents of a stream to a file, asynchronously.</summary>
         /// <param name="source">The source stream.</param>
         /// <param name="destinationPath">The path to the destination file.</param>
-        /// <returns>A Task that represents the asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
         public static Task CopyStreamToFileAsync(this Stream source, string destinationPath)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -148,7 +148,7 @@ namespace System.IO
         /// <summary>Copies the contents of one stream to another, asynchronously.</summary>
         /// <param name="source">The source stream.</param>
         /// <param name="destination">The destination stream.</param>
-        /// <returns>A Task that represents the completion of the asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the completion of the asynchronous operation.</returns>
         public static Task CopyStreamToStreamAsync(this Stream source, Stream destination)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -158,7 +158,7 @@ namespace System.IO
         }
 
         /// <summary>
-        /// Creates an enumerable to be used with TaskFactoryExtensions.Iterate that copies data from one
+        /// Creates an enumerable to be used with <see cref="TaskFactoryExtensions"/>.Iterate that copies data from one
         /// stream to another.
         /// </summary>
         /// <param name="input">The input stream.</param>

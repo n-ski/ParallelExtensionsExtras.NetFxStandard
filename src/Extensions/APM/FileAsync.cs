@@ -19,7 +19,7 @@ namespace System.IO
 
         /// <summary>Opens an existing file for asynchronous reading.</summary>
         /// <param name="path">The path to the file to be opened for reading.</param>
-        /// <returns>A read-only FileStream on the specified path.</returns>
+        /// <returns>A read-only <see cref="FileStream"/> on the specified <paramref name="path"/>.</returns>
         public static FileStream OpenRead(string path)
         {
             // Open a file stream for reading and that supports asynchronous I/O
@@ -28,7 +28,7 @@ namespace System.IO
 
         /// <summary>Opens an existing file for asynchronous writing.</summary>
         /// <param name="path">The path to the file to be opened for writing.</param>
-        /// <returns>An unshared FileStream on the specified path with access for writing.</returns>
+        /// <returns>An unshared <see cref="FileStream"/> on the specified <paramref name="path"/> with access for writing.</returns>
         public static FileStream OpenWrite(string path)
         {
             // Open a file stream for writing and that supports asynchronous I/O
@@ -36,10 +36,10 @@ namespace System.IO
         }
 
         /// <summary>
-        /// Opens a binary file for asynchronosu operation, reads the contents of the file into a byte array, and then closes the file.
+        /// Opens a binary file for asynchronous operation, reads the contents of the file into a byte array, and then closes the file.
         /// </summary>
         /// <param name="path">The path to the file to be read.</param>
-        /// <returns>A task that will contain the contents of the file.</returns>
+        /// <returns>A <see cref="Task"/> that will contain the contents of the file.</returns>
         public static Task<byte[]> ReadAllBytes(string path)
         {
             // Open the file for reading
@@ -64,7 +64,8 @@ namespace System.IO
         /// Opens a binary file for asynchronous operation, writes the contents of the byte array into the file, and then closes the file.
         /// </summary>
         /// <param name="path">The path to the file to be written.</param>
-        /// <returns>A task that will signal the completion of the operation.</returns>
+        /// <param name="bytes">An array of bytes to be written.</param>
+        /// <returns>A <see cref="Task"/> that will signal the completion of the operation.</returns>
         public static Task WriteAllBytes(string path, byte[] bytes)
         {
             // Open the file for writing
@@ -86,10 +87,10 @@ namespace System.IO
         }
 
         /// <summary>
-        /// Opens a text file for asynchronosu operation, reads the contents of the file into a string, and then closes the file.
+        /// Opens a text file for asynchronous operation, reads the contents of the file into a <see cref="string"/>, and then closes the file.
         /// </summary>
         /// <param name="path">The path to the file to be read.</param>
-        /// <returns>A task that will contain the contents of the file.</returns>
+        /// <returns>A <see cref="Task"/> that will contain the contents of the file.</returns>
         public static Task<string> ReadAllText(string path)
         {
             // Create a StringBuilder to store the text from the file and an encoding object to decode the
@@ -114,10 +115,11 @@ namespace System.IO
         }
 
         /// <summary>
-        /// Opens a text file for asynchronosu operation, writes a string into the file, and then closes the file.
+        /// Opens a text file for asynchronous operation, writes <paramref name="contents"/> into the file, and then closes the file.
         /// </summary>
         /// <param name="path">The path to the file to be written.</param>
-        /// <returns>A task that will signal the completion of the operation.</returns>
+        /// <param name="contents">The string to write to the file.</param>
+        /// <returns>A <see cref="Task"/> that will signal the completion of the operation.</returns>
         public static Task WriteAllText(string path, string contents)
         {
             // First encode the string contents into a byte array

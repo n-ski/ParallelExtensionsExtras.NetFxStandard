@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace System.Collections.Concurrent
 {
-    /// <summary>Debug view for the IProducerConsumerCollection.</summary>
+    /// <summary>Debug view for the <see cref="IProducerConsumerCollection{T}"/>.</summary>
     /// <typeparam name="T">Specifies the type of the data being aggregated.</typeparam>
     internal sealed class IProducerConsumerCollection_DebugView<T>
     {
@@ -36,7 +36,7 @@ namespace System.Collections.Concurrent
     {
         private readonly IProducerConsumerCollection<T> _contained;
 
-        /// <summary>Initializes the ProducerConsumerCollectionBase instance.</summary>
+        /// <summary>Initializes the <see cref="ProducerConsumerCollectionBase{T}"/> instance.</summary>
         /// <param name="contained">The collection to be wrapped by this instance.</param>
         protected ProducerConsumerCollectionBase(IProducerConsumerCollection<T> contained)
         {
@@ -49,7 +49,7 @@ namespace System.Collections.Concurrent
 
         /// <summary>Attempts to add the specified value to the end of the deque.</summary>
         /// <param name="item">The item to add.</param>
-        /// <returns>true if the item could be added; otherwise, false.</returns>
+        /// <returns><see langword="true"/> if the <paramref name="item"/> could be added; otherwise, <see langword="false"/>.</returns>
         protected virtual bool TryAdd(T item) { return _contained.TryAdd(item); }
 
         /// <summary>Attempts to remove and return an item from the collection.</summary>
@@ -58,13 +58,13 @@ namespace System.Collections.Concurrent
         /// no item was available to be removed, the value is unspecified.
         /// </param>
         /// <returns>
-        /// true if an element was removed and returned from the collection; otherwise, false.
+        /// <see langword="true"/> if an element was removed and returned from the collection; otherwise, <see langword="false"/>.
         /// </returns>
         protected virtual bool TryTake(out T item) { return _contained.TryTake(out item); }
 
         /// <summary>Attempts to add the specified value to the end of the deque.</summary>
         /// <param name="item">The item to add.</param>
-        /// <returns>true if the item could be added; otherwise, false.</returns>
+        /// <returns><see langword="true"/> if the <paramref name="item"/> could be added; otherwise, <see langword="false"/>.</returns>
         bool IProducerConsumerCollection<T>.TryAdd(T item) { return TryAdd(item); }
 
         /// <summary>Attempts to remove and return an item from the collection.</summary>
@@ -73,7 +73,7 @@ namespace System.Collections.Concurrent
         /// no item was available to be removed, the value is unspecified.
         /// </param>
         /// <returns>
-        /// true if an element was removed and returned from the collection; otherwise, false.
+        /// <see langword="true"/> if an element was removed and returned from the collection; otherwise, <see langword="false"/>.
         /// </returns>
         bool IProducerConsumerCollection<T>.TryTake(out T item) { return TryTake(out item); }
 
@@ -84,12 +84,12 @@ namespace System.Collections.Concurrent
         /// <returns>The array.</returns>
         public T[] ToArray() { return _contained.ToArray(); }
 
-        /// <summary>Copies the contents of the collection to an array.</summary>
+        /// <summary>Copies the contents of the collection to an <paramref name="array"/>.</summary>
         /// <param name="array">The array to which the data should be copied.</param>
         /// <param name="index">The starting index at which data should be copied.</param>
         public void CopyTo(T[] array, int index) { _contained.CopyTo(array, index); }
 
-        /// <summary>Copies the contents of the collection to an array.</summary>
+        /// <summary>Copies the contents of the collection to an <paramref name="array"/>.</summary>
         /// <param name="array">The array to which the data should be copied.</param>
         /// <param name="index">The starting index at which data should be copied.</param>
         void ICollection.CopyTo(Array array, int index) { _contained.CopyTo(array, index); }

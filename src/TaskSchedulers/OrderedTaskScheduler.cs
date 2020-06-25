@@ -14,7 +14,7 @@ namespace System.Threading.Tasks.Schedulers
     /// </summary>
     public sealed class OrderedTaskScheduler : LimitedConcurrencyLevelTaskScheduler
     {
-        /// <summary>Initializes an instance of the OrderedTaskScheduler class.</summary>
+        /// <summary>Initializes an instance of the <see cref="OrderedTaskScheduler"/> class.</summary>
         public OrderedTaskScheduler() : base(1) { }
     }
 }

@@ -14,11 +14,11 @@ namespace System.Threading.Algorithms
     public static partial class ParallelAlgorithms
     {
         #region Int32, No Options
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             int fromInclusive, int toExclusive, 
             Action<int, int> body)
@@ -26,11 +26,11 @@ namespace System.Threading.Algorithms
             return ForRange(fromInclusive, toExclusive, s_defaultParallelOptions, body);
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             int fromInclusive, int toExclusive,
             Action<int, int, ParallelLoopState> body)
@@ -38,13 +38,13 @@ namespace System.Threading.Algorithms
             return ForRange(fromInclusive, toExclusive, s_defaultParallelOptions, body);
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
         /// <param name="localFinally">The delegate that performs a final action on the local state of each thread.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange<TLocal>(
             int fromInclusive, int toExclusive,
             Func<TLocal> localInit,
@@ -57,11 +57,11 @@ namespace System.Threading.Algorithms
         #endregion
 
         #region Int64, No Options
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             long fromInclusive, long toExclusive,
             Action<long, long> body)
@@ -69,11 +69,11 @@ namespace System.Threading.Algorithms
             return ForRange(fromInclusive, toExclusive, s_defaultParallelOptions, body);
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             long fromInclusive, long toExclusive,
             Action<long, long, ParallelLoopState> body)
@@ -81,13 +81,13 @@ namespace System.Threading.Algorithms
             return ForRange(fromInclusive, toExclusive, s_defaultParallelOptions, body);
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
         /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
         /// <param name="localFinally">The delegate that performs a final action on the local state of each thread.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange<TLocal>(
             long fromInclusive, long toExclusive,
             Func<TLocal> localInit,
@@ -100,12 +100,12 @@ namespace System.Threading.Algorithms
         #endregion
 
         #region Int32, Parallel Options
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             int fromInclusive, int toExclusive,
             ParallelOptions parallelOptions,
@@ -120,12 +120,12 @@ namespace System.Threading.Algorithms
             });
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             int fromInclusive, int toExclusive,
             ParallelOptions parallelOptions,
@@ -140,13 +140,14 @@ namespace System.Threading.Algorithms
             });
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
         /// <param name="localFinally">The delegate that performs a final action on the local state of each thread.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange<TLocal>(
             int fromInclusive, int toExclusive,
             ParallelOptions parallelOptions,
@@ -167,12 +168,12 @@ namespace System.Threading.Algorithms
         #endregion
 
         #region Int64, Parallel Options
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             long fromInclusive, long toExclusive,
             ParallelOptions parallelOptions,
@@ -187,12 +188,12 @@ namespace System.Threading.Algorithms
             });
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange(
             long fromInclusive, long toExclusive,
             ParallelOptions parallelOptions,
@@ -207,13 +208,14 @@ namespace System.Threading.Algorithms
             });
         }
 
-        /// <summary>Executes a for loop over ranges in which iterations may run in parallel. </summary>
+        /// <summary>Executes a <see langword="for"/> loop over ranges in which iterations may run in parallel. </summary>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="localInit">The function delegate that returns the initial state of the local data for each thread.</param>
         /// <param name="body">The delegate that is invoked once per range.</param>
         /// <param name="localFinally">The delegate that performs a final action on the local state of each thread.</param>
-        /// <returns>A ParallelLoopResult structure that contains information on what portion of the loop completed.</returns>
+        /// <returns>A <see cref="ParallelLoopResult"/> structure that contains information on what portion of the loop completed.</returns>
         public static ParallelLoopResult ForRange<TLocal>(
             long fromInclusive, long toExclusive,
             ParallelOptions parallelOptions,

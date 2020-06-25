@@ -8,10 +8,11 @@
 
 namespace System.Threading.Tasks
 {
+    /// <summary>Extensions for <see cref="TaskFactory"/>.</summary>
     public static partial class TaskFactoryExtensions
     {
         #region TaskFactory with Action
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="action">The delegate for the task.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
@@ -22,7 +23,7 @@ namespace System.Threading.Tasks
             return new Task(action, factory.CancellationToken, factory.CreationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="action">The delegate for the task.</param>
         /// <param name="creationOptions">Options that control the task's behavior.</param>
@@ -33,7 +34,7 @@ namespace System.Threading.Tasks
             return new Task(action, factory.CancellationToken, creationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="action">The delegate for the task.</param>
         /// <param name="state">An object provided to the delegate.</param>
@@ -45,7 +46,7 @@ namespace System.Threading.Tasks
             return new Task(action, state, factory.CancellationToken, factory.CreationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="action">The delegate for the task.</param>
         /// <param name="state">An object provided to the delegate.</param>
@@ -59,7 +60,7 @@ namespace System.Threading.Tasks
         #endregion
 
         #region TaskFactory with Func
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
@@ -70,7 +71,7 @@ namespace System.Threading.Tasks
             return new Task<TResult>(function, factory.CancellationToken, factory.CreationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <param name="creationOptions">Options that control the task's behavior.</param>
@@ -81,7 +82,7 @@ namespace System.Threading.Tasks
             return new Task<TResult>(function, factory.CancellationToken, creationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <param name="state">An object provided to the delegate.</param>
@@ -93,7 +94,7 @@ namespace System.Threading.Tasks
             return new Task<TResult>(function, state, factory.CancellationToken, factory.CreationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <param name="state">An object provided to the delegate.</param>
@@ -107,7 +108,7 @@ namespace System.Threading.Tasks
         #endregion
 
         #region TaskFactory<TResult> with Func
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
@@ -118,7 +119,7 @@ namespace System.Threading.Tasks
             return new Task<TResult>(function, factory.CancellationToken, factory.CreationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <param name="creationOptions">Options that control the task's behavior.</param>
@@ -129,7 +130,7 @@ namespace System.Threading.Tasks
             return new Task<TResult>(function, factory.CancellationToken, creationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <param name="state">An object provided to the delegate.</param>
@@ -141,7 +142,7 @@ namespace System.Threading.Tasks
             return new Task<TResult>(function, state, factory.CancellationToken, factory.CreationOptions);
         }
 
-        /// <summary>Creates a Task using the TaskFactory.</summary>
+        /// <summary>Creates a <see cref="Task"/> using the <see cref="TaskFactory"/>.</summary>
         /// <param name="factory">The factory to use.</param>
         /// <param name="function">The delegate for the task.</param>
         /// <param name="state">An object provided to the delegate.</param>

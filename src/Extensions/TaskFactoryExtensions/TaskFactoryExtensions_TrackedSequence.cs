@@ -10,15 +10,16 @@ using System.Collections.Generic;
 
 namespace System.Threading.Tasks
 {
+    /// <summary>Extensions for <see cref="TaskFactory"/>.</summary>
     public static partial class TaskFactoryExtensions
     {
         /// <summary>Asynchronously executes a sequence of tasks, maintaining a list of all tasks processed.</summary>
-        /// <param name="factory">The TaskFactory to use to create the task.</param>
+        /// <param name="factory">The <see cref="TaskFactory"/> to use to create the task.</param>
         /// <param name="functions">
         /// The functions that generate the tasks through which to iterate sequentially.
         /// Iteration will cease if a task faults.
         /// </param>
-        /// <returns>A Task that will return the list of tracked tasks iterated.</returns>
+        /// <returns>A <see cref="Task"/> that will return the list of tracked tasks iterated.</returns>
         public static Task<IList<Task>> TrackedSequence(this TaskFactory factory, params Func<Task> [] functions)
         {
             var tcs = new TaskCompletionSource<IList<Task>>();

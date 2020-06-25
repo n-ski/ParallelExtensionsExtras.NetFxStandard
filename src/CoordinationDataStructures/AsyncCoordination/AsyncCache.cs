@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace System.Threading
 {
-    /// <summary>Debugger type proxy for AsyncCache.</summary>
+    /// <summary>Debugger type proxy for <see cref="AsyncCache{TKey, TValue}"/>.</summary>
     /// <typeparam name="TKey">Specifies the type of the cache's keys.</typeparam>
     /// <typeparam name="TValue">Specifies the type of the cache's values.</typeparam>
     internal class AsyncCache_DebugView<TKey, TValue>
@@ -56,9 +56,9 @@ namespace System.Threading
             _map = new ConcurrentDictionary<TKey, Lazy<Task<TValue>>>();
         }
 
-        /// <summary>Gets a Task to retrieve the value for the specified key.</summary>
+        /// <summary>Gets a <see cref="Task"/> to retrieve the value for the specified key.</summary>
         /// <param name="key">The key whose value should be retrieved.</param>
-        /// <returns>A Task for the value of the specified key.</returns>
+        /// <returns>A <see cref="Task"/> for the value of the specified <paramref name="key"/>.</returns>
         public Task<TValue> GetValue(TKey key)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
@@ -68,7 +68,7 @@ namespace System.Threading
 
         /// <summary>Sets the value for the specified key.</summary>
         /// <param name="key">The key whose value should be set.</param>
-        /// <param name="value">The value to which the key should be set.</param>
+        /// <param name="value">The value to which the <paramref name="key"/> should be set.</param>
         public void SetValue(TKey key, TValue value)
         {
             SetValue(key, Task.Factory.FromResult(value));
@@ -76,16 +76,16 @@ namespace System.Threading
 
         /// <summary>Sets the value for the specified key.</summary>
         /// <param name="key">The key whose value should be set.</param>
-        /// <param name="value">The value to which the key should be set.</param>
+        /// <param name="value">The value to which the <paramref name="key"/> should be set.</param>
         public void SetValue(TKey key, Task<TValue> value)
         {
             if (key == null) throw new ArgumentNullException(nameof(key));
             _map[key] = LazyExtensions.Create(value);
         }
 
-        /// <summary>Gets a Task to retrieve the value for the specified key.</summary>
+        /// <summary>Gets a <see cref="Task"/> to retrieve the value for the specified key.</summary>
         /// <param name="key">The key whose value should be retrieved.</param>
-        /// <returns>A Task for the value of the specified key.</returns>
+        /// <returns>A <see cref="Task"/> for the value of the specified <paramref name="key"/>.</returns>
         public Task<TValue> this[TKey key]
         {
             get { return GetValue(key); }
@@ -118,19 +118,19 @@ namespace System.Threading
 
         /// <summary>Determines whether the cache contains the specified key.</summary>
         /// <param name="item">The item contained the key to be searched for.</param>
-        /// <returns>True if the cache contains the key; otherwise, false.</returns>
+        /// <returns><see langword="true"/> if the cache contains the key; otherwise, <see langword="false"/>.</returns>
         bool ICollection<KeyValuePair<TKey, Task<TValue>>>.Contains(KeyValuePair<TKey, Task<TValue>> item)
         {
             return _map.ContainsKey(item.Key);
         }
 
         /// <summary>
-        /// Copies the elements of the System.Collections.Generic.ICollection<T> to an
-        /// System.Array, starting at a particular System.Array index.
+        /// Copies the elements of the <see cref="ICollection{T}"/> to an
+        /// <see cref="Array"/>, starting at a particular <see cref="Array"/> index.
         /// </summary>
         /// <param name="array">
-        /// The one-dimensional System.Array that is the destination of the elements
-        /// copied from System.Collections.Generic.ICollection<T>. The System.Array must
+        /// The one-dimensional <see cref="Array"/> that is the destination of the elements
+        /// copied from <see cref="ICollection{T}"/>. The <see cref="Array"/> must
         /// have zero-based indexing.
         /// </param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
@@ -144,7 +144,7 @@ namespace System.Threading
 
         /// <summary>Removes the specified key from the cache.</summary>
         /// <param name="item">The item containing the key to be removed.</param>
-        /// <returns>True if the item could be removed; otherwise, false.</returns>
+        /// <returns><see langword="true"/> if the item could be removed; otherwise, <see langword="false"/>.</returns>
         bool ICollection<KeyValuePair<TKey, Task<TValue>>>.Remove(KeyValuePair<TKey, Task<TValue>> item)
         {
             Lazy<Task<TValue>> value;
@@ -155,7 +155,7 @@ namespace System.Threading
     /// <summary>An asynchronous cache for downloaded HTML.</summary>
     public sealed class HtmlAsyncCache : AsyncCache<Uri, string>
     {
-        /// <summary>Initializes the HtmlCache.</summary>
+        /// <summary>Initializes the <see cref="HtmlAsyncCache"/>.</summary>
         public HtmlAsyncCache() :
 #if NETFRAMEWORK
             base(uri => new WebClient().DownloadStringTask(uri))

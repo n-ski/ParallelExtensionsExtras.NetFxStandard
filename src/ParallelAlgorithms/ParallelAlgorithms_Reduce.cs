@@ -29,7 +29,7 @@ namespace System.Threading.Algorithms
         /// <summary>Reduces the input data using the specified aggregation operation.</summary>
         /// <typeparam name="T">Specifies the type of data being aggregated.</typeparam>
         /// <param name="input">The input data to be reduced.</param>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="seed">The seed to use to initialize the operation; this seed may be used multiple times.</param>
         /// <param name="associativeCommutativeOperation">The reduction operation.</param>
         /// <returns>The reduced value.</returns>
@@ -60,7 +60,7 @@ namespace System.Threading.Algorithms
         /// <typeparam name="T">Specifies the type of data being aggregated.</typeparam>
         /// <param name="fromInclusive">The start index, inclusive.</param>
         /// <param name="toExclusive">The end index, exclusive.</param>
-        /// <param name="parallelOptions">A ParallelOptions instance that configures the behavior of this operation.</param>
+        /// <param name="parallelOptions">A <see cref="ParallelOptions"/> instance that configures the behavior of this operation.</param>
         /// <param name="mapOperation">The function used to retrieve the data to be reduced for a given index.</param>
         /// <param name="seed">The seed to use to initialize the operation; this seed may be used multiple times.</param>
         /// <param name="associativeCommutativeOperation">The reduction operation.</param>

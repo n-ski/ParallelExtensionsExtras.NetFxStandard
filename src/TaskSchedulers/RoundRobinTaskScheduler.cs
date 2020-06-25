@@ -19,7 +19,7 @@ namespace System.Threading.Tasks.Schedulers
         private int _nextQueue = 0;
 
         /// <summary>Creates a new scheduler as part of this group.</summary>
-        /// <returns>The new scheduler.</returns>
+        /// <returns>The new <see cref="TaskScheduler"/>.</returns>
         public TaskScheduler CreateScheduler()
         {
             var createdQueue = new RoundRobinTaskSchedulerQueue(this);
@@ -42,7 +42,7 @@ namespace System.Threading.Tasks.Schedulers
             _queues.RemoveAt(index);
         }
 
-        /// <summary>Notifies the ThreadPool that there's a new item to be executed.</summary>
+        /// <summary>Notifies the <see cref="ThreadPool"/> that there's a new item to be executed.</summary>
         private void NotifyNewWorkItem()
         {
             // Queue a processing delegate to the ThreadPool

@@ -8,21 +8,21 @@
 
 namespace System.Threading
 {
-    /// <summary>Provides a simple, reference type wrapper for SpinLock.</summary>
+    /// <summary>Provides a simple, reference type wrapper for <see cref="SpinLock"/>.</summary>
     public class SpinLockClass
     {
         private SpinLock _spinLock; // NOTE: must *not* be readonly due to SpinLock being a mutable struct
 
-        /// <summary>Initializes an instance of the SpinLockClass class.</summary>
+        /// <summary>Initializes an instance of the <see cref="SpinLockClass"/>.</summary>
         public SpinLockClass()
         {
             _spinLock = new SpinLock();
         }
 
-        /// <summary>Initializes an instance of the SpinLockClass class.</summary>
+        /// <summary>Initializes an instance of the <see cref="SpinLockClass"/>.</summary>
         /// <param name="enableThreadOwnerTracking">
-        /// Controls whether the SpinLockClass should track
-        /// thread-ownership fo the lock.
+        /// Controls whether the <see cref="SpinLockClass"/> should track
+        /// thread-ownership of the lock.
         /// </param>
         public SpinLockClass(bool enableThreadOwnerTracking)
         {
@@ -47,23 +47,23 @@ namespace System.Threading
 
         /// <summary>Enters the lock.</summary>
         /// <param name="lockTaken">
-        /// Upon exit of the Enter method, specifies whether the lock was acquired. 
-        /// The variable passed by reference must be initialized to false.
+        /// Upon exit of the <see cref="Enter(ref bool)"/> method, specifies whether the lock was acquired. 
+        /// The variable passed by reference must be initialized to <see langword="false"/>.
         /// </param>
         public void Enter(ref bool lockTaken)
         {
             _spinLock.Enter(ref lockTaken);
         }
 
-        /// <summary>Exits the SpinLock.</summary>
+        /// <summary>Exits the <see cref="SpinLock"/>.</summary>
         public void Exit()
         {
             _spinLock.Exit();
         }
 
-        /// <summary>Exits the SpinLock.</summary>
+        /// <summary>Exits the <see cref="SpinLock"/>.</summary>
         /// <param name="useMemoryBarrier">
-        /// A Boolean value that indicates whether a memory fence should be issued in
+        /// A <see cref="bool"/> value that indicates whether a memory fence should be issued in
         /// order to immediately publish the exit operation to other threads.
         /// </param>
         public void Exit(bool useMemoryBarrier)

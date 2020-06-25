@@ -19,11 +19,11 @@ namespace System.Collections.Concurrent
     {
         private readonly Func<T> _generator;
 
-        /// <summary>Initializes an instance of the ObjectPool class.</summary>
+        /// <summary>Initializes an instance of the <see cref="ObjectPool{T}"/> class.</summary>
         /// <param name="generator">The function used to create items when no items exist in the pool.</param>
         public ObjectPool(Func<T> generator) : this(generator, new ConcurrentQueue<T>()) { }
 
-        /// <summary>Initializes an instance of the ObjectPool class.</summary>
+        /// <summary>Initializes an instance of the <see cref="ObjectPool{T}"/> class.</summary>
         /// <param name="generator">The function used to create items when no items exist in the pool.</param>
         /// <param name="collection">The collection used to store the elements of the pool.</param>
         public ObjectPool(Func<T> generator, IProducerConsumerCollection<T> collection)

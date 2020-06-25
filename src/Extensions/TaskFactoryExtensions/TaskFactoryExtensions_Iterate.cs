@@ -11,13 +11,14 @@ using System.Collections.ObjectModel;
 
 namespace System.Threading.Tasks
 {
+    /// <summary>Extensions for <see cref="TaskFactory"/>.</summary>
     public static partial class TaskFactoryExtensions
     {
         #region No Object State Overloads
         /// <summary>Asynchronously iterates through an enumerable of tasks.</summary>
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source)
@@ -30,7 +31,7 @@ namespace System.Threading.Tasks
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
         /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, 
@@ -44,7 +45,7 @@ namespace System.Threading.Tasks
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
         /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, 
@@ -58,7 +59,7 @@ namespace System.Threading.Tasks
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
         /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, 
@@ -74,7 +75,7 @@ namespace System.Threading.Tasks
         /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
         /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source,
@@ -88,8 +89,8 @@ namespace System.Threading.Tasks
         /// <summary>Asynchronously iterates through an enumerable of tasks.</summary>
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name="state">The asynchronous state for the returned Task.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <param name="state">The asynchronous state for the returned <see cref="Task"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, object state)
@@ -101,9 +102,9 @@ namespace System.Threading.Tasks
         /// <summary>Asynchronously iterates through an enumerable of tasks.</summary>
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="state">The asynchronous state for the returned <see cref="Task"/>.</param>
         /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, object state,
@@ -116,9 +117,9 @@ namespace System.Threading.Tasks
         /// <summary>Asynchronously iterates through an enumerable of tasks.</summary>
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="state">The asynchronous state for the returned <see cref="Task"/>.</param>
         /// <param name="creationOptions">Options that control the task's behavior.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, object state,
@@ -131,9 +132,9 @@ namespace System.Threading.Tasks
         /// <summary>Asynchronously iterates through an enumerable of tasks.</summary>
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="state">The asynchronous state for the returned <see cref="Task"/>.</param>
         /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, object state,
@@ -146,11 +147,11 @@ namespace System.Threading.Tasks
         /// <summary>Asynchronously iterates through an enumerable of tasks.</summary>
         /// <param name="factory">The target factory.</param>
         /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="state">The asynchronous state for the returned <see cref="Task"/>.</param>
         /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
         /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
-        /// <returns>A Task that represents the complete asynchronous operation.</returns>
+        /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
             IEnumerable<object> source, object state, 

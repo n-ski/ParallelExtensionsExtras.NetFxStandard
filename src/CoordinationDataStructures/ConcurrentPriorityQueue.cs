@@ -22,18 +22,18 @@ namespace System.Collections.Concurrent
         private readonly object _syncLock = new object();
         private readonly MinBinaryHeap _minHeap = new MinBinaryHeap();
 
-        /// <summary>Initializes a new instance of the ConcurrentPriorityQueue class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="ConcurrentPriorityQueue{TKey, TValue}"/> class.</summary>
         public ConcurrentPriorityQueue() {}
 
-        /// <summary>Initializes a new instance of the ConcurrentPriorityQueue class that contains elements copied from the specified collection.</summary>
-        /// <param name="collection">The collection whose elements are copied to the new ConcurrentPriorityQueue.</param>
+        /// <summary>Initializes a new instance of the <see cref="ConcurrentPriorityQueue{TKey, TValue}"/> class that contains elements copied from the specified collection.</summary>
+        /// <param name="collection">The collection whose elements are copied to the new <see cref="ConcurrentPriorityQueue{TKey, TValue}"/>.</param>
         public ConcurrentPriorityQueue(IEnumerable<KeyValuePair<TKey, TValue>> collection)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
             foreach (var item in collection) _minHeap.Insert(item);
         }
 
-        /// <summary>Adds the key/value pair to the priority queue.</summary>
+        /// <summary>Adds the <see cref="KeyValuePair{TKey, TValue}"/> to the priority queue.</summary>
         /// <param name="priority">The priority of the item to be added.</param>
         /// <param name="value">The item to be added.</param>
         public void Enqueue(TKey priority, TValue value)
@@ -41,8 +41,8 @@ namespace System.Collections.Concurrent
             Enqueue(new KeyValuePair<TKey, TValue>(priority, value));
         }
 
-        /// <summary>Adds the key/value pair to the priority queue.</summary>
-        /// <param name="item">The key/value pair to be added to the queue.</param>
+        /// <summary>Adds the <see cref="KeyValuePair{TKey, TValue}"/> to the priority queue.</summary>
+        /// <param name="item">The <see cref="KeyValuePair{TKey, TValue}"/> to be added to the queue.</param>
         public void Enqueue(KeyValuePair<TKey, TValue> item)
         {
             lock (_syncLock) _minHeap.Insert(item);
@@ -54,7 +54,7 @@ namespace System.Collections.Concurrent
         /// no object was available to be removed, the value is unspecified.
         /// </param>
         /// <returns>
-        /// true if an element was removed and returned from the queue succesfully; otherwise, false.
+        /// <see langword="true"/> if an element was removed and returned from the queue succesfully; otherwise, <see langword="false"/>.
         /// </returns>
         public bool TryDequeue(out KeyValuePair<TKey, TValue> result)
         {
@@ -76,7 +76,7 @@ namespace System.Collections.Concurrent
         /// The queue was not modified by the operation.
         /// </param>
         /// <returns>
-        /// true if an element was returned from the queue succesfully; otherwise, false.
+        /// <see langword="true"/> if an element was returned from the queue succesfully; otherwise, <see langword="false"/>.
         /// </returns>
         public bool TryPeek(out KeyValuePair<TKey, TValue> result)
         {
@@ -104,12 +104,12 @@ namespace System.Collections.Concurrent
             get { lock (_syncLock) return _minHeap.Count; }
         }
 
-        /// <summary>Copies the elements of the collection to an array, starting at a particular array index.</summary>
+        /// <summary>Copies the elements of the collection to an <paramref name="array"/>, starting at a particular <paramref name="index"/>.</summary>
         /// <param name="array">
         /// The one-dimensional array that is the destination of the elements copied from the queue.
         /// </param>
         /// <param name="index">
-        /// The zero-based index in array at which copying begins.
+        /// The zero-based index in <paramref name="array"/> at which copying begins.
         /// </param>
         /// <remarks>The elements will not be copied to the array in any guaranteed order.</remarks>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
@@ -134,9 +134,9 @@ namespace System.Collections.Concurrent
         }
 
         /// <summary>Attempts to add an item in the queue.</summary>
-        /// <param name="item">The key/value pair to be added.</param>
+        /// <param name="item">The <see cref="KeyValuePair{TKey, TValue}"/> to be added.</param>
         /// <returns>
-        /// true if the pair was added; otherwise, false.
+        /// <see langword="true"/> if the pair was added; otherwise, <see langword="false"/>.
         /// </returns>
         bool IProducerConsumerCollection<KeyValuePair<TKey, TValue>>.TryAdd(KeyValuePair<TKey, TValue> item)
         {
@@ -150,7 +150,7 @@ namespace System.Collections.Concurrent
         /// no object was available to be removed, the value is unspecified.
         /// </param>
         /// <returns>
-        /// true if an element was removed and returned from the queue succesfully; otherwise, false.
+        /// <see langword="true"/> if an element was removed and returned from the queue succesfully; otherwise, <see langword="false"/>.
         /// </returns>
         bool IProducerConsumerCollection<KeyValuePair<TKey, TValue>>.TryTake(out KeyValuePair<TKey, TValue> item)
         {
@@ -161,7 +161,7 @@ namespace System.Collections.Concurrent
         /// <returns>An enumerator for the contents of the queue.</returns>
         /// <remarks>
         /// The enumeration represents a moment-in-time snapshot of the contents of the queue. It does not
-        /// reflect any updates to the collection after GetEnumerator was called. The enumerator is safe to
+        /// reflect any updates to the collection after <see cref="GetEnumerator"/> was called. The enumerator is safe to
         /// use concurrently with reads from and writes to the queue.
         /// </remarks>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -171,15 +171,15 @@ namespace System.Collections.Concurrent
         }
 
         /// <summary>Returns an enumerator that iterates through a collection.</summary>
-        /// <returns>An IEnumerator that can be used to iterate through the collection.</returns>
+        /// <returns>An <see cref="IEnumerator"/> that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
 
-        /// <summary>Copies the elements of the collection to an array, starting at a particular array index.</summary>
+        /// <summary>Copies the elements of the collection to an <paramref name="array"/>, starting at a particular <paramref name="index"/>.</summary>
         /// <param name="array">
         /// The one-dimensional array that is the destination of the elements copied from the queue.
         /// </param>
         /// <param name="index">
-        /// The zero-based index in array at which copying begins.
+        /// The zero-based index in <paramref name="array"/> at which copying begins.
         /// </param>
         void ICollection.CopyTo(Array array, int index)
         {
@@ -187,7 +187,7 @@ namespace System.Collections.Concurrent
         }
 
         /// <summary>
-        /// Gets a value indicating whether access to the ICollection is synchronized with the SyncRoot.
+        /// Gets a value indicating whether access to the <see cref="ICollection"/> is synchronized with the <see cref="ICollection.SyncRoot"/>.
         /// </summary>
         bool ICollection.IsSynchronized { get { return true; } }
 

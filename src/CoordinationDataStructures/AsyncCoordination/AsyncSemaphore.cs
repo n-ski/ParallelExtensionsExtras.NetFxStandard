@@ -18,19 +18,19 @@ namespace System.Threading.Async
     {
         /// <summary>The current count.</summary>
         private int _currentCount;
-        /// <summary>The maximum count. If _maxCount isn't positive, the instance has been disposed.</remarks>
+        /// <summary>The maximum count. If _maxCount isn't positive, the instance has been disposed.</summary>
         private int _maxCount;
         /// <summary>Tasks waiting to be completed when the semaphore has count available.</summary>
         private Queue<TaskCompletionSource<object>> _waitingTasks;
 
-        /// <summary>Initializes the SemaphoreAsync with a count of zero and a maximum count of Int32.MaxValue.</summary>
+        /// <summary>Initializes the <see cref="AsyncSemaphore"/> with a count of zero and a maximum count of <see cref="int.MaxValue"/>.</summary>
         public AsyncSemaphore() : this(0) { }
 
-        /// <summary>Initializes the SemaphoreAsync with the specified count and a maximum count of Int32.MaxValue.</summary>
+        /// <summary>Initializes the <see cref="AsyncSemaphore"/> with the specified count and a maximum count of <see cref="int.MaxValue"/>.</summary>
         /// <param name="initialCount">The initial count to use as the current count.</param>
         public AsyncSemaphore(int initialCount) : this(initialCount, Int32.MaxValue) { }
 
-        /// <summary>Initializes the SemaphoreAsync with the specified counts.</summary>
+        /// <summary>Initializes the <see cref="AsyncSemaphore"/> with the specified counts.</summary>
         /// <param name="initialCount">The initial count to use as the current count.</param>
         /// <param name="maxCount">The maximum count allowed.</param>
         public AsyncSemaphore(int initialCount, int maxCount)
@@ -50,7 +50,7 @@ namespace System.Threading.Async
         public int WaitingCount { get { lock(_waitingTasks) return _waitingTasks.Count; } }
 
         /// <summary>Waits for a unit to be available in the semaphore.</summary>
-        /// <returns>A Task that will be completed when a unit is available and this Wait operation succeeds.</returns>
+        /// <returns>A <see cref="Task"/> that will be completed when a unit is available and this Wait operation succeeds.</returns>
         public Task WaitAsync()
         {
             ThrowIfDisposed();
@@ -82,11 +82,11 @@ namespace System.Threading.Async
         /// </summary>
         /// <param name="action">The action to be executed.</param>
         /// <returns>
-        /// A Task that represents the execution of the action.
+        /// A <see cref="Task"/> that represents the execution of the <paramref name="action"/>.
         /// </returns>
         /// <remarks>
-        /// Release does not need to be called for this action, as it will be handled implicitly
-        /// by the Queue method.
+        /// <see cref="Release"/> does not need to be called for this <paramref name="action"/>,
+        /// as it will be handled implicitly by this method.
         /// </remarks>
         public Task Queue(Action action)
         {
@@ -103,11 +103,11 @@ namespace System.Threading.Async
         /// </summary>
         /// <param name="function">The function to be executed.</param>
         /// <returns>
-        /// A Task that represents the execution of the function.
+        /// A <see cref="Task"/> that represents the execution of the <paramref name="function"/>.
         /// </returns>
         /// <remarks>
-        /// Release does not need to be called for this function, as it will be handled implicitly
-        /// by the Queue method.
+        /// <see cref="Release"/> does not need to be called for this <paramref name="function"/>,
+        /// as it will be handled implicitly by this method.
         /// </remarks>
         public Task<TResult> Queue<TResult>(Func<TResult> function)
         {

@@ -16,7 +16,7 @@ namespace System.Threading.Tasks
     {
         /// <summary>The ordered queue of tasks to be executed. Also serves as a lock protecting all shared state.</summary>
         private Queue<object> _tasks = new Queue<object>();
-        /// <summary>The task currently executing, or null if there is none.</summary>
+        /// <summary>The task currently executing, or <see langword="null"/> if there is none.</summary>
         private Task _taskInFlight;
 
         /// <summary>Enqueues the task to be processed serially and in order.</summary>
@@ -27,11 +27,11 @@ namespace System.Threading.Tasks
         /// <param name="task">The task.</param>
         public Task Enqueue(Task task) { EnqueueInternal(task); return task; }
 
-        /// <summary>Gets a Task that represents the completion of all previously queued tasks.</summary>
+        /// <summary>Gets a <see cref="Task"/> that represents the completion of all previously queued tasks.</summary>
         public Task Completed() { return Enqueue(new Task(() => { })); }
 
         /// <summary>Enqueues the task to be processed serially and in order.</summary>
-        /// <param name="taskOrFunction">The task or functino that generates a task.</param>
+        /// <param name="taskOrFunction">The task or function that generates a task.</param>
         /// <remarks>The task must not be started and must only be started by this instance.</remarks>
         private void EnqueueInternal(object taskOrFunction)
         {

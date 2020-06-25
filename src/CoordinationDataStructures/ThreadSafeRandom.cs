@@ -18,7 +18,7 @@ namespace System.Threading
     {
         /// <summary>Seed provider.</summary>
         private static readonly RNGCryptoServiceProvider _global = new RNGCryptoServiceProvider();
-        /// <summary>The underlyin provider of randomness, one instance per thread, initialized with _global.</summary>
+        /// <summary>The underlying provider of randomness, one instance per thread, initialized with <see cref="_global"/>.</summary>
         private ThreadLocal<Random> _local = new ThreadLocal<Random>(() =>
         {
             var buffer = new byte[4];
@@ -27,7 +27,7 @@ namespace System.Threading
         });
 
         /// <summary>Returns a nonnegative random number.</summary>
-        /// <returns>A 32-bit signed integer greater than or equal to zero and less than MaxValue.</returns>
+        /// <returns>A 32-bit signed integer greater than or equal to zero and less than <see cref="int.MaxValue"/>.</returns>
         public override int Next()
         {
             return _local.Value.Next();
@@ -35,12 +35,13 @@ namespace System.Threading
 
         /// <summary>Returns a nonnegative random number less than the specified maximum.</summary>
         /// <param name="maxValue">
-        /// The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to zero. 
+        /// The exclusive upper bound of the random number to be generated.
+        /// <paramref name="maxValue"/> must be greater than or equal to zero. 
         /// </param>
         /// <returns>
-        /// A 32-bit signed integer greater than or equal to zero, and less than maxValue; 
-        /// that is, the range of return values ordinarily includes zero but not maxValue. However, 
-        /// if maxValue equals zero, maxValue is returned.
+        /// A 32-bit signed integer greater than or equal to zero, and less than <paramref name="maxValue"/>; 
+        /// that is, the range of return values ordinarily includes zero but not <paramref name="maxValue"/>.
+        /// However, if <paramref name="maxValue"/> equals zero, <paramref name="maxValue"/> is returned.
         /// </returns>
         public override int Next(int maxValue)
         {
@@ -49,15 +50,19 @@ namespace System.Threading
 
         /// <summary>Returns a random number within a specified range.</summary>
         /// <param name="minValue">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned. maxValue must be greater than or equal to minValue.</param>
+        /// <param name="maxValue">
+        /// The exclusive upper bound of the random number returned. <paramref name="maxValue"/> must
+        /// be greater than or equal to <paramref name="minValue"/>.
+        /// </param>
         /// <returns>
-        /// A 32-bit signed integer greater than or equal to minValue and less than maxValue; 
-        /// that is, the range of return values includes minValue but not maxValue. 
-        /// If minValue equals maxValue, minValue is returned.
+        /// A 32-bit signed integer greater than or equal to <paramref name="minValue"/> and less
+        /// than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/>
+        /// but not <paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>,
+        /// <paramref name="minValue"/> is returned.
         /// </returns>
         public override int Next(int minValue, int maxValue)
         {
-            return _local.Value.Next(minValue, maxValue);
+            return _local.Value.Next(minValue,  maxValue);
         }
 
         /// <summary>Returns a random number between 0.0 and 1.0.</summary>

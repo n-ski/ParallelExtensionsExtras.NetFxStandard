@@ -12,18 +12,18 @@ using System.Linq;
 
 namespace System.Collections.Concurrent
 {
-    /// <summary>Extension methods for BlockingCollection.</summary>
+    /// <summary>Extension methods for <see cref="BlockingCollection{T}"/>.</summary>
     public static class BlockingCollectionExtensions
     {
         /// <summary>
-        /// Gets a partitioner for a BlockingCollection that consumes and yields the contents of the BlockingCollection.</summary>
+        /// Gets a partitioner for a <see cref="BlockingCollection{T}"/> that consumes and yields the contents of the <see cref="BlockingCollection{T}"/>.</summary>
         /// <typeparam name="T">Specifies the type of data in the collection.</typeparam>
         /// <param name="collection">The collection for which to create a partitioner.</param>
         /// <returns>A partitioner that completely consumes and enumerates the contents of the collection.</returns>
         /// <remarks>
-        /// Using this partitioner with a Parallel.ForEach loop or with PLINQ eliminates the need for those
+        /// Using this partitioner with a <see cref="Threading.Tasks.Parallel"/>.ForEach loop or with PLINQ eliminates the need for those
         /// constructs to do any additional locking.  The only synchronization in place is that used by the
-        /// BlockingCollection internally.
+        /// <see cref="BlockingCollection{T}"/> internally.
         /// </remarks>
         public static Partitioner<T> GetConsumingPartitioner<T>(this BlockingCollection<T> collection)
         {
@@ -68,13 +68,13 @@ namespace System.Collections.Concurrent
             }
         }
 
-        /// <summary>Adds the contents of an enumerable to the BlockingCollection.</summary>
+        /// <summary>Adds the contents of an <see cref="IEnumerable{T}"/> to the <see cref="BlockingCollection{T}"/>.</summary>
         /// <typeparam name="T">Specifies the type of the elements in the collection.</typeparam>
-        /// <param name="target">The target BlockingCollection to be augmented.</param>
+        /// <param name="target">The target <see cref="BlockingCollection{T}"/> to be augmented.</param>
         /// <param name="source">The source enumerable containing the data to be added.</param>
         /// <param name="completeAddingWhenDone">
-        /// Whether to mark the target BlockingCollection as complete for adding when 
-        /// all elements of the source enumerable have been transfered.
+        /// Whether to mark the <paramref name="target"/> <see cref="BlockingCollection{T}"/> as complete for adding when 
+        /// all elements of the <paramref name="source"/> <see cref="IEnumerable{T}"/> have been transfered.
         /// </param>
         public static void AddFromEnumerable<T>(this BlockingCollection<T> target, IEnumerable<T> source, bool completeAddingWhenDone)
         {
@@ -82,15 +82,15 @@ namespace System.Collections.Concurrent
             finally { if (completeAddingWhenDone) target.CompleteAdding(); }
         }
 
-        /// <summary>Adds the contents of an observable to the BlockingCollection.</summary>
+        /// <summary>Adds the contents of an <see cref="IObservable{T}"/> to the <see cref="BlockingCollection{T}"/>.</summary>
         /// <typeparam name="T">Specifies the type of the elements in the collection.</typeparam>
-        /// <param name="target">The target BlockingCollection to be augmented.</param>
+        /// <param name="target">The target <see cref="BlockingCollection{T}"/> to be augmented.</param>
         /// <param name="source">The source observable containing the data to be added.</param>
         /// <param name="completeAddingWhenDone">
-        /// Whether to mark the target BlockingCollection as complete for adding when 
-        /// all elements of the source observable have been transfered.
+        /// Whether to mark the <paramref name="target"/> <see cref="BlockingCollection{T}"/> as complete for adding when 
+        /// all elements of the <paramref name="source"/> <see cref="IObservable{T}"/> have been transfered.
         /// </param>
-        /// <returns>An IDisposable that may be used to cancel the transfer.</returns>
+        /// <returns>An <see cref="IDisposable"/> that may be used to cancel the transfer.</returns>
         public static IDisposable AddFromObservable<T>(this BlockingCollection<T> target, IObservable<T> source, bool completeAddingWhenDone)
         {
             if (target == null) throw new ArgumentNullException(nameof(target));
@@ -103,11 +103,11 @@ namespace System.Collections.Concurrent
             ));
         }
 
-        /// <summary>Creates an IProducerConsumerCollection-facade for a BlockingCollection instance.</summary>
+        /// <summary>Creates an <see cref="IProducerConsumerCollection{T}"/>-facade for a <see cref="BlockingCollection{T}"/> instance.</summary>
         /// <typeparam name="T">Specifies the type of the elements in the collection.</typeparam>
-        /// <param name="collection">The BlockingCollection.</param>
+        /// <param name="collection">The <see cref="BlockingCollection{T}"/>.</param>
         /// <returns>
-        /// An IProducerConsumerCollection that wraps the provided BlockingCollection.
+        /// An <see cref="IProducerConsumerCollection{T}"/> that wraps the provided <see cref="BlockingCollection{T}"/>.
         /// </returns>
         public static IProducerConsumerCollection<T> ToProducerConsumerCollection<T>(
             this BlockingCollection<T> collection)
@@ -115,30 +115,30 @@ namespace System.Collections.Concurrent
             return ToProducerConsumerCollection(collection, Timeout.Infinite);
         }
 
-        /// <summary>Creates an IProducerConsumerCollection-facade for a BlockingCollection instance.</summary>
+        /// <summary>Creates an <see cref="IProducerConsumerCollection{T}"/>-facade for a <see cref="BlockingCollection{T}"/> instance.</summary>
         /// <typeparam name="T">Specifies the type of the elements in the collection.</typeparam>
-        /// <param name="collection">The BlockingCollection.</param>
+        /// <param name="collection">The <see cref="BlockingCollection{T}"/>.</param>
         /// <param name="millisecondsTimeout">-1 for infinite blocking add and take operations. 0 for non-blocking, 1 or greater for blocking with timeout.</param>
-        /// <returns>An IProducerConsumerCollection that wraps the provided BlockingCollection.</returns>
+        /// An <see cref="IProducerConsumerCollection{T}"/> that wraps the provided <see cref="BlockingCollection{T}"/>.
         public static IProducerConsumerCollection<T> ToProducerConsumerCollection<T>(
             this BlockingCollection<T> collection, int millisecondsTimeout)
         {
             return new ProducerConsumerWrapper<T>(collection, millisecondsTimeout, new CancellationToken());
         }
 
-        /// <summary>Creates an IProducerConsumerCollection-facade for a BlockingCollection instance.</summary>
+        /// <summary>Creates an <see cref="IProducerConsumerCollection{T}"/>-facade for a <see cref="BlockingCollection{T}"/> instance.</summary>
         /// <typeparam name="T">Specifies the type of the elements in the collection.</typeparam>
-        /// <param name="collection">The BlockingCollection.</param>
+        /// <param name="collection">The <see cref="BlockingCollection{T}"/>.</param>
         /// <param name="millisecondsTimeout">-1 for infinite blocking add and take operations. 0 for non-blocking, 1 or greater for blocking with timeout.</param>
-        /// <param name="cancellationToken">The CancellationToken to use for any blocking operations.</param>
-        /// <returns>An IProducerConsumerCollection that wraps the provided BlockingCollection.</returns>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> to use for any blocking operations.</param>
+        /// An <see cref="IProducerConsumerCollection{T}"/> that wraps the provided <see cref="BlockingCollection{T}"/>.
         public static IProducerConsumerCollection<T> ToProducerConsumerCollection<T>(
             this BlockingCollection<T> collection, int millisecondsTimeout, CancellationToken cancellationToken)
         {
             return new ProducerConsumerWrapper<T>(collection, millisecondsTimeout, cancellationToken);
         }
 
-        /// <summary>Provides a producer-consumer collection facade for a BlockingCollection.</summary>
+        /// <summary>Provides a producer-consumer collection facade for a <see cref="BlockingCollection{T}"/>.</summary>
         /// <typeparam name="T">Specifies the type of the elements in the collection.</typeparam>
         internal sealed class ProducerConsumerWrapper<T> : IProducerConsumerCollection<T>
         {

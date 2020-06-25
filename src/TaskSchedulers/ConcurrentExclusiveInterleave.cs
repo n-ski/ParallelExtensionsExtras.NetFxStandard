@@ -16,7 +16,7 @@ namespace System.Threading.Tasks.Schedulers
     [DebuggerTypeProxy(typeof(ConcurrentExclusiveInterleaveDebugView))]
     public sealed class ConcurrentExclusiveInterleave
     {
-        /// <summary>Provides a debug view for ConcurrentExclusiveInterleave.</summary>
+        /// <summary>Provides a debug view for <see cref="ConcurrentExclusiveInterleave"/>.</summary>
         internal class ConcurrentExclusiveInterleaveDebugView
         {
             /// <summary>The interleave being debugged.</summary>
@@ -50,21 +50,21 @@ namespace System.Threading.Tasks.Schedulers
         /// <summary>Whether the exclusive processing of a task should include all of its children as well.</summary>
         private bool _exclusiveProcessingIncludesChildren;
 
-        /// <summary>Initialies the ConcurrentExclusiveInterleave.</summary>
+        /// <summary>Initialies the <see cref="ConcurrentExclusiveInterleave"/>.</summary>
         public ConcurrentExclusiveInterleave() : 
             this(TaskScheduler.Current, false) {}
 
-        /// <summary>Initialies the ConcurrentExclusiveInterleave.</summary>
+        /// <summary>Initialies the <see cref="ConcurrentExclusiveInterleave"/>.</summary>
         /// <param name="exclusiveProcessingIncludesChildren">Whether the exclusive processing of a task should include all of its children as well.</param>
         public ConcurrentExclusiveInterleave(bool exclusiveProcessingIncludesChildren) : 
             this(TaskScheduler.Current, exclusiveProcessingIncludesChildren) {}
 
-        /// <summary>Initialies the ConcurrentExclusiveInterleave.</summary>
+        /// <summary>Initialies the <see cref="ConcurrentExclusiveInterleave"/>.</summary>
         /// <param name="targetScheduler">The target scheduler on which this interleave should execute.</param>
         public ConcurrentExclusiveInterleave(TaskScheduler targetScheduler) :
             this(targetScheduler, false) {}
 
-        /// <summary>Initialies the ConcurrentExclusiveInterleave.</summary>
+        /// <summary>Initialies the <see cref="ConcurrentExclusiveInterleave"/>.</summary>
         /// <param name="targetScheduler">The target scheduler on which this interleave should execute.</param>
         /// <param name="exclusiveProcessingIncludesChildren">Whether the exclusive processing of a task should include all of its children as well.</param>
         public ConcurrentExclusiveInterleave(TaskScheduler targetScheduler, bool exclusiveProcessingIncludesChildren)
@@ -81,12 +81,12 @@ namespace System.Threading.Tasks.Schedulers
         }
 
         /// <summary>
-        /// Gets a TaskScheduler that can be used to schedule tasks to this interleave
+        /// Gets a <see cref="TaskScheduler"/> that can be used to schedule tasks to this interleave
         /// that may run concurrently with other tasks on this interleave.
         /// </summary>
         public TaskScheduler ConcurrentTaskScheduler { get { return _concurrentTaskScheduler; } }
         /// <summary>
-        /// Gets a TaskScheduler that can be used to schedule tasks to this interleave
+        /// Gets a <see cref="TaskScheduler"/> that can be used to schedule tasks to this interleave
         /// that must run exclusively with regards to other tasks on this interleave.
         /// </summary>
         public TaskScheduler ExclusiveTaskScheduler { get { return _exclusiveTaskScheduler; } }
@@ -262,7 +262,7 @@ namespace System.Threading.Tasks.Schedulers
             /// <summary>Tries to execute the task synchronously on this scheduler.</summary>
             /// <param name="task">The task to execute.</param>
             /// <param name="taskWasPreviouslyQueued">Whether the task was previously queued to the scheduler.</param>
-            /// <returns>true if the task could be executed; otherwise, false.</returns>
+            /// <returns><see langword="true"/> if the task could be executed; otherwise, <see langword="false"/>.</returns>
             protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
             {
                 if (_processingTaskOnCurrentThread.Value)

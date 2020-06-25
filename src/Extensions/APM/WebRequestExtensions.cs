@@ -15,9 +15,9 @@ namespace System.Net
     public static class WebRequestExtensions
     {
 #if NETFRAMEWORK
-        /// <summary>Creates a Task that represents an asynchronous request to GetResponse.</summary>
-        /// <param name="webRequest">The WebRequest.</param>
-        /// <returns>A Task containing the retrieved WebResponse.</returns>
+        /// <summary>Creates a <see cref="Task"/> that represents an asynchronous request to <see cref="WebRequest.GetResponse"/>.</summary>
+        /// <param name="webRequest">The <see cref="WebRequest"/>.</param>
+        /// <returns>A <see cref="Task"/> containing the retrieved <see cref="WebResponse"/>.</returns>
         public static Task<WebResponse> GetResponseAsync(this WebRequest webRequest)
         {
             if (webRequest == null) throw new ArgumentNullException(nameof(webRequest));
@@ -25,9 +25,9 @@ namespace System.Net
                 webRequest.BeginGetResponse, webRequest.EndGetResponse, webRequest /* object state for debugging */);
         }
 
-        /// <summary>Creates a Task that represents an asynchronous request to GetRequestStream.</summary>
-        /// <param name="webRequest">The WebRequest.</param>
-        /// <returns>A Task containing the retrieved Stream.</returns>
+        /// <summary>Creates a <see cref="Task"/> that represents an asynchronous request to <see cref="WebRequest.GetRequestStream"/>.</summary>
+        /// <param name="webRequest">The <see cref="WebRequest"/>.</param>
+        /// <returns>A <see cref="Task"/> containing the retrieved <see cref="Stream"/>.</returns>
         public static Task<Stream> GetRequestStreamAsync(this WebRequest webRequest)
         {
             if (webRequest == null) throw new ArgumentNullException(nameof(webRequest));
@@ -36,9 +36,9 @@ namespace System.Net
         }
 #endif
 
-        /// <summary>Creates a Task that respresents downloading all of the data from a WebRequest.</summary>
-        /// <param name="webRequest">The WebRequest.</param>
-        /// <returns>A Task containing the downloaded content.</returns>
+        /// <summary>Creates a <see cref="Task"/> that respresents downloading all of the data from a <see cref="WebRequest"/>.</summary>
+        /// <param name="webRequest">The <see cref="WebRequest"/>.</param>
+        /// <returns>A <see cref="Task"/> containing the downloaded content.</returns>
         public static Task<byte[]> DownloadDataAsync(this WebRequest webRequest)
         {
             // Asynchronously get the response.  When that's done, asynchronously read the contents.

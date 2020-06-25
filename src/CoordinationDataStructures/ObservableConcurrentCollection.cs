@@ -25,14 +25,14 @@ namespace System.Collections.Concurrent
         private readonly SynchronizationContext _context;
 
         /// <summary>
-        /// Initializes an instance of the ObservableConcurrentCollection class with an underlying
-        /// queue data structure.
+        /// Initializes an instance of the <see cref="ObservableConcurrentCollection{T}"/>
+        /// class with an underlying queue data structure.
         /// </summary>
         public ObservableConcurrentCollection() : this(new ConcurrentQueue<T>()) { }
 
         /// <summary>
-        /// Initializes an instance of the ObservableConcurrentCollection class with the specified
-        /// collection as the underlying data structure.
+        /// Initializes an instance of the <see cref="ObservableConcurrentCollection{T}"/>
+        /// class with the specified collection as the underlying data structure.
         /// </summary>
         public ObservableConcurrentCollection(IProducerConsumerCollection<T> collection) : base(collection)
         {
@@ -45,7 +45,7 @@ namespace System.Collections.Concurrent
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Notifies observers of CollectionChanged or PropertyChanged of an update to the dictionary.
+        /// Notifies observers of <see cref="CollectionChanged"/> or <see cref="PropertyChanged"/> of an update to the dictionary.
         /// </summary>
         private void NotifyObserversOfChange()
         {

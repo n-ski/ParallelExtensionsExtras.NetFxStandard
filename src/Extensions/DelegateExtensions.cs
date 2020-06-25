@@ -11,10 +11,10 @@ using System.Linq;
 
 namespace System
 {
-    /// <summary>Parallel extensions for the Delegate class.</summary>
+    /// <summary>Parallel extensions for the <see cref="Delegate"/> class.</summary>
     public static class DelegateExtensions
     {
-        /// <summary>Dynamically invokes (late-bound) in parallel the methods represented by the delegate.</summary>
+        /// <summary>Dynamically invokes (late-bound) in parallel the methods represented by the <paramref name="multicastDelegate"/>.</summary>
         /// <param name="multicastDelegate">The delegate to be invoked.</param>
         /// <param name="args">An array of objects that are the arguments to pass to the delegates.</param>
         /// <returns>The return value of one of the delegate invocations.</returns>

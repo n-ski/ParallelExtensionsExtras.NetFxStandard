@@ -17,7 +17,6 @@ namespace System.Threading.Algorithms
         /// <typeparam name="TResult">The type of the data returned.</typeparam>
         /// <param name="fromInclusive">The start of the range, inclusive.</param>
         /// <param name="toExclusive">The end of the range, exclusive.</param>
-        /// <param name="options">The options to use for processing the loop.</param>
         /// <param name="body">The function to execute for each element.</param>
         /// <returns>The result computed.</returns>
         public static TResult SpeculativeFor<TResult>(

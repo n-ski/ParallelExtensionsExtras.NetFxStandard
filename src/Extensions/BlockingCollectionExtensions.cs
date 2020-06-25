@@ -41,7 +41,7 @@ namespace System.Collections.Concurrent
             /// <param name="collection">The collection to be enumerated and consumed.</param>
             internal BlockingCollectionPartitioner(BlockingCollection<T> collection)
             {
-                if (collection == null) throw new ArgumentNullException("collection");
+                if (collection == null) throw new ArgumentNullException(nameof(collection));
                 _collection = collection;
             }
 
@@ -53,7 +53,7 @@ namespace System.Collections.Concurrent
             /// <returns>A list containing partitionCount enumerators.</returns>
             public override IList<IEnumerator<T>> GetPartitions(int partitionCount)
             {
-                if (partitionCount < 1) throw new ArgumentOutOfRangeException("partitionCount");
+                if (partitionCount < 1) throw new ArgumentOutOfRangeException(nameof(partitionCount));
                 var dynamicPartitioner = GetDynamicPartitions();
                 return Enumerable.Range(0, partitionCount).Select(_ => dynamicPartitioner.GetEnumerator()).ToArray();
             }
@@ -93,8 +93,8 @@ namespace System.Collections.Concurrent
         /// <returns>An IDisposable that may be used to cancel the transfer.</returns>
         public static IDisposable AddFromObservable<T>(this BlockingCollection<T> target, IObservable<T> source, bool completeAddingWhenDone)
         {
-            if (target == null) throw new ArgumentNullException("target");
-            if (source == null) throw new ArgumentNullException("source");
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (source == null) throw new ArgumentNullException(nameof(source));
             return source.Subscribe(new DelegateBasedObserver<T>
             (
                 onNext: item => target.Add(item),
@@ -149,8 +149,8 @@ namespace System.Collections.Concurrent
             public ProducerConsumerWrapper(
                 BlockingCollection<T> collection, int millisecondsTimeout, CancellationToken cancellationToken) 
             { 
-                if (collection == null) throw new ArgumentNullException("bc");
-                if (millisecondsTimeout < -1) throw new ArgumentOutOfRangeException("millisecondsTimeout");
+                if (collection == null) throw new ArgumentNullException(nameof(collection));
+                if (millisecondsTimeout < -1) throw new ArgumentOutOfRangeException(nameof(millisecondsTimeout));
                 _collection = collection;
                 _millisecondsTimeout = millisecondsTimeout;
                 _cancellationToken = cancellationToken;

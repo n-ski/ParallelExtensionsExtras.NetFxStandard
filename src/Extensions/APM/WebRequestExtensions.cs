@@ -20,7 +20,7 @@ namespace System.Net
         /// <returns>A Task containing the retrieved WebResponse.</returns>
         public static Task<WebResponse> GetResponseAsync(this WebRequest webRequest)
         {
-            if (webRequest == null) throw new ArgumentNullException("webRequest");
+            if (webRequest == null) throw new ArgumentNullException(nameof(webRequest));
             return Task<WebResponse>.Factory.FromAsync(
                 webRequest.BeginGetResponse, webRequest.EndGetResponse, webRequest /* object state for debugging */);
         }
@@ -30,7 +30,7 @@ namespace System.Net
         /// <returns>A Task containing the retrieved Stream.</returns>
         public static Task<Stream> GetRequestStreamAsync(this WebRequest webRequest)
         {
-            if (webRequest == null) throw new ArgumentNullException("webRequest");
+            if (webRequest == null) throw new ArgumentNullException(nameof(webRequest));
             return Task<Stream>.Factory.FromAsync(
                 webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, webRequest /* object state for debugging */);
         }

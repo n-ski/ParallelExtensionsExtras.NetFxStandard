@@ -53,8 +53,8 @@ namespace System.Collections.Concurrent
         /// <returns>An IDisposable that may be used to cancel the transfer.</returns>
         public static IDisposable AddFromObservable<T>(this IProducerConsumerCollection<T> target, IObservable<T> source)
         {
-            if (target == null) throw new ArgumentNullException("target");
-            if (source == null) throw new ArgumentNullException("source");
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (source == null) throw new ArgumentNullException(nameof(source));
             return source.Subscribe(new DelegateBasedObserver<T>
             (
                 onNext: item => target.TryAdd(item),

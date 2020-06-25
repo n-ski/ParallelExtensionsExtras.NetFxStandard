@@ -29,7 +29,7 @@ namespace System.Collections.Concurrent
         public ObjectPool(Func<T> generator, IProducerConsumerCollection<T> collection)
             : base(collection)
         {
-            if (generator == null) throw new ArgumentNullException("generator");
+            if (generator == null) throw new ArgumentNullException(nameof(generator));
             _generator = generator;
         }
 

@@ -176,7 +176,7 @@ namespace System.Net.NetworkInformation
         {
             // Validate we're being used with a real smtpClient.  The rest of the arg validation
             // will happen in the call to sendAsync.
-            if (ping == null) throw new ArgumentNullException("ping");
+            if (ping == null) throw new ArgumentNullException(nameof(ping));
 
             // Create a TaskCompletionSource to represent the operation
             var tcs = new TaskCompletionSource<PingReply>(userToken);

@@ -53,7 +53,7 @@ namespace System.Threading.Tasks
         /// <returns>The completed Task.</returns>
         public static Task FromCancellation(this TaskFactory factory, CancellationToken cancellationToken)
         {
-            if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException("cancellationToken");
+            if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
             return new Task(() => { }, cancellationToken);
         }
 
@@ -64,7 +64,7 @@ namespace System.Threading.Tasks
         /// <returns>The completed Task.</returns>
         public static Task<TResult> FromCancellation<TResult>(this TaskFactory factory, CancellationToken cancellationToken)
         {
-            if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException("cancellationToken");
+            if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
             return new Task<TResult>(DelegateCache<TResult>.DefaultResult, cancellationToken);
         }
 
@@ -108,7 +108,7 @@ namespace System.Threading.Tasks
         /// <returns>The completed Task.</returns>
         public static Task<TResult> FromCancellation<TResult>(this TaskFactory<TResult> factory, CancellationToken cancellationToken)
         {
-            if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException("cancellationToken");
+            if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
             return new Task<TResult>(DelegateCache<TResult>.DefaultResult, cancellationToken);
         }
         #endregion

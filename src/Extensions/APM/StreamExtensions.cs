@@ -26,7 +26,7 @@ namespace System.IO
         public static Task<int> ReadAsync(
             this Stream stream, byte[] buffer, int offset, int count)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             return Task<int>.Factory.FromAsync(
                 stream.BeginRead, stream.EndRead,
                 buffer, offset, count, stream /* object state */);
@@ -41,7 +41,7 @@ namespace System.IO
         public static Task WriteAsync(
             this Stream stream, byte[] buffer, int offset, int count)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
             return Task.Factory.FromAsync(
                 stream.BeginWrite, stream.EndWrite,
                 buffer, offset, count, stream);
@@ -53,7 +53,7 @@ namespace System.IO
         /// <returns>A Task representing the contents of the file in bytes.</returns>
         public static Task<byte[]> ReadAllBytesAsync(this Stream stream)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
 
             // Create a MemoryStream to store the data read from the input stream
             int initialCapacity = stream.CanSeek ? (int)stream.Length : 0;
@@ -78,9 +78,9 @@ namespace System.IO
         /// <returns>A Task that represents the completion of the asynchronous operation.</returns>
         public static Task ReadBuffersAsync(this Stream stream, int bufferSize, Action<byte[], int> bufferAvailable)
         {
-            if (stream == null) throw new ArgumentNullException("stream");
-            if (bufferSize < 1) throw new ArgumentOutOfRangeException("bufferSize");
-            if (bufferAvailable == null) throw new ArgumentNullException("bufferAvailable");
+            if (stream == null) throw new ArgumentNullException(nameof(stream));
+            if (bufferSize < 1) throw new ArgumentOutOfRangeException(nameof(bufferSize));
+            if (bufferAvailable == null) throw new ArgumentNullException(nameof(bufferAvailable));
 
             // Read from the stream over and over, handing the buffers off to the bufferAvailable delegate
             // as they're available.  Delegate invocation will be serialized.
@@ -125,8 +125,8 @@ namespace System.IO
         /// <returns>A Task that represents the asynchronous operation.</returns>
         public static Task CopyStreamToFileAsync(this Stream source, string destinationPath)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (destinationPath == null) throw new ArgumentNullException("destinationPath");
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destinationPath == null) throw new ArgumentNullException(nameof(destinationPath));
 
             // Open the output file for writing
             var destinationStream = FileAsync.OpenWrite(destinationPath);
@@ -151,8 +151,8 @@ namespace System.IO
         /// <returns>A Task that represents the completion of the asynchronous operation.</returns>
         public static Task CopyStreamToStreamAsync(this Stream source, Stream destination)
         {
-            if (source == null) throw new ArgumentNullException("source");
-            if (destination == null) throw new ArgumentNullException("destination");
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
             return Task.Factory.Iterate(
                 CopyStreamIterator(source, destination));
         }

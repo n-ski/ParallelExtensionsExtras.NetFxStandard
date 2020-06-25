@@ -51,7 +51,7 @@ namespace System.Net.NetworkInformation
         {
             // Validate we're being used with a real smtpClient.  The rest of the arg validation
             // will happen in the call to sendAsync.
-            if (smtpClient == null) throw new ArgumentNullException("smtpClient");
+            if (smtpClient == null) throw new ArgumentNullException(nameof(smtpClient));
 
             // Create a TaskCompletionSource to represent the operation
              var tcs = new TaskCompletionSource<object>(userToken);

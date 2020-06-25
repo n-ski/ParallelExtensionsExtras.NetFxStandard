@@ -20,8 +20,8 @@ namespace System
         /// <returns>The return value of one of the delegate invocations.</returns>
         public static object ParallelDynamicInvoke(this Delegate multicastDelegate, params object[] args)
         {
-            if (multicastDelegate == null) throw new ArgumentNullException("multicastDelegate");
-            if (args == null) throw new ArgumentNullException("args");
+            if (multicastDelegate == null) throw new ArgumentNullException(nameof(multicastDelegate));
+            if (args == null) throw new ArgumentNullException(nameof(args));
             return multicastDelegate.GetInvocationList()
                    .AsParallel().AsOrdered()
                    .Select(d => d.DynamicInvoke(args))

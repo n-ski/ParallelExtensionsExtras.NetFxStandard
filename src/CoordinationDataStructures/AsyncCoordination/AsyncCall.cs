@@ -40,7 +40,7 @@ namespace System.Threading.Tasks
         public AsyncCall(Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null) :
             this(maxDegreeOfParallelism, maxItemsPerTask, scheduler)
         {
-            if (actionHandler == null) throw new ArgumentNullException("handler");
+            if (actionHandler == null) throw new ArgumentNullException(nameof(actionHandler));
             _handler = actionHandler;
         }
 
@@ -54,7 +54,7 @@ namespace System.Threading.Tasks
         public AsyncCall(Func<T,Task> functionHandler, int maxDegreeOfParallelism = 1, TaskScheduler scheduler = null) :
             this(maxDegreeOfParallelism, 1, scheduler)
         {
-            if (functionHandler == null) throw new ArgumentNullException("handler");
+            if (functionHandler == null) throw new ArgumentNullException(nameof(functionHandler));
             _handler = functionHandler;
         }
 
@@ -65,8 +65,8 @@ namespace System.Threading.Tasks
         private AsyncCall(int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null)
         {
             // Validate arguments
-            if (maxDegreeOfParallelism < 1) throw new ArgumentOutOfRangeException("maxDegreeOfParallelism");
-            if (maxItemsPerTask < 1) throw new ArgumentOutOfRangeException("maxItemsPerTask");
+            if (maxDegreeOfParallelism < 1) throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism));
+            if (maxItemsPerTask < 1) throw new ArgumentOutOfRangeException(nameof(maxItemsPerTask));
             if (scheduler == null) scheduler = TaskScheduler.Default;
 
             // Configure the instance

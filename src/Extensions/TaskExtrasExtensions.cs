@@ -75,7 +75,7 @@ namespace System.Threading.Tasks
         /// <returns>The new task.</returns>
         public static Task ToAsync(this Task task, AsyncCallback callback, object state)
         {
-            if (task == null) throw new ArgumentNullException("task");
+            if (task == null) throw new ArgumentNullException(nameof(task));
 
             var tcs = new TaskCompletionSource<object>(state);
             task.ContinueWith(_ =>
@@ -96,7 +96,7 @@ namespace System.Threading.Tasks
         /// <returns>The new task.</returns>
         public static Task<TResult> ToAsync<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
         {
-            if (task == null) throw new ArgumentNullException("task");
+            if (task == null) throw new ArgumentNullException(nameof(task));
 
             var tcs = new TaskCompletionSource<TResult>(state);
             task.ContinueWith(_ =>
@@ -161,8 +161,8 @@ namespace System.Threading.Tasks
         /// <param name="task">The Tassk whose exceptions are to be propagated.</param>
         public static void PropagateExceptions(this Task [] tasks)
         {
-            if (tasks == null) throw new ArgumentNullException("tasks");
-            if (tasks.Any(t => t == null)) throw new ArgumentException("tasks");
+            if (tasks == null) throw new ArgumentNullException(nameof(tasks));
+            if (tasks.Any(t => t == null)) throw new NullReferenceException("A task is null.");
             if (tasks.Any(t => !t.IsCompleted)) throw new InvalidOperationException("A task has not completed.");
             Task.WaitAll(tasks);
         }
@@ -175,7 +175,7 @@ namespace System.Threading.Tasks
         /// <returns>An IObservable that represents the completion of the Task.</returns>
         public static IObservable<TResult> ToObservable<TResult>(this Task<TResult> task)
         {
-            if (task == null) throw new ArgumentNullException("task");
+            if (task == null) throw new ArgumentNullException(nameof(task));
             return new TaskObservable<TResult> { _task = task };
         }
 
@@ -188,7 +188,7 @@ namespace System.Threading.Tasks
             public IDisposable Subscribe(IObserver<TResult> observer)
             {
                 // Validate arguments
-                if (observer == null) throw new ArgumentNullException("observer");
+                if (observer == null) throw new ArgumentNullException(nameof(observer));
 
                 // Support cancelling the continuation if the observer is unsubscribed
                 var cts = new CancellationTokenSource();
@@ -271,7 +271,7 @@ namespace System.Threading.Tasks
         /// <param name="task">The task to attach to the current task as a child.</param>
         public static void AttachToParent(this Task task)
         {
-            if (task == null) throw new ArgumentNullException("task");
+            if (task == null) throw new ArgumentNullException(nameof(task));
             task.ContinueWith(t => t.Wait(), CancellationToken.None,
                 TaskContinuationOptions.AttachedToParent | 
                 TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
@@ -285,7 +285,7 @@ namespace System.Threading.Tasks
         /// <remarks>This method is intended for usage with Windows Presentation Foundation.</remarks>
         public static void WaitWithPumping(this Task task)
         {
-            if (task == null) throw new ArgumentNullException("task");
+            if (task == null) throw new ArgumentNullException(nameof(task));
             var nestedFrame = new DispatcherFrame();
             task.ContinueWith(_ => nestedFrame.Continue = false);
             Dispatcher.PushFrame(nestedFrame);
@@ -299,7 +299,7 @@ namespace System.Threading.Tasks
         /// <remarks>Unlike Wait, this method will not throw an exception if the task ends in the Faulted or Canceled state.</remarks>
         public static TaskStatus WaitForCompletionStatus(this Task task)
         {
-            if (task == null) throw new ArgumentNullException("task");
+            if (task == null) throw new ArgumentNullException(nameof(task));
             ((IAsyncResult)task).AsyncWaitHandle.WaitOne();
             return task.Status;
         }
@@ -312,8 +312,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the task and the action.</returns>
         public static Task Then(this Task task, Action next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<object>();
             task.ContinueWith(delegate
@@ -339,8 +339,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the task and the function.</returns>
         public static Task<TResult> Then<TResult>(this Task task, Func<TResult> next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<TResult>();
             task.ContinueWith(delegate
@@ -366,8 +366,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the task and the action.</returns>
         public static Task Then<TResult>(this Task<TResult> task, Action<TResult> next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<object>();
             task.ContinueWith(delegate
@@ -393,8 +393,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the task and the function.</returns>
         public static Task<TNewResult> Then<TResult, TNewResult>(this Task<TResult> task, Func<TResult, TNewResult> next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<TNewResult>();
             task.ContinueWith(delegate
@@ -420,8 +420,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the first and second task.</returns>
         public static Task Then(this Task task, Func<Task> next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<object>();
             task.ContinueWith(delegate
@@ -446,8 +446,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the first and second task.</returns>
         public static Task Then<T>(this Task<T> task, Func<T, Task> next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<object>();
             task.ContinueWith(delegate
@@ -472,8 +472,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the first and second task.</returns>
         public static Task<TResult> Then<TResult>(this Task task, Func<Task<TResult>> next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<TResult>();
             task.ContinueWith(delegate
@@ -498,8 +498,8 @@ namespace System.Threading.Tasks
         /// <returns>The task that represents the completion of both the first and second task.</returns>
         public static Task<TNewResult> Then<TResult, TNewResult>(this Task<TResult> task, Func<TResult, Task<TNewResult>> next)
         {
-            if (task == null) throw new ArgumentNullException("task");
-            if (next == null) throw new ArgumentNullException("next");
+            if (task == null) throw new ArgumentNullException(nameof(task));
+            if (next == null) throw new ArgumentNullException(nameof(next));
 
             var tcs = new TaskCompletionSource<TNewResult>();
             task.ContinueWith(delegate

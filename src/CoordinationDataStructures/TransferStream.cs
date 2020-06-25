@@ -27,7 +27,7 @@ namespace System.Threading
         public TransferStream(Stream writeableStream)
         {
             // Validate arguments
-            if (writeableStream == null) throw new ArgumentNullException("writeableStream");
+            if (writeableStream == null) throw new ArgumentNullException(nameof(writeableStream));
             if (!writeableStream.CanWrite) throw new ArgumentException("Target stream is not writeable.");
 
             // Set up the producer/consumer relationship, including starting the consumer running
@@ -51,9 +51,9 @@ namespace System.Threading
         public override void Write(byte[] buffer, int offset, int count)
         {
             // Validate all arguments
-            if (buffer == null) throw new ArgumentNullException("buffer");
-            if (offset < 0 || offset >= buffer.Length) throw new ArgumentOutOfRangeException("offset");
-            if (count < 0 || offset + count > buffer.Length) throw new ArgumentOutOfRangeException("count");
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            if (offset < 0 || offset >= buffer.Length) throw new ArgumentOutOfRangeException(nameof(offset));
+            if (count < 0 || offset + count > buffer.Length) throw new ArgumentOutOfRangeException(nameof(count));
             if (count == 0) return;
 
             // Store the data to the collection

@@ -26,7 +26,7 @@ namespace System.Threading.Tasks.Schedulers
             /// <param name="interleave">The interleave being debugged.</param>
             public ConcurrentExclusiveInterleaveDebugView(ConcurrentExclusiveInterleave interleave)
             {
-                if (interleave == null) throw new ArgumentNullException("interleave");
+                if (interleave == null) throw new ArgumentNullException(nameof(interleave));
                 _interleave = interleave;
             }
 
@@ -70,7 +70,7 @@ namespace System.Threading.Tasks.Schedulers
         public ConcurrentExclusiveInterleave(TaskScheduler targetScheduler, bool exclusiveProcessingIncludesChildren)
         {
             // A scheduler must be provided
-            if (targetScheduler == null) throw new ArgumentNullException("targetScheduler");
+            if (targetScheduler == null) throw new ArgumentNullException(nameof(targetScheduler));
 
             // Create the state for this interleave
             _internalLock = new object();
@@ -225,8 +225,8 @@ namespace System.Threading.Tasks.Schedulers
             /// <param name="tasks">The queue to store queued tasks into.</param>
             internal ConcurrentExclusiveTaskScheduler(ConcurrentExclusiveInterleave interleave, Queue<Task> tasks, int maximumConcurrencyLevel)
             {
-                if (interleave == null) throw new ArgumentNullException("interleave");
-                if (tasks == null) throw new ArgumentNullException("tasks");
+                if (interleave == null) throw new ArgumentNullException(nameof(interleave));
+                if (tasks == null) throw new ArgumentNullException(nameof(tasks));
                 _interleave = interleave;
                 _maximumConcurrencyLevel = maximumConcurrencyLevel;
                 Tasks = tasks;

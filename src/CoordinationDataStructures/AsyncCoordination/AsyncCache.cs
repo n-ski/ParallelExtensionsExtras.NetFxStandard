@@ -51,7 +51,7 @@ namespace System.Threading
         /// <param name="valueFactory">A factory for producing the cache's values.</param>
         public AsyncCache(Func<TKey, Task<TValue>> valueFactory)
         {
-            if (valueFactory == null) throw new ArgumentNullException("loader");
+            if (valueFactory == null) throw new ArgumentNullException(nameof(valueFactory));
             _valueFactory = valueFactory;
             _map = new ConcurrentDictionary<TKey, Lazy<Task<TValue>>>();
         }
@@ -61,7 +61,7 @@ namespace System.Threading
         /// <returns>A Task for the value of the specified key.</returns>
         public Task<TValue> GetValue(TKey key)
         {
-            if (key == null) throw new ArgumentNullException("key");
+            if (key == null) throw new ArgumentNullException(nameof(key));
             var value = new Lazy<Task<TValue>>(() => _valueFactory(key));
             return _map.GetOrAdd(key, value).Value;
         }
@@ -79,7 +79,7 @@ namespace System.Threading
         /// <param name="value">The value to which the key should be set.</param>
         public void SetValue(TKey key, Task<TValue> value)
         {
-            if (key == null) throw new ArgumentNullException("key");
+            if (key == null) throw new ArgumentNullException(nameof(key));
             _map[key] = LazyExtensions.Create(value);
         }
 

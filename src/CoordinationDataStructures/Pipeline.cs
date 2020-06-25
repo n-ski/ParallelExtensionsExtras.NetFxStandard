@@ -36,8 +36,8 @@ namespace System.Threading
         /// <returns>A pipeline for converting from input data to output data.</returns>
         public static Pipeline<TInput, TOutput> Create<TInput, TOutput>(Func<TInput, TOutput> func, int degreeOfParallelism)
         {
-            if (func == null) throw new ArgumentNullException("func");
-            if (degreeOfParallelism < 1) throw new ArgumentOutOfRangeException("degreeOfParallelism");
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (degreeOfParallelism < 1) throw new ArgumentOutOfRangeException(nameof(degreeOfParallelism));
             return new Pipeline<TInput, TOutput>(func, degreeOfParallelism);
         }
     }
@@ -81,8 +81,8 @@ namespace System.Threading
         /// <returns>A new pipeline that combines the current pipeline with the new stage.</returns>
         public Pipeline<TInput, TNextOutput> Next<TNextOutput>(Func<TOutput, TNextOutput> func, int degreeOfParallelism)
         {
-            if (func == null) throw new ArgumentNullException("func");
-            if (degreeOfParallelism < 1) throw new ArgumentOutOfRangeException("degreeOfParallelism");
+            if (func == null) throw new ArgumentNullException(nameof(func));
+            if (degreeOfParallelism < 1) throw new ArgumentOutOfRangeException(nameof(degreeOfParallelism));
             return new InternalPipeline<TNextOutput>(this, func, degreeOfParallelism);
         }
 
@@ -101,7 +101,7 @@ namespace System.Threading
         public IEnumerable<TOutput> Process(IEnumerable<TInput> source, CancellationToken cancellationToken)
         {
             // Validate arguments
-            if (source == null) throw new ArgumentNullException("source");
+            if (source == null) throw new ArgumentNullException(nameof(source));
             return ProcessNoArgValidation(source, cancellationToken);
         }
 

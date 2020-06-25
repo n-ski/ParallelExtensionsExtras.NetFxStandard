@@ -30,7 +30,7 @@ namespace System.Threading.Tasks.Schedulers
             /// <param name="scheduler">The scheduler.</param>
             public QueuedTaskSchedulerDebugView(QueuedTaskScheduler scheduler)
             {
-                if (scheduler == null) throw new ArgumentNullException("scheduler");
+                if (scheduler == null) throw new ArgumentNullException(nameof(scheduler));
                 _scheduler = scheduler;
             }
 
@@ -110,8 +110,8 @@ namespace System.Threading.Tasks.Schedulers
             int maxConcurrencyLevel)
         {
             // Validate arguments
-            if (targetScheduler == null) throw new ArgumentNullException("underlyingScheduler");
-            if (maxConcurrencyLevel < 0) throw new ArgumentOutOfRangeException("concurrencyLevel");
+            if (targetScheduler == null) throw new ArgumentNullException(nameof(targetScheduler));
+            if (maxConcurrencyLevel < 0) throw new ArgumentOutOfRangeException(nameof(maxConcurrencyLevel));
 
             // Initialize only those fields relevant to use an underlying scheduler.  We don't
             // initialize the fields relevant to using our own custom threads.
@@ -153,7 +153,7 @@ namespace System.Threading.Tasks.Schedulers
         {
             // Validates arguments (some validation is left up to the Thread type itself).
             // If the thread count is 0, default to the number of logical processors.
-            if (threadCount < 0) throw new ArgumentOutOfRangeException("concurrencyLevel");
+            if (threadCount < 0) throw new ArgumentOutOfRangeException(nameof(threadCount));
             else if (threadCount == 0) _concurrencyLevel = Environment.ProcessorCount;
             else _concurrencyLevel = threadCount;
 
@@ -519,7 +519,7 @@ namespace System.Threading.Tasks.Schedulers
                 /// <param name="queue">The queue to be debugged.</param>
                 public QueuedTaskSchedulerQueueDebugView(QueuedTaskSchedulerQueue queue)
                 {
-                    if (queue == null) throw new ArgumentNullException("queue");
+                    if (queue == null) throw new ArgumentNullException(nameof(queue));
                     _queue = queue;
                 }
 

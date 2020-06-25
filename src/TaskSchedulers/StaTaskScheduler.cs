@@ -25,7 +25,7 @@ namespace System.Threading.Tasks.Schedulers
         public StaTaskScheduler(int numberOfThreads)
         {
             // Validate arguments
-            if (numberOfThreads < 1) throw new ArgumentOutOfRangeException("concurrencyLevel");
+            if (numberOfThreads < 1) throw new ArgumentOutOfRangeException(nameof(numberOfThreads));
 
             // Initialize the tasks collection
             _tasks = new BlockingCollection<Task>();

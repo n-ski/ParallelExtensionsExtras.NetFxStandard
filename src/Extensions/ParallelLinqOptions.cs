@@ -25,7 +25,7 @@ namespace System.Linq
             set
             {
                 if (value != ParallelExecutionMode.Default &&
-                    value != ParallelExecutionMode.ForceParallelism) throw new ArgumentOutOfRangeException("ExecutionMode");
+                    value != ParallelExecutionMode.ForceParallelism) throw new ArgumentOutOfRangeException(nameof(ExecutionMode));
                 _executionMode = value;
             }
         }
@@ -39,7 +39,7 @@ namespace System.Linq
                 if (value != ParallelMergeOptions.AutoBuffered &&
                     value != ParallelMergeOptions.Default &&
                     value != ParallelMergeOptions.FullyBuffered &&
-                    value != ParallelMergeOptions.NotBuffered) throw new ArgumentOutOfRangeException("MergeOptions");
+                    value != ParallelMergeOptions.NotBuffered) throw new ArgumentOutOfRangeException(nameof(MergeOptions));
                 _mergeOptions = value;
             }
         }

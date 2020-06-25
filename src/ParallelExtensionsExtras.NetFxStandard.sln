@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelExtensionsExtras", "ParallelExtensionsExtras.csproj", "{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelExtensionsExtras.NetFxStandard", "ParallelExtensionsExtras.NetFxStandard.csproj", "{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

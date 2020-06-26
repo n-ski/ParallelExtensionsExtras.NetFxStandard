@@ -24,10 +24,6 @@
     <DocumentationFile>$(SolutionDir)xmldoc\$(TargetFramework)\ParallelExtensionsExtras.NetFxStandard.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-  </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="WindowsBase" />
   </ItemGroup>

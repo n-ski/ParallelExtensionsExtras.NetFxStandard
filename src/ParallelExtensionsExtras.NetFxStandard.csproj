@@ -3,16 +3,17 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
     <Product>Parallel Extensions Extras</Product>
-    <Description>Samples and extra functionality for use with Parallel Extensions to the .NET Framework and .NET Standard.</Description>
+    <Description>Parallel Extensions for the .NET Framework and .NET Standard.
+For examples of how to use this library, please visit https://devblogs.microsoft.com/pfxteam/tag/parallelextensionsextras/</Description>
     <Copyright>Copyright © Microsoft Corporation.  All rights reserved.</Copyright>
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <Authors>Microsoft, Sergey Volkov</Authors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageTags>pfx tpl plinq task parallel extensions extras</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <PackageProjectUrl>https://devblogs.microsoft.com/pfxteam/tag/parallelextensionsextras/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/n-ski/ParallelExtensionsExtras.NetFxStandard</RepositoryUrl>
+    <PackageReleaseNotes>Added .NET Framework 4.5 target</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

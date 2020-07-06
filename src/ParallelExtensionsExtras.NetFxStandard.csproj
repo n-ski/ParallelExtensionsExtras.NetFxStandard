@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
     <Product>Parallel Extensions Extras</Product>
     <Description>Samples and extra functionality for use with Parallel Extensions to the .NET Framework and .NET Standard.</Description>
     <Copyright>Copyright © Microsoft Corporation.  All rights reserved.</Copyright>
@@ -24,11 +24,11 @@
     <DocumentationFile>$(SolutionDir)xmldoc\$(TargetFramework)\ParallelExtensionsExtras.NetFxStandard.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net40'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
     <Reference Include="WindowsBase" />
   </ItemGroup>
 

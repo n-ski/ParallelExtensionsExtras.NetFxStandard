@@ -9,7 +9,7 @@
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-#if NETFRAMEWORK
+#if NET40
 namespace System.Net.NetworkInformation
 {
     /// <summary>Extension methods for working with <see cref="SmtpClient"/> asynchronously.</summary>

@@ -157,7 +157,7 @@ namespace System.Threading
     {
         /// <summary>Initializes the <see cref="HtmlAsyncCache"/>.</summary>
         public HtmlAsyncCache() :
-#if NETFRAMEWORK
+#if NET40
             base(uri => new WebClient().DownloadStringTask(uri))
 #else
             base(uri => new WebClient().DownloadStringTaskAsync(uri))

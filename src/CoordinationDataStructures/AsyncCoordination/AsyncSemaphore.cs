@@ -60,7 +60,7 @@ namespace System.Threading.Async
                 if (_currentCount > 0)
                 {
                     _currentCount--;
-#if NETFRAMEWORK
+#if NET40 || NET45
                     return CompletedTask.Default;
 #else
                     return Task.CompletedTask;

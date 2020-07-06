@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 
-#if NETFRAMEWORK
+#if NET40
 namespace System.Net
 {
     /// <summary>Extension methods for working with <see cref="WebClient"/> asynchronously.</summary>

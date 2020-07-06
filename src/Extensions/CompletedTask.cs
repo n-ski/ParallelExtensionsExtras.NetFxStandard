@@ -8,7 +8,7 @@
 
 namespace System.Threading.Tasks
 {
-#if NETFRAMEWORK
+#if NET40 || NET45
     /// <summary>Provides access to an already completed task.</summary>
     /// <remarks>A completed task can be useful for using <see cref="Task"/>.ContinueWith overloads where there aren't <see cref="TaskFactory"/>.StartNew equivalents.</remarks>
     public static class CompletedTask

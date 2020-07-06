@@ -14,7 +14,7 @@ namespace System.Net
     /// <summary>Extension methods for working with WebRequest asynchronously.</summary>
     public static class WebRequestExtensions
     {
-#if NETFRAMEWORK
+#if NET40
         /// <summary>Creates a <see cref="Task"/> that represents an asynchronous request to <see cref="WebRequest.GetResponse"/>.</summary>
         /// <param name="webRequest">The <see cref="WebRequest"/>.</param>
         /// <returns>A <see cref="Task"/> containing the retrieved <see cref="WebResponse"/>.</returns>

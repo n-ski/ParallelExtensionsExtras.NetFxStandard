@@ -397,6 +397,3 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
-
-# XML documentation files
-/src/xmldoc

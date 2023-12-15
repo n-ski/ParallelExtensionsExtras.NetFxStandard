@@ -9,6 +9,7 @@ For examples of how to use this library, please visit https://devblogs.microsoft
     <Version>1.4.0</Version>
     <Authors>Microsoft, Sergey Volkov</Authors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>pfx tpl plinq task parallel extensions extras</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
@@ -21,22 +22,12 @@ For examples of how to use this library, please visit https://devblogs.microsoft
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>$(SolutionDir)xmldoc\$(TargetFramework)\ParallelExtensionsExtras.NetFxStandard.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
     <Reference Include="WindowsBase" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="xmldoc\**" />
-    <EmbeddedResource Remove="xmldoc\**" />
-    <None Remove="xmldoc\**" />
   </ItemGroup>
 
   <ItemGroup>

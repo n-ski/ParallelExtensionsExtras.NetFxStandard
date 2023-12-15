@@ -15,6 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source Code", "Source Code", "{79FF3FC1-EC2C-42AD-BA9A-14331F8BBE3B}"
+	ProjectSection(SolutionItems) = preProject
+		src\version.json = src\version.json
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelExtensionsExtras.NetFxStandard", "src\ParallelExtensionsExtras.NetFxStandard\ParallelExtensionsExtras.NetFxStandard.csproj", "{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}"
 EndProject

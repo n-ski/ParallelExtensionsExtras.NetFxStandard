@@ -3,7 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParallelExtensionsExtras.NetFxStandard", "ParallelExtensionsExtras.NetFxStandard.csproj", "{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D0F92072-0B82-4ECF-B327-846E1944F804}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		license.txt = license.txt
+		README.md = README.md
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source Code", "Source Code", "{79FF3FC1-EC2C-42AD-BA9A-14331F8BBE3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelExtensionsExtras.NetFxStandard", "src\ParallelExtensionsExtras.NetFxStandard\ParallelExtensionsExtras.NetFxStandard.csproj", "{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,5 +33,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F90E47F0-8841-48C2-BA7E-5BFA10FC1C5A}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A430DA9B-F8C6-45E2-B953-3BBA94FEC706} = {79FF3FC1-EC2C-42AD-BA9A-14331F8BBE3B}
 	EndGlobalSection
 EndGlobal

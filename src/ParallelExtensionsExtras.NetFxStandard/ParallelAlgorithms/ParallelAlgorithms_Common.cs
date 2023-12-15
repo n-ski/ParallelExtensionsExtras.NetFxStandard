@@ -8,14 +8,13 @@
 
 using System.Threading.Tasks;
 
-namespace System.Threading.Algorithms
+namespace System.Threading.Algorithms;
+
+/// <summary>
+/// Provides parallelized algorithms for common operations.
+/// </summary>
+public static partial class ParallelAlgorithms
 {
-    /// <summary>
-    /// Provides parallelized algorithms for common operations.
-    /// </summary>
-    public static partial class ParallelAlgorithms
-    {
-        // Default, shared instance of the ParallelOptions class.  This should not be modified.
-        private static ParallelOptions s_defaultParallelOptions = new ParallelOptions();
-    }
+    // Default, shared instance of the ParallelOptions class.  This should not be modified.
+    private static ParallelOptions s_defaultParallelOptions = new ParallelOptions();
 }

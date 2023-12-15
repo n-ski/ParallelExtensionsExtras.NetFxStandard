@@ -6,22 +6,21 @@
 //
 //--------------------------------------------------------------------------
 
-namespace System.Threading.Tasks
+namespace System.Threading.Tasks;
+
+/// <summary>Extension methods for <see cref="ParallelOptions"/>.</summary>
+public static class ParallelOptionsExtensions
 {
-    /// <summary>Extension methods for <see cref="ParallelOptions"/>.</summary>
-    public static class ParallelOptionsExtensions
+    /// <summary>Copies a <see cref="ParallelOptions"/> instance to a shallow clone.</summary>
+    /// <param name="options">The options to be cloned.</param>
+    /// <returns>The shallow clone.</returns>
+    public static ParallelOptions ShallowClone(this ParallelOptions options)
     {
-        /// <summary>Copies a <see cref="ParallelOptions"/> instance to a shallow clone.</summary>
-        /// <param name="options">The options to be cloned.</param>
-        /// <returns>The shallow clone.</returns>
-        public static ParallelOptions ShallowClone(this ParallelOptions options)
+        return new ParallelOptions()
         {
-            return new ParallelOptions()
-            {
-                CancellationToken = options.CancellationToken,
-                MaxDegreeOfParallelism = options.MaxDegreeOfParallelism,
-                TaskScheduler = options.TaskScheduler
-            };
-        }
+            CancellationToken = options.CancellationToken,
+            MaxDegreeOfParallelism = options.MaxDegreeOfParallelism,
+            TaskScheduler = options.TaskScheduler
+        };
     }
 }

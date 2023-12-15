@@ -11,79 +11,78 @@ using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
 
-namespace System.Collections.Concurrent
+namespace System.Collections.Concurrent;
+
+/// <summary>
+/// Provides a thread-safe, concurrent collection for use with data binding.
+/// </summary>
+/// <typeparam name="T">Specifies the type of the elements in this collection.</typeparam>
+[DebuggerDisplay("Count={Count}")]
+[DebuggerTypeProxy(typeof(IProducerConsumerCollection_DebugView<>))]
+public class ObservableConcurrentCollection<T> : 
+    ProducerConsumerCollectionBase<T>, INotifyCollectionChanged, INotifyPropertyChanged
 {
+    private readonly SynchronizationContext _context;
+
     /// <summary>
-    /// Provides a thread-safe, concurrent collection for use with data binding.
+    /// Initializes an instance of the <see cref="ObservableConcurrentCollection{T}"/>
+    /// class with an underlying queue data structure.
     /// </summary>
-    /// <typeparam name="T">Specifies the type of the elements in this collection.</typeparam>
-    [DebuggerDisplay("Count={Count}")]
-    [DebuggerTypeProxy(typeof(IProducerConsumerCollection_DebugView<>))]
-    public class ObservableConcurrentCollection<T> : 
-        ProducerConsumerCollectionBase<T>, INotifyCollectionChanged, INotifyPropertyChanged
+    public ObservableConcurrentCollection() : this(new ConcurrentQueue<T>()) { }
+
+    /// <summary>
+    /// Initializes an instance of the <see cref="ObservableConcurrentCollection{T}"/>
+    /// class with the specified collection as the underlying data structure.
+    /// </summary>
+    public ObservableConcurrentCollection(IProducerConsumerCollection<T> collection) : base(collection)
     {
-        private readonly SynchronizationContext _context;
+        _context = AsyncOperationManager.SynchronizationContext;
+    }
 
-        /// <summary>
-        /// Initializes an instance of the <see cref="ObservableConcurrentCollection{T}"/>
-        /// class with an underlying queue data structure.
-        /// </summary>
-        public ObservableConcurrentCollection() : this(new ConcurrentQueue<T>()) { }
+    /// <summary>Event raised when the collection changes.</summary>
+    public event NotifyCollectionChangedEventHandler CollectionChanged;
+    /// <summary>Event raised when a property on the collection changes.</summary>
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Initializes an instance of the <see cref="ObservableConcurrentCollection{T}"/>
-        /// class with the specified collection as the underlying data structure.
-        /// </summary>
-        public ObservableConcurrentCollection(IProducerConsumerCollection<T> collection) : base(collection)
+    /// <summary>
+    /// Notifies observers of <see cref="CollectionChanged"/> or <see cref="PropertyChanged"/> of an update to the dictionary.
+    /// </summary>
+    private void NotifyObserversOfChange()
+    {
+        var collectionHandler = CollectionChanged;
+        var propertyHandler = PropertyChanged;
+        if (collectionHandler != null || propertyHandler != null)
         {
-            _context = AsyncOperationManager.SynchronizationContext;
-        }
-
-        /// <summary>Event raised when the collection changes.</summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-        /// <summary>Event raised when a property on the collection changes.</summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Notifies observers of <see cref="CollectionChanged"/> or <see cref="PropertyChanged"/> of an update to the dictionary.
-        /// </summary>
-        private void NotifyObserversOfChange()
-        {
-            var collectionHandler = CollectionChanged;
-            var propertyHandler = PropertyChanged;
-            if (collectionHandler != null || propertyHandler != null)
+            _context.Post(s =>
             {
-                _context.Post(s =>
+                if (collectionHandler != null)
                 {
-                    if (collectionHandler != null)
-                    {
-                        collectionHandler(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                    }
-                    if (propertyHandler != null)
-                    {
-                        propertyHandler(this, new PropertyChangedEventArgs("Count"));
-                    }
-                }, null);
-            }
+                    collectionHandler(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                }
+                if (propertyHandler != null)
+                {
+                    propertyHandler(this, new PropertyChangedEventArgs("Count"));
+                }
+            }, null);
         }
+    }
 
-        protected override bool TryAdd(T item)
-        {
-            // Try to add the item to the underlying collection.  If we were able to,
-            // notify any listeners.
-            bool result = base.TryAdd(item);
-            if (result) NotifyObserversOfChange();
-            return result;
-        }
+    protected override bool TryAdd(T item)
+    {
+        // Try to add the item to the underlying collection.  If we were able to,
+        // notify any listeners.
+        bool result = base.TryAdd(item);
+        if (result) NotifyObserversOfChange();
+        return result;
+    }
 
 
-        protected override bool TryTake(out T item)
-        {
-            // Try to remove an item from the underlying collection.  If we were able to,
-            // notify any listeners.
-            bool result = base.TryTake(out item);
-            if (result) NotifyObserversOfChange();
-            return result;
-        }
+    protected override bool TryTake(out T item)
+    {
+        // Try to remove an item from the underlying collection.  If we were able to,
+        // notify any listeners.
+        bool result = base.TryTake(out item);
+        if (result) NotifyObserversOfChange();
+        return result;
     }
 }

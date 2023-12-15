@@ -1,13 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net40;net45;net6.0;net6.0-windows</TargetFrameworks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWpf>true</UseWpf>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Packaging">
     <Product>Parallel Extensions Extras</Product>
     <Description>Parallel Extensions for the .NET Framework and .NET Standard.
 For examples of how to use this library, please visit https://devblogs.microsoft.com/pfxteam/tag/parallelextensionsextras/</Description>
     <Copyright>Copyright © Microsoft Corporation.  All rights reserved.</Copyright>
     <Authors>Microsoft, Sergey Volkov</Authors>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>pfx tpl plinq task parallel extensions extras</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
@@ -27,11 +35,11 @@ For examples of how to use this library, please visit https://devblogs.microsoft
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' and !$(TargetFramework.Contains('-windows'))">
     <PackageReference Include="System.Drawing.Common" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
     <Reference Include="WindowsBase" />
   </ItemGroup>
 

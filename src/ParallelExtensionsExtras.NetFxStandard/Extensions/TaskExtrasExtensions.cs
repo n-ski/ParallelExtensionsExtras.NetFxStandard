@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------
 
 using System.Linq;
-#if NETFRAMEWORK
+#if NETFRAMEWORK || WINDOWS
 using System.Windows.Threading;
 #endif
 
@@ -272,13 +272,13 @@ public static class TaskExtrasExtensions
     {
         if (task == null) throw new ArgumentNullException(nameof(task));
         task.ContinueWith(t => t.Wait(), CancellationToken.None,
-            TaskContinuationOptions.AttachedToParent | 
+            TaskContinuationOptions.AttachedToParent |
             TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
     }
     #endregion
 
     #region Waiting
-#if NETFRAMEWORK
+#if NETFRAMEWORK || WINDOWS
     /// <summary>Waits for the <see cref="Task"/> to complete execution, pumping in the meantime.</summary>
     /// <param name="task">The <see cref="Task"/> for which to wait.</param>
     /// <remarks>This method is intended for usage with Windows Presentation Foundation.</remarks>

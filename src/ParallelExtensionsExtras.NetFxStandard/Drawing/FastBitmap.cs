@@ -19,6 +19,9 @@ public struct PixelData
     public byte R;
 }
 
+#if NET
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
+#endif
 public unsafe class FastBitmap : IDisposable
 {
     private Bitmap _bitmap;

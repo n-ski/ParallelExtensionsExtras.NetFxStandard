@@ -224,7 +224,7 @@ public static class AsyncCall
         return new AsyncCall<T>(functionHandler, maxDegreeOfParallelism, scheduler);
     }
 
-#if NETFRAMEWORK
+#if NETFRAMEWORK || NETCOREAPP
         /// <summary>Initializes the <see cref="AsyncCall{T}"/> in the specified <see cref="AppDomain"/> with an action to execute for each element.</summary>
         /// <param name="actionHandler">The action to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>

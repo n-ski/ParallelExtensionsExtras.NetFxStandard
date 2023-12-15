@@ -13,6 +13,9 @@ using System.Linq;
 namespace System.Threading.Tasks.Schedulers;
 
 /// <summary>Provides a task scheduler that targets the I/O <see cref="ThreadPool"/>.</summary>
+#if NET
+[Runtime.Versioning.SupportedOSPlatform("windows")]
+#endif
 public sealed class IOTaskScheduler : TaskScheduler, IDisposable
 {
     /// <summary>Represents a task queued to the I/O pool.</summary>

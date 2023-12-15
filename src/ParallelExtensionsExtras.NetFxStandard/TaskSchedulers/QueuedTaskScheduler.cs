@@ -18,6 +18,9 @@ namespace System.Threading.Tasks.Schedulers;
 /// </summary>
 [DebuggerTypeProxy(typeof(QueuedTaskSchedulerDebugView))]
 [DebuggerDisplay("Id={Id}, Queues={DebugQueueCount}, ScheduledTasks = {DebugTaskCount}")]
+#if NET
+[Runtime.Versioning.SupportedOSPlatform("windows")]
+#endif
 public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
 {
     /// <summary>Debug view for the <see cref="QueuedTaskScheduler"/>.</summary>

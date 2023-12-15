@@ -13,6 +13,9 @@ using System.Linq;
 namespace System.Threading.Tasks.Schedulers;
 
 /// <summary>Provides a scheduler that uses STA threads.</summary>
+#if NET
+[Runtime.Versioning.SupportedOSPlatform("windows")]
+#endif
 public sealed class StaTaskScheduler : TaskScheduler, IDisposable
 {
     /// <summary>Stores the queued tasks to be executed by our pool of STA threads.</summary>

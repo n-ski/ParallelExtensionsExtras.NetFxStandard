@@ -19,6 +19,7 @@ For examples of how to use this library, please visit https://devblogs.microsoft
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>pfx tpl plinq task parallel extensions extras</PackageTags>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/n-ski/ParallelExtensionsExtras.NetFxStandard</RepositoryUrl>
     <PackageReleaseNotes>Added .NET Framework 4.5 target</PackageReleaseNotes>
@@ -44,10 +45,8 @@ For examples of how to use this library, please visit https://devblogs.microsoft
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\license.txt">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <None Include="..\..\license.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

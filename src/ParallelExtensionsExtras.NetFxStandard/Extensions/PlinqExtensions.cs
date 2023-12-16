@@ -54,7 +54,7 @@ public static class ParallelLinqExtensions
     private class DescendingDefaultComparer<T> : IComparer<T>
     {
         private static Comparer<T> _defaultComparer = Comparer<T>.Default;
-        public int Compare(T x, T y) { return _defaultComparer.Compare(y, x); }
+        public int Compare(T? x, T? y) { return _defaultComparer.Compare(y!, x!); }
     }
 
     /// <summary>Implements a map-reduce operation.</summary>

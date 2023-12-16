@@ -40,18 +40,18 @@ public static partial class ParallelAlgorithms
 
         // Store one result.  We box it if it's a value type to avoid torn writes and enable
         // CompareExchange even for value types.
-        object result = null;
+        object? result = null;
 
         // Run all bodies in parallel, stopping as soon as one has completed.
         Parallel.ForEach(source, options, (item, loopState) =>
         {
             // Run an iteration.  When it completes, store (box) 
             // the result, and cancel the rest
-            Interlocked.CompareExchange(ref result, (object)body(item), null);
+            Interlocked.CompareExchange(ref result, body(item), null);
             loopState.Stop();
         });
 
         // Return the computed result
-        return (TResult)result;
+        return (TResult?)result!;
     }
 }

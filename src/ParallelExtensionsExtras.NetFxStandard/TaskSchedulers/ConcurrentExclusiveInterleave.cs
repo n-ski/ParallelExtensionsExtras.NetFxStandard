@@ -1,13 +1,14 @@
 ﻿//--------------------------------------------------------------------------
-// 
-//  Copyright (c) Microsoft Corporation.  All rights reserved. 
-// 
+//
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//
 //  File: ConcurrentExclusiveInterleave.cs
 //
 //--------------------------------------------------------------------------
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Threading.Tasks.Schedulers;
 
@@ -34,7 +35,7 @@ public sealed class ConcurrentExclusiveInterleave
         /// <summary>Gets the number of tasks waiting to run concurrently.</summary>
         public IEnumerable<Task> ConcurrentTasksWaiting { get { return _interleave._concurrentTaskScheduler.Tasks; } }
         /// <summary>Gets a description of the processing task for debugging purposes.</summary>
-        public Task InterleaveTask { get { return _interleave._taskExecuting; } }
+        public Task? InterleaveTask { get { return _interleave._taskExecuting; } }
     }
 
     /// <summary>Synchronizes all activity in this type and its generated schedulers.</summary>
@@ -46,17 +47,17 @@ public sealed class ConcurrentExclusiveInterleave
     /// <summary>The scheduler used to queue and execute "writer" tasks that must run exclusively while no other tasks for this interleave are running.</summary>
     private ConcurrentExclusiveTaskScheduler _exclusiveTaskScheduler;
     /// <summary>Whether this interleave has queued its processing task.</summary>
-    private Task _taskExecuting;
+    private Task? _taskExecuting;
     /// <summary>Whether the exclusive processing of a task should include all of its children as well.</summary>
     private bool _exclusiveProcessingIncludesChildren;
 
     /// <summary>Initialies the <see cref="ConcurrentExclusiveInterleave"/>.</summary>
-    public ConcurrentExclusiveInterleave() : 
+    public ConcurrentExclusiveInterleave() :
         this(TaskScheduler.Current, false) {}
 
     /// <summary>Initialies the <see cref="ConcurrentExclusiveInterleave"/>.</summary>
     /// <param name="exclusiveProcessingIncludesChildren">Whether the exclusive processing of a task should include all of its children as well.</param>
-    public ConcurrentExclusiveInterleave(bool exclusiveProcessingIncludesChildren) : 
+    public ConcurrentExclusiveInterleave(bool exclusiveProcessingIncludesChildren) :
         this(TaskScheduler.Current, exclusiveProcessingIncludesChildren) {}
 
     /// <summary>Initialies the <see cref="ConcurrentExclusiveInterleave"/>.</summary>
@@ -100,13 +101,13 @@ public sealed class ConcurrentExclusiveInterleave
     /// <remarks>Must only be called while holding the lock.</remarks>
     internal void NotifyOfNewWork()
     {
-        // If a task is already running, bail.  
+        // If a task is already running, bail.
         if (_taskExecuting != null) return;
 
-        // Otherwise, run the processor. Store the task and then start it to ensure that 
+        // Otherwise, run the processor. Store the task and then start it to ensure that
         // the assignment happens before the body of the task runs.
         _taskExecuting = new Task(ConcurrentExclusiveInterleaveProcessor, CancellationToken.None, TaskCreationOptions.None);
-        _taskExecuting.Start(_parallelOptions.TaskScheduler);
+        _taskExecuting.Start(_parallelOptions.TaskScheduler!);
     }
 
     /// <summary>The body of the async processor to be run in a Task.  Only one should be running at a time.</summary>
@@ -128,15 +129,15 @@ public sealed class ConcurrentExclusiveInterleave
 
                     // Just because we executed the task doesn't mean it's "complete",
                     // if it has child tasks that have not yet completed
-                    // and will complete later asynchronously.  To account for this, 
-                    // if a task isn't yet completed, leave the interleave processor 
+                    // and will complete later asynchronously.  To account for this,
+                    // if a task isn't yet completed, leave the interleave processor
                     // but leave it still in a running state.  When the task completes,
                     // we'll come back in and keep going.  Note that the children
                     // must not be scheduled to this interleave, or this will deadlock.
                     if (_exclusiveProcessingIncludesChildren && !task.IsCompleted)
                     {
                         cleanupOnExit = false;
-                        task.ContinueWith(_ => ConcurrentExclusiveInterleaveProcessor(), _parallelOptions.TaskScheduler);
+                        task.ContinueWith(_ => ConcurrentExclusiveInterleaveProcessor(), _parallelOptions.TaskScheduler!);
                         return;
                     }
                 }
@@ -177,7 +178,7 @@ public sealed class ConcurrentExclusiveInterleave
     {
         while (true)
         {
-            Task foundTask = null;
+            Task? foundTask = null;
             lock (_internalLock)
             {
                 if (_exclusiveTaskScheduler.Tasks.Count == 0 &&
@@ -198,7 +199,7 @@ public sealed class ConcurrentExclusiveInterleave
     {
         while (true)
         {
-            Task foundTask = null;
+            Task? foundTask = null;
             lock (_internalLock)
             {
                 if (_exclusiveTaskScheduler.Tasks.Count > 0) foundTask = _exclusiveTaskScheduler.Tasks.Dequeue();
@@ -251,7 +252,7 @@ public sealed class ConcurrentExclusiveInterleave
 
         /// <summary>Executes a task on this scheduler.</summary>
         /// <param name="task">The task to be executed.</param>
-        internal void ExecuteTask(Task task) 
+        internal void ExecuteTask(Task task)
         {
             var processingTaskOnCurrentThread = _processingTaskOnCurrentThread.Value;
             if (!processingTaskOnCurrentThread) _processingTaskOnCurrentThread.Value = true;
@@ -267,8 +268,8 @@ public sealed class ConcurrentExclusiveInterleave
         {
             if (_processingTaskOnCurrentThread.Value)
             {
-                var t = new Task<bool>(state => TryExecuteTask((Task)state), task);
-                t.RunSynchronously(_interleave._parallelOptions.TaskScheduler);
+                var t = new Task<bool>(state => TryExecuteTask((Task?)state!), task);
+                t.RunSynchronously(_interleave._parallelOptions.TaskScheduler!);
                 return t.Result;
             }
             return false;

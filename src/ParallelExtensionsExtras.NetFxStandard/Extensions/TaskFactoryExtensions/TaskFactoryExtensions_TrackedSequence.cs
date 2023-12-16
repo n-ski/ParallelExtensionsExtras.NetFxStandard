@@ -46,7 +46,7 @@ public static partial class TaskFactoryExtensions
         {
             // Get the next task.  If we get an exception while trying to do so,
             // an invalid function was provided.  Fault the TCS and break out.
-            Task nextTask = null;
+            Task? nextTask = null;
             try { nextTask = func(); } catch (Exception exc) { tcs.TrySetException(exc); }
             if (nextTask == null) yield break;
 

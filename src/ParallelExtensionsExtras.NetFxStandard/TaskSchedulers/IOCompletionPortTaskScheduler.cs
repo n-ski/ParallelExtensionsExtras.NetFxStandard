@@ -54,8 +54,7 @@ public sealed class IOCompletionPortTaskScheduler : TaskScheduler, IDisposable
                     // there's a work item, then process it.
                     while (m_iocp.WaitOne())
                     {
-                        Task next;
-                        if (m_tasks.TryDequeue(out next)) TryExecuteTask(next);
+                        if (m_tasks.TryDequeue(out var next)) TryExecuteTask(next);
                     }
                 }
                 finally { m_remainingThreadsToShutdown.Signal(); }

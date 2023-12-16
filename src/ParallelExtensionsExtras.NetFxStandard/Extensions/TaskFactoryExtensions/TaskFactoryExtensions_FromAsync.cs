@@ -20,7 +20,7 @@ public static partial class TaskFactoryExtensions
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         if (waitHandle == null) throw new ArgumentNullException(nameof(waitHandle));
 
-        var tcs = new TaskCompletionSource<object>();
+        var tcs = new TaskCompletionSource<object?>();
         var rwh = ThreadPool.RegisterWaitForSingleObject(waitHandle, delegate { tcs.TrySetResult(null); }, null, -1, true);
         var t = tcs.Task;
         t.ContinueWith(_ => rwh.Unregister(null), TaskContinuationOptions.ExecuteSynchronously);

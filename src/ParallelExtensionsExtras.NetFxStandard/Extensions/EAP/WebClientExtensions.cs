@@ -35,7 +35,7 @@ namespace System.Net
             var tcs = new TaskCompletionSource<byte[]>(address);
 
             // Setup the callback event handler
-            DownloadDataCompletedEventHandler handler = null;
+            DownloadDataCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Result, () => webClient.DownloadDataCompleted -= handler);
             webClient.DownloadDataCompleted += handler;
 
@@ -75,10 +75,10 @@ namespace System.Net
         {
             // Create the task to be returned
             var tcs = new TaskCompletionSource<object>(address);
-            
+
             // Setup the callback event handler
-            AsyncCompletedEventHandler handler = null;
-            handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => null, () => webClient.DownloadFileCompleted -= handler);
+            AsyncCompletedEventHandler handler = null!;
+            handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => null!, () => webClient.DownloadFileCompleted -= handler);
             webClient.DownloadFileCompleted += handler;
 
             // Start the async work
@@ -117,7 +117,7 @@ namespace System.Net
             var tcs = new TaskCompletionSource<string>(address);
 
             // Setup the callback event handler
-            DownloadStringCompletedEventHandler handler = null;
+            DownloadStringCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Result, () => webClient.DownloadStringCompleted -= handler);
             webClient.DownloadStringCompleted += handler;
 
@@ -157,7 +157,7 @@ namespace System.Net
             var tcs = new TaskCompletionSource<Stream>(address);
 
             // Setup the callback event handler
-            OpenReadCompletedEventHandler handler = null;
+            OpenReadCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Result, () => webClient.OpenReadCompleted -= handler);
             webClient.OpenReadCompleted += handler;
 
@@ -199,7 +199,7 @@ namespace System.Net
             var tcs = new TaskCompletionSource<Stream>(address);
 
             // Setup the callback event handler
-            OpenWriteCompletedEventHandler handler = null;
+            OpenWriteCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Result, () => webClient.OpenWriteCompleted -= handler);
             webClient.OpenWriteCompleted += handler;
 
@@ -243,7 +243,7 @@ namespace System.Net
             var tcs = new TaskCompletionSource<byte[]>(address);
 
             // Setup the callback event handler
-            UploadDataCompletedEventHandler handler = null;
+            UploadDataCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Result, () => webClient.UploadDataCompleted -= handler);
             webClient.UploadDataCompleted += handler;
 
@@ -287,7 +287,7 @@ namespace System.Net
             var tcs = new TaskCompletionSource<byte[]>(address);
 
             // Setup the callback event handler
-            UploadFileCompletedEventHandler handler = null;
+            UploadFileCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Result, () => webClient.UploadFileCompleted -= handler);
             webClient.UploadFileCompleted += handler;
 
@@ -331,7 +331,7 @@ namespace System.Net
             var tcs = new TaskCompletionSource<string>(address);
 
             // Setup the callback event handler
-            UploadStringCompletedEventHandler handler = null;
+            UploadStringCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Result, ()=> webClient.UploadStringCompleted -= handler);
             webClient.UploadStringCompleted += handler;
 

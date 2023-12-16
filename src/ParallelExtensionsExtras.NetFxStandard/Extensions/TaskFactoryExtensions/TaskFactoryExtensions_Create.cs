@@ -40,7 +40,7 @@ public static partial class TaskFactoryExtensions
     /// <param name="state">An object provided to the delegate.</param>
     /// <returns>The created task.  The task has not been scheduled.</returns>
     public static Task Create(
-        this TaskFactory factory, Action<Object> action, object state)
+        this TaskFactory factory, Action<object?> action, object? state)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         return new Task(action, state, factory.CancellationToken, factory.CreationOptions);
@@ -53,7 +53,7 @@ public static partial class TaskFactoryExtensions
     /// <param name="creationOptions">Options that control the task's behavior.</param>
     /// <returns>The created task.  The task has not been scheduled.</returns>
     public static Task Create(
-        this TaskFactory factory, Action<Object> action, object state, TaskCreationOptions creationOptions)
+        this TaskFactory factory, Action<object?> action, object? state, TaskCreationOptions creationOptions)
     {
         return new Task(action, state, factory.CancellationToken, creationOptions);
     }
@@ -88,7 +88,7 @@ public static partial class TaskFactoryExtensions
     /// <param name="state">An object provided to the delegate.</param>
     /// <returns>The created task.  The task has not been scheduled.</returns>
     public static Task<TResult> Create<TResult>(
-        this TaskFactory factory, Func<Object, TResult> function, object state)
+        this TaskFactory factory, Func<object?, TResult> function, object? state)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         return new Task<TResult>(function, state, factory.CancellationToken, factory.CreationOptions);
@@ -101,7 +101,7 @@ public static partial class TaskFactoryExtensions
     /// <param name="creationOptions">Options that control the task's behavior.</param>
     /// <returns>The created task.  The task has not been scheduled.</returns>
     public static Task<TResult> Create<TResult>(
-        this TaskFactory factory, Func<Object, TResult> function, object state, TaskCreationOptions creationOptions)
+        this TaskFactory factory, Func<object?, TResult> function, object? state, TaskCreationOptions creationOptions)
     {
         return new Task<TResult>(function, state, factory.CancellationToken, creationOptions);
     }
@@ -136,7 +136,7 @@ public static partial class TaskFactoryExtensions
     /// <param name="state">An object provided to the delegate.</param>
     /// <returns>The created task.  The task has not been scheduled.</returns>
     public static Task<TResult> Create<TResult>(
-        this TaskFactory<TResult> factory, Func<Object, TResult> function, object state)
+        this TaskFactory<TResult> factory, Func<object?, TResult> function, object? state)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         return new Task<TResult>(function, state, factory.CancellationToken, factory.CreationOptions);
@@ -149,7 +149,7 @@ public static partial class TaskFactoryExtensions
     /// <param name="creationOptions">Options that control the task's behavior.</param>
     /// <returns>The created task.  The task has not been scheduled.</returns>
     public static Task<TResult> Create<TResult>(
-        this TaskFactory<TResult> factory, Func<Object, TResult> function, object state, TaskCreationOptions creationOptions)
+        this TaskFactory<TResult> factory, Func<object?, TResult> function, object? state, TaskCreationOptions creationOptions)
     {
         return new Task<TResult>(function, state, factory.CancellationToken, creationOptions);
     }

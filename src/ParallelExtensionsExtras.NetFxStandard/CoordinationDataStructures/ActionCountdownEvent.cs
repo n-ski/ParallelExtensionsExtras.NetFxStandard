@@ -13,7 +13,7 @@ public class ActionCountdownEvent : IDisposable
 {
     private readonly CountdownEvent _event;
     private readonly Action _action;
-    private readonly ExecutionContext _context;
+    private readonly ExecutionContext? _context;
 
     /// <summary>Initializes the <see cref="ActionCountdownEvent"/>.</summary>
     /// <param name="initialCount">The number of signals required to set the <see cref="CountdownEvent"/>.</param>

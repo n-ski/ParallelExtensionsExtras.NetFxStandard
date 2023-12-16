@@ -25,7 +25,7 @@ public static class TaskExtrasExtensions
     public static Task ContinueWith(
         this Task task, Action<Task> continuationAction, TaskFactory factory)
     {
-        return task.ContinueWith(continuationAction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler);
+        return task.ContinueWith(continuationAction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler ?? TaskScheduler.Current);
     }
 
     /// <summary>Creates a continuation task using the specified <see cref="TaskFactory"/>.</summary>
@@ -36,7 +36,7 @@ public static class TaskExtrasExtensions
     public static Task<TResult> ContinueWith<TResult>(
         this Task task, Func<Task, TResult> continuationFunction, TaskFactory factory)
     {
-        return task.ContinueWith(continuationFunction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler);
+        return task.ContinueWith(continuationFunction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler ?? TaskScheduler.Current);
     }
     #endregion
 
@@ -49,7 +49,7 @@ public static class TaskExtrasExtensions
     public static Task ContinueWith<TResult>(
         this Task<TResult> task, Action<Task<TResult>> continuationAction, TaskFactory<TResult> factory)
     {
-        return task.ContinueWith(continuationAction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler);
+        return task.ContinueWith(continuationAction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler ?? TaskScheduler.Current);
     }
 
     /// <summary>Creates a continuation task using the specified <see cref="TaskFactory{TResult}"/>.</summary>
@@ -60,7 +60,7 @@ public static class TaskExtrasExtensions
     public static Task<TNewResult> ContinueWith<TResult, TNewResult>(
         this Task<TResult> task, Func<Task<TResult>, TNewResult> continuationFunction, TaskFactory<TResult> factory)
     {
-        return task.ContinueWith(continuationFunction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler);
+        return task.ContinueWith(continuationFunction, factory.CancellationToken, factory.ContinuationOptions, factory.Scheduler ?? TaskScheduler.Current);
     }
     #endregion
 
@@ -73,7 +73,7 @@ public static class TaskExtrasExtensions
     /// <param name="callback">The <see cref="AsyncCallback"/> to run.</param>
     /// <param name="state">The object state to use with the <see cref="AsyncCallback"/>.</param>
     /// <returns>The new <see cref="Task"/>.</returns>
-    public static Task ToAsync(this Task task, AsyncCallback callback, object state)
+    public static Task ToAsync(this Task task, AsyncCallback? callback, object? state)
     {
         if (task == null) throw new ArgumentNullException(nameof(task));
 
@@ -87,14 +87,14 @@ public static class TaskExtrasExtensions
     }
 
     /// <summary>
-    /// Creates a <see cref="Task{TResult}"/> that represents the completion of another <see cref="Task{TResult}"/>, and 
+    /// Creates a <see cref="Task{TResult}"/> that represents the completion of another <see cref="Task{TResult}"/>, and
     /// that schedules an <see cref="AsyncCallback"/> to run upon completion.
     /// </summary>
     /// <param name="task">The antecedent <see cref="Task{TResult}"/>.</param>
     /// <param name="callback">The <see cref="AsyncCallback"/> to run.</param>
     /// <param name="state">The object state to use with the <see cref="AsyncCallback"/>.</param>
     /// <returns>The new <see cref="Task{TResult}"/>.</returns>
-    public static Task<TResult> ToAsync<TResult>(this Task<TResult> task, AsyncCallback callback, object state)
+    public static Task<TResult> ToAsync<TResult>(this Task<TResult> task, AsyncCallback? callback, object? state)
     {
         if (task == null) throw new ArgumentNullException(nameof(task));
 
@@ -176,14 +176,19 @@ public static class TaskExtrasExtensions
     public static IObservable<TResult> ToObservable<TResult>(this Task<TResult> task)
     {
         if (task == null) throw new ArgumentNullException(nameof(task));
-        return new TaskObservable<TResult> { _task = task };
+        return new TaskObservable<TResult>(task);
     }
 
     /// <summary>An implementation of <see cref="IObservable{TResult}"/> that wraps a <see cref="Task{TResult}"/>.</summary>
     /// <typeparam name="TResult">The type of data returned by the task.</typeparam>
     private class TaskObservable<TResult> : IObservable<TResult>
     {
-        internal Task<TResult> _task;
+        internal readonly Task<TResult> _task;
+
+        internal TaskObservable(Task<TResult> task)
+        {
+            _task = task;
+        }
 
         public IDisposable Subscribe(IObserver<TResult> observer)
         {
@@ -204,7 +209,7 @@ public static class TaskExtrasExtensions
                         break;
 
                     case TaskStatus.Faulted:
-                        observer.OnError(_task.Exception);
+                        observer.OnError(_task.Exception!);
                         break;
 
                     case TaskStatus.Canceled:
@@ -214,14 +219,20 @@ public static class TaskExtrasExtensions
             }, cts.Token);
 
             // Support unsubscribe simply by canceling the continuation if it hasn't yet run
-            return new CancelOnDispose { Source = cts };
+            return new CancelOnDispose(cts);
         }
     }
 
     /// <summary>Translate a call to IDisposable.Dispose to a CancellationTokenSource.Cancel.</summary>
     private class CancelOnDispose : IDisposable
     {
-        internal CancellationTokenSource Source;
+        internal readonly CancellationTokenSource Source;
+
+        internal CancelOnDispose(CancellationTokenSource source)
+        {
+            Source = source;
+        }
+
         void IDisposable.Dispose() { Source.Cancel(); }
     }
     #endregion
@@ -234,7 +245,7 @@ public static class TaskExtrasExtensions
     public static Task WithTimeout(this Task task, TimeSpan timeout)
     {
         var result = new TaskCompletionSource<object>(task.AsyncState);
-        var timer = new Timer(state => ((TaskCompletionSource<object>)state).TrySetCanceled(), result, timeout, TimeSpan.FromMilliseconds(-1));
+        var timer = new Timer(state => ((TaskCompletionSource<object>?)state!).TrySetCanceled(), result, timeout, TimeSpan.FromMilliseconds(-1));
         task.ContinueWith(t =>
         {
             timer.Dispose();
@@ -251,7 +262,7 @@ public static class TaskExtrasExtensions
     public static Task<TResult> WithTimeout<TResult>(this Task<TResult> task, TimeSpan timeout)
     {
         var result = new TaskCompletionSource<TResult>(task.AsyncState);
-        var timer = new Timer(state => ((TaskCompletionSource<TResult>)state).TrySetCanceled(), result, timeout, TimeSpan.FromMilliseconds(-1));
+        var timer = new Timer(state => ((TaskCompletionSource<TResult>?)state!).TrySetCanceled(), result, timeout, TimeSpan.FromMilliseconds(-1));
         task.ContinueWith(t =>
         {
             timer.Dispose();
@@ -314,10 +325,10 @@ public static class TaskExtrasExtensions
         if (task == null) throw new ArgumentNullException(nameof(task));
         if (action == null) throw new ArgumentNullException(nameof(action));
 
-        var tcs = new TaskCompletionSource<object>();
+        var tcs = new TaskCompletionSource<object?>();
         task.ContinueWith(delegate
         {
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {
@@ -344,7 +355,7 @@ public static class TaskExtrasExtensions
         var tcs = new TaskCompletionSource<TResult>();
         task.ContinueWith(delegate
         {
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {
@@ -368,10 +379,10 @@ public static class TaskExtrasExtensions
         if (task == null) throw new ArgumentNullException(nameof(task));
         if (action == null) throw new ArgumentNullException(nameof(action));
 
-        var tcs = new TaskCompletionSource<object>();
+        var tcs = new TaskCompletionSource<object?>();
         task.ContinueWith(delegate
         {
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {
@@ -398,7 +409,7 @@ public static class TaskExtrasExtensions
         var tcs = new TaskCompletionSource<TNewResult>();
         task.ContinueWith(delegate
         {
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {
@@ -426,7 +437,7 @@ public static class TaskExtrasExtensions
         task.ContinueWith(delegate
         {
             // When the first task completes, if it faulted or was canceled, bail
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {
@@ -452,7 +463,7 @@ public static class TaskExtrasExtensions
         task.ContinueWith(delegate
         {
             // When the first task completes, if it faulted or was canceled, bail
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {
@@ -478,7 +489,7 @@ public static class TaskExtrasExtensions
         task.ContinueWith(delegate
         {
             // When the first task completes, if it faulted or was canceled, bail
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {
@@ -504,7 +515,7 @@ public static class TaskExtrasExtensions
         task.ContinueWith(delegate
         {
             // When the first task completes, if it faulted or was canceled, bail
-            if (task.IsFaulted) tcs.TrySetException(task.Exception.InnerExceptions);
+            if (task.IsFaulted) tcs.TrySetException(task.Exception!.InnerExceptions);
             else if (task.IsCanceled) tcs.TrySetCanceled();
             else
             {

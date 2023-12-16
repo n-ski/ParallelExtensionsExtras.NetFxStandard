@@ -65,13 +65,13 @@ public static partial class ParallelAlgorithms
 
         // Store the previous row of tasks as well as the previous task in the current row
         Task[] prevTaskRow = new Task[numColumns];
-        Task prevTaskInCurrentRow = null;
+        Task prevTaskInCurrentRow = null!;
         var dependencies = new Task[2];
 
         // Create a task for each cell
         for (int row = 0; row < numRows; row++)
         {
-            prevTaskInCurrentRow = null;
+            prevTaskInCurrentRow = null!;
             for (int column = 0; column < numColumns; column++)
             {
                 // In-scope locals for being captured in the task closures

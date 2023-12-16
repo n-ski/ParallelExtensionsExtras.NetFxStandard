@@ -182,7 +182,7 @@ namespace System.Net.NetworkInformation
             var tcs = new TaskCompletionSource<PingReply>(userToken);
 
             // Register a handler that will transfer completion results to the TCS Task
-            PingCompletedEventHandler handler = null;
+            PingCompletedEventHandler handler = null!;
             handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => e.Reply, () => ping.PingCompleted -= handler);
             ping.PingCompleted += handler;
 

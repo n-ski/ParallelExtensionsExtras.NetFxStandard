@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.Concurrent;
 
@@ -42,8 +43,7 @@ public sealed class ObjectPool<T> : ProducerConsumerCollectionBase<T>
     /// <remarks>If the pool is empty, a new item will be created and returned.</remarks>
     public T GetObject()
     {
-        T value;
-        return base.TryTake(out value) ? value : _generator();
+        return base.TryTake(out var value) ? value : _generator();
     }
 
     /// <summary>Clears the object pool, returning all of the data that was in the pool.</summary>
@@ -51,8 +51,7 @@ public sealed class ObjectPool<T> : ProducerConsumerCollectionBase<T>
     public T[] ToArrayAndClear()
     {
         var items = new List<T>();
-        T value;
-        while (base.TryTake(out value)) items.Add(value);
+        while (base.TryTake(out var value)) items.Add(value);
         return items.ToArray();
     }
 
@@ -62,7 +61,7 @@ public sealed class ObjectPool<T> : ProducerConsumerCollectionBase<T>
         return true;
     }
 
-    protected override bool TryTake(out T item)
+    protected override bool TryTake([MaybeNullWhen(false)] out T item)
     {
         item = GetObject();
         return true;

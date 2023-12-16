@@ -71,14 +71,14 @@ public sealed class ReprioritizableTaskScheduler : TaskScheduler
 
     /// <summary>Picks up and executes the next item in the queue.</summary>
     /// <param name="ignored">Ignored.</param>
-    private void ProcessNextQueuedItem(object ignored)
+    private void ProcessNextQueuedItem(object? ignored)
     {
         Task t;
         lock (_tasks)
         {
             if (_tasks.Count > 0)
             {
-                t = _tasks.First.Value;
+                t = _tasks.First!.Value;
                 _tasks.RemoveFirst();
             }
             else return;

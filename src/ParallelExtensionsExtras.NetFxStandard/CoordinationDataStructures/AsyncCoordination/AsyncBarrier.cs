@@ -18,7 +18,7 @@ public sealed class AsyncBarrier
     /// <summary>The number of participants in the barrier.</summary>
     private readonly int _participantCount;
     /// <summary>The task used to signal completion of the current round.</summary>
-    private TaskCompletionSource<object> _currentSignalTask;
+    private TaskCompletionSource<object?> _currentSignalTask;
     /// <summary>The number of participants remaining to arrive for this round.</summary>
     private int _remainingParticipants;
 
@@ -30,7 +30,7 @@ public sealed class AsyncBarrier
         _participantCount = participantCount;
 
         _remainingParticipants = participantCount;
-        _currentSignalTask = new TaskCompletionSource<object>();
+        _currentSignalTask = new TaskCompletionSource<object?>();
     }
 
     /// <summary>Gets the participant count.</summary>
@@ -48,7 +48,7 @@ public sealed class AsyncBarrier
 #pragma warning restore 420
         {
             _remainingParticipants = _participantCount;
-            _currentSignalTask = new TaskCompletionSource<object>();
+            _currentSignalTask = new TaskCompletionSource<object?>();
             curCts.SetResult(null);
         }
         return curCts.Task;

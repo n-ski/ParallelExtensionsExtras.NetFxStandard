@@ -7,6 +7,7 @@
 //--------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.Concurrent;
 
@@ -19,7 +20,7 @@ public static class ProducerConsumerCollectionExtensions
     public static void Clear<T>(this IProducerConsumerCollection<T> collection)
     {
         T ignored;
-        while (collection.TryTake(out ignored));
+        while (collection.TryTake(out _));
     }
 
     /// <summary>Creates an enumerable which will consume and return elements from the <paramref name="collection"/>.</summary>
@@ -29,8 +30,7 @@ public static class ProducerConsumerCollectionExtensions
     public static IEnumerable<T> GetConsumingEnumerable<T>(
         this IProducerConsumerCollection<T> collection)
     {
-        T item;
-        while (collection.TryTake(out item)) yield return item;
+        while (collection.TryTake(out var item)) yield return item;
     }
 
     /// <summary>Adds the contents of a <paramref name="source"/> enumerable to the <paramref name="target"/> collection.</summary>
@@ -100,7 +100,7 @@ public static class ProducerConsumerCollectionExtensions
             return base.TryAdd(item);
         }
 
-        protected override bool TryTake(out T item)
+        protected override bool TryTake([MaybeNullWhen(false)] out T item)
         {
             if (_produceOnly) throw new NotSupportedException();
             return base.TryTake(out item);

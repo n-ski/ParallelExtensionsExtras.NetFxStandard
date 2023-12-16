@@ -43,9 +43,9 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
             get
             {
                 var tasks = (_scheduler._targetScheduler != null) ?
-                    (IEnumerable<Task>)_scheduler._nonthreadsafeTaskQueue :
-                    (IEnumerable<Task>)_scheduler._blockingTaskQueue;
-                return tasks.Where(t => t != null).ToList();
+                    (IEnumerable<Task?>?)_scheduler._nonthreadsafeTaskQueue :
+                    (IEnumerable<Task?>?)_scheduler._blockingTaskQueue;
+                return tasks!.Where(t => t != null).ToList()!;
             }
         }
 
@@ -81,9 +81,9 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
     // ***
 
     /// <summary>The scheduler onto which actual work is scheduled.</summary>
-    private readonly TaskScheduler _targetScheduler;
+    private readonly TaskScheduler? _targetScheduler;
     /// <summary>The queue of tasks to process when using an underlying target scheduler.</summary>
-    private readonly Queue<Task> _nonthreadsafeTaskQueue;
+    private readonly Queue<Task?>? _nonthreadsafeTaskQueue;
     /// <summary>The number of Tasks that have been queued or that are running whiel using an underlying scheduler.</summary>
     private int _delegatesQueuedOrRunning = 0;
 
@@ -92,9 +92,9 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
     // ***
 
     /// <summary>The threads used by the scheduler to process work.</summary>
-    private readonly Thread[] _threads;
+    private readonly Thread[]? _threads;
     /// <summary>The collection of tasks to be executed on our custom threads.</summary>
-    private readonly BlockingCollection<Task> _blockingTaskQueue;
+    private readonly BlockingCollection<Task?>? _blockingTaskQueue;
 
     // ***
 
@@ -119,7 +119,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
         // Initialize only those fields relevant to use an underlying scheduler.  We don't
         // initialize the fields relevant to using our own custom threads.
         _targetScheduler = targetScheduler;
-        _nonthreadsafeTaskQueue = new Queue<Task>();
+        _nonthreadsafeTaskQueue = new Queue<Task?>();
 
         // If 0, use the number of logical processors.  But make sure whatever value we pick
         // is not greater than the degree of parallelism allowed by the underlying scheduler.
@@ -151,8 +151,8 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
         ThreadPriority threadPriority = ThreadPriority.Normal,
         ApartmentState threadApartmentState = ApartmentState.MTA,
         int threadMaxStackSize = 0,
-        Action threadInit = null,
-        Action threadFinally = null)
+        Action? threadInit = null,
+        Action? threadFinally = null)
     {
         // Validates arguments (some validation is left up to the Thread type itself).
         // If the thread count is 0, default to the number of logical processors.
@@ -161,7 +161,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
         else _concurrencyLevel = threadCount;
 
         // Initialize the queue used for storing tasks
-        _blockingTaskQueue = new BlockingCollection<Task>();
+        _blockingTaskQueue = new BlockingCollection<Task?>();
 
         // Create all of the threads
         _threads = new Thread[threadCount];
@@ -183,7 +183,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
     /// <summary>The dispatch loop run by all threads in this scheduler.</summary>
     /// <param name="threadInit">An initialization routine to run when the thread begins.</param>
     /// <param name="threadFinally">A finalization routine to run before the thread ends.</param>
-    private void ThreadBasedDispatchLoop(Action threadInit, Action threadFinally)
+    private void ThreadBasedDispatchLoop(Action? threadInit, Action? threadFinally)
     {
         _taskProcessingThread.Value = true;
         if (threadInit != null) threadInit();
@@ -199,7 +199,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
                     try
                     {
                         // For each task queued to the scheduler, try to execute it.
-                        foreach (var task in _blockingTaskQueue.GetConsumingEnumerable(_disposeCancellation.Token))
+                        foreach (var task in _blockingTaskQueue!.GetConsumingEnumerable(_disposeCancellation.Token))
                         {
                             // If the task is not null, that means it was queued to this scheduler directly.
                             // Run it.
@@ -213,12 +213,12 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
                             else
                             {
                                 // Find the next task based on our ordering rules...
-                                Task targetTask;
-                                QueuedTaskSchedulerQueue queueForTargetTask;
+                                Task? targetTask;
+                                QueuedTaskSchedulerQueue? queueForTargetTask;
                                 lock (_queueGroups) FindNextTask_NeedsLock(out targetTask, out queueForTargetTask);
 
                                 // ... and if we found one, run it
-                                if (targetTask != null) queueForTargetTask.ExecuteTask(targetTask);
+                                if (targetTask != null) queueForTargetTask!.ExecuteTask(targetTask);
                             }
                         }
                     }
@@ -260,8 +260,8 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
     {
         get
         {
-            return (_targetScheduler != null ? 
-                    (IEnumerable<Task>)_nonthreadsafeTaskQueue : (IEnumerable<Task>)_blockingTaskQueue)
+            return (_targetScheduler != null ?
+                    (IEnumerable<Task?>?)_nonthreadsafeTaskQueue! : (IEnumerable<Task?>?)_blockingTaskQueue!)
                 .Where(t => t != null).Count();
         }
     }
@@ -272,7 +272,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
     /// The scheduler associated with the found task.  Due to security checks inside of TPL,  
     /// this scheduler needs to be used to execute that task.
     /// </param>
-    private void FindNextTask_NeedsLock(out Task targetTask, out QueuedTaskSchedulerQueue queueForTargetTask)
+    private void FindNextTask_NeedsLock(out Task? targetTask, out QueuedTaskSchedulerQueue? queueForTargetTask)
     {
         targetTask = null;
         queueForTargetTask = null;
@@ -306,7 +306,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
 
     /// <summary>Queues a task to the scheduler.</summary>
     /// <param name="task">The task to be queued.</param>
-    protected override void QueueTask(Task task)
+    protected override void QueueTask(Task? task)
     {
         // If we've been disposed, no one should be queueing
         if (_disposeCancellation.IsCancellationRequested) throw new ObjectDisposedException(GetType().Name);
@@ -315,7 +315,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
         // add the task to the blocking queue
         if (_targetScheduler == null)
         {
-            _blockingTaskQueue.Add(task);
+            _blockingTaskQueue!.Add(task);
         }
         // Otherwise, add the task to the non-blocking queue,
         // and if there isn't already an executing processing task,
@@ -326,7 +326,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
             // task (noting it if we do, so that other threads don't result
             // in queueing up too many).
             bool launchTask = false;
-            lock (_nonthreadsafeTaskQueue)
+            lock (_nonthreadsafeTaskQueue!)
             {
                 _nonthreadsafeTaskQueue.Enqueue(task);
                 if (_delegatesQueuedOrRunning < _concurrencyLevel)
@@ -364,8 +364,8 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
                 while (!_disposeCancellation.IsCancellationRequested)
                 {
                     // Try to get the next task.  If there aren't any more, we're done.
-                    Task targetTask;
-                    lock (_nonthreadsafeTaskQueue)
+                    Task? targetTask;
+                    lock (_nonthreadsafeTaskQueue!)
                     {
                         if (_nonthreadsafeTaskQueue.Count == 0) break;
                         targetTask = _nonthreadsafeTaskQueue.Dequeue();
@@ -373,7 +373,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
 
                     // If the task is null, it's a placeholder for a task in the round-robin queues.
                     // Find the next one that should be processed.
-                    QueuedTaskSchedulerQueue queueForTargetTask = null;
+                    QueuedTaskSchedulerQueue? queueForTargetTask = null;
                     if (targetTask == null)
                     {
                         lock (_queueGroups) FindNextTask_NeedsLock(out targetTask, out queueForTargetTask);
@@ -394,7 +394,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
                 // Now that we think we're done, verify that there really is
                 // no more work to do.  If there's not, highlight
                 // that we're now less parallel than we were a moment ago.
-                lock (_nonthreadsafeTaskQueue)
+                lock (_nonthreadsafeTaskQueue!)
                 {
                     if (_nonthreadsafeTaskQueue.Count == 0)
                     {
@@ -430,12 +430,12 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
         {
             // Get all of the tasks, filtering out nulls, which are just placeholders
             // for tasks in other sub-schedulers
-            return _blockingTaskQueue.Where(t => t != null).ToList();
+            return _blockingTaskQueue!.Where(t => t != null).ToList()!;
         }
         // otherwise get them from the non-blocking queue...
         else
         {
-            return _nonthreadsafeTaskQueue.Where(t => t != null).ToList();
+            return _nonthreadsafeTaskQueue!.Where(t => t != null).ToList()!;
         }
     }
 
@@ -463,7 +463,7 @@ public sealed class QueuedTaskScheduler : TaskScheduler, IDisposable
         // Add the queue to the appropriate queue group based on priority
         lock (_queueGroups)
         {
-            QueueGroup list;
+            QueueGroup? list;
             if (!_queueGroups.TryGetValue(priority, out list))
             {
                 list = new QueueGroup();

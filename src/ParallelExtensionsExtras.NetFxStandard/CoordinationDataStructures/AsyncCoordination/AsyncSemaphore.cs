@@ -21,7 +21,7 @@ public sealed class AsyncSemaphore : IDisposable
     /// <summary>The maximum count. If _maxCount isn't positive, the instance has been disposed.</summary>
     private int _maxCount;
     /// <summary>Tasks waiting to be completed when the semaphore has count available.</summary>
-    private Queue<TaskCompletionSource<object>> _waitingTasks;
+    private Queue<TaskCompletionSource<object?>> _waitingTasks;
 
     /// <summary>Initializes the <see cref="AsyncSemaphore"/> with a count of zero and a maximum count of <see cref="int.MaxValue"/>.</summary>
     public AsyncSemaphore() : this(0) { }
@@ -39,7 +39,7 @@ public sealed class AsyncSemaphore : IDisposable
         if (initialCount > maxCount || initialCount < 0) throw new ArgumentOutOfRangeException(nameof(initialCount));
         _currentCount = initialCount;
         _maxCount = maxCount;
-        _waitingTasks = new Queue<TaskCompletionSource<object>>();
+        _waitingTasks = new Queue<TaskCompletionSource<object?>>();
     }
 
     /// <summary>Gets the current count.</summary>
@@ -69,7 +69,7 @@ public sealed class AsyncSemaphore : IDisposable
             else
             {
                 // Otherwise, cache a new task and return it
-                var tcs = new TaskCompletionSource<object>();
+                var tcs = new TaskCompletionSource<object?>();
                 _waitingTasks.Enqueue(tcs);
                 return tcs.Task;
             }

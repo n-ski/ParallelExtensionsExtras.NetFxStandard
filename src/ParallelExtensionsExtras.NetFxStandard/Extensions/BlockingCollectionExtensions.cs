@@ -7,6 +7,7 @@
 //--------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Linq;
 
@@ -171,7 +172,9 @@ public static class BlockingCollectionExtensions
             return _collection.TryAdd(item, _millisecondsTimeout, _cancellationToken);
         }
 
-        public bool TryTake(out T item)
+#nullable disable warnings // Interface is missing MaybeNullWhen attribute in .NET Framework/.NET Standard.
+        public bool TryTake([MaybeNullWhen(false)] out T item)
+#nullable restore warnings
         {
             return _collection.TryTake(out item, _millisecondsTimeout, _cancellationToken);
         }

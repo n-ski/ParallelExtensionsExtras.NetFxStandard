@@ -118,7 +118,7 @@ public static class LinqToTasks
                 else
                 {
                     cts.CancelAndThrow();
-                    return default(TResult); // won't be reached
+                    return default(TResult)!; // won't be reached
                 }
             }, cts.Token, TaskContinuationOptions.NotOnCanceled, TaskScheduler.Default);
         }, TaskContinuationOptions.NotOnCanceled).Unwrap();
@@ -168,7 +168,7 @@ public static class LinqToTasks
                 else
                 {
                     cts.CancelAndThrow();
-                    return default(TResult); // won't be reached
+                    return default(TResult)!; // won't be reached
                 }
             }, cts.Token, TaskContinuationOptions.NotOnCanceled, TaskScheduler.Default);
         }, TaskContinuationOptions.NotOnCanceled).Unwrap();
@@ -188,7 +188,7 @@ public static class LinqToTasks
             var result = t.Result;
             var key = keySelector(result);
             var element = elementSelector(result);
-            return (IGrouping<TKey,TElement>)new OneElementGrouping<TKey,TElement> { Key = key, Element = element };
+            return (IGrouping<TKey,TElement>)new OneElementGrouping<TKey,TElement>(key, element);
         }, TaskContinuationOptions.NotOnCanceled);
     }
 
@@ -197,8 +197,14 @@ public static class LinqToTasks
     /// <typeparam name="TElement">The type of the element.</typeparam>
     private class OneElementGrouping<TKey,TElement> : IGrouping<TKey, TElement>
     {
-        public TKey Key { get; internal set; }
-        internal TElement Element { get; set; }
+        internal OneElementGrouping(TKey key, TElement element)
+        {
+            Key = key;
+            Element = element;
+        }
+
+        public TKey Key { get; }
+        internal TElement Element { get; }
         public IEnumerator<TElement> GetEnumerator() { yield return Element; }
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
     }

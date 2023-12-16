@@ -19,7 +19,7 @@ namespace System.Threading;
 /// <summary>Debugger type proxy for <see cref="AsyncCache{TKey, TValue}"/>.</summary>
 /// <typeparam name="TKey">Specifies the type of the cache's keys.</typeparam>
 /// <typeparam name="TValue">Specifies the type of the cache's values.</typeparam>
-internal class AsyncCache_DebugView<TKey, TValue>
+internal class AsyncCache_DebugView<TKey, TValue> where TKey : notnull
 {
     private readonly AsyncCache<TKey, TValue> _asyncCache;
 
@@ -40,7 +40,7 @@ internal class AsyncCache_DebugView<TKey, TValue>
 /// <typeparam name="TValue">Specifies the type of the cache's values.</typeparam>
 [DebuggerTypeProxy(typeof(AsyncCache_DebugView<,>))]
 [DebuggerDisplay("Count={Count}")]
-public class AsyncCache<TKey, TValue> : ICollection<KeyValuePair<TKey,Task<TValue>>>
+public class AsyncCache<TKey, TValue> : ICollection<KeyValuePair<TKey,Task<TValue>>> where TKey : notnull
 {
     /// <summary>The factory to use to create tasks.</summary>
     private readonly Func<TKey, Task<TValue>> _valueFactory;
@@ -147,8 +147,7 @@ public class AsyncCache<TKey, TValue> : ICollection<KeyValuePair<TKey,Task<TValu
     /// <returns><see langword="true"/> if the item could be removed; otherwise, <see langword="false"/>.</returns>
     bool ICollection<KeyValuePair<TKey, Task<TValue>>>.Remove(KeyValuePair<TKey, Task<TValue>> item)
     {
-        Lazy<Task<TValue>> value;
-        return _map.TryRemove(item.Key, out value);
+        return _map.TryRemove(item.Key, out _);
     }
 }
 

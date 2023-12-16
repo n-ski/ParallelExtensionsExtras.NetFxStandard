@@ -8,6 +8,7 @@
 
 using System.Collections.Concurrent.Partitioners;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Threading;
 
@@ -16,10 +17,12 @@ public static class CancellationTokenExtensions
 {
     /// <summary>Cancels a <see cref="CancellationTokenSource"/> and throws a corresponding <see cref="OperationCanceledException"/>.</summary>
     /// <param name="source">The source to be canceled.</param>
+    [DoesNotReturn]
     public static void CancelAndThrow(this CancellationTokenSource source)
     {
         source.Cancel();
         source.Token.ThrowIfCancellationRequested();
+        throw null!; // Unreachable, required to satisfy DoesNotReturn attribute condition.
     }
 
     /// <summary>

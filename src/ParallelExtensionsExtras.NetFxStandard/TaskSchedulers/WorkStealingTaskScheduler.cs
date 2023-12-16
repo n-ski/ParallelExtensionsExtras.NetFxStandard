@@ -7,6 +7,7 @@
 //--------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Threading.Tasks.Schedulers;
 
@@ -15,12 +16,12 @@ public class WorkStealingTaskScheduler : TaskScheduler, IDisposable
 {
     private readonly int m_concurrencyLevel;
     private readonly Queue<Task> m_queue = new Queue<Task>();
-    private WorkStealingQueue<Task>[] m_wsQueues = new WorkStealingQueue<Task>[Environment.ProcessorCount];
+    private WorkStealingQueue<Task>?[] m_wsQueues = new WorkStealingQueue<Task>?[Environment.ProcessorCount];
     private Lazy<Thread[]> m_threads;
     private int m_threadsWaiting;
     private bool m_shutdown;
     [ThreadStatic]
-    private static WorkStealingQueue<Task> m_wsq;
+    private static WorkStealingQueue<Task>? m_wsq;
 
     /// <summary>Initializes a new instance of the <see cref="WorkStealingTaskScheduler"/> class.</summary>
     /// <remarks>This constructors defaults to using twice as many threads as there are processors.</remarks>
@@ -58,14 +59,14 @@ public class WorkStealingTaskScheduler : TaskScheduler, IDisposable
         // rather than queueing it.
         if ((task.CreationOptions & TaskCreationOptions.LongRunning) != 0)
         {
-            new Thread(state => base.TryExecuteTask((Task)state)) { IsBackground = true }.Start(task);
+            new Thread(state => base.TryExecuteTask((Task?)state!)) { IsBackground = true }.Start(task);
         }
         else
         {
             // Otherwise, insert the work item into a queue, possibly waking a thread.
             // If there's a local queue and the task does not prefer to be in the global queue,
             // add it to the local queue.
-            WorkStealingQueue<Task> wsq = m_wsq;
+            WorkStealingQueue<Task>? wsq = m_wsq;
             if (wsq != null && ((task.CreationOptions & TaskCreationOptions.PreferFairness) == 0))
             {
                 // Add to the local queue and notify any waiting threads that work is available.
@@ -134,10 +135,10 @@ public class WorkStealingTaskScheduler : TaskScheduler, IDisposable
         }
 
         // Now get all of the tasks from the work-stealing queues
-        WorkStealingQueue<Task>[] queues = m_wsQueues;
+        WorkStealingQueue<Task>?[] queues = m_wsQueues;
         for (int i = 0; i < queues.Length; i++)
         {
-            WorkStealingQueue<Task> wsq = queues[i];
+            WorkStealingQueue<Task>? wsq = queues[i];
             if (wsq != null) tasks.AddRange(wsq.ToArray());
         }
 
@@ -206,7 +207,7 @@ public class WorkStealingTaskScheduler : TaskScheduler, IDisposable
             // Until there's no more work to do...
             while (true)
             {
-                Task wi = null;
+                Task? wi = null;
 
                 // Search order: (1) local WSQ, (2) global Q, (3) steals from other queues.
                 if (!wsq.LocalPop(ref wi))
@@ -245,11 +246,11 @@ public class WorkStealingTaskScheduler : TaskScheduler, IDisposable
                         }
 
                         // (3) try to steal.
-                        WorkStealingQueue<Task>[] wsQueues = m_wsQueues;
+                        WorkStealingQueue<Task>?[] wsQueues = m_wsQueues;
                         int i;
                         for (i = 0; i < wsQueues.Length; i++)
                         {
-                            WorkStealingQueue<Task> q = wsQueues[i];
+                            WorkStealingQueue<Task>? q = wsQueues[i];
                             if (q != null && q != wsq && q.TrySteal(ref wi)) break;
                         }
 
@@ -260,7 +261,7 @@ public class WorkStealingTaskScheduler : TaskScheduler, IDisposable
                 }
 
                 // ...and Invoke it.
-                TryExecuteTask(wi);
+                if (wi != null) TryExecuteTask(wi);
             }
         }
         finally
@@ -284,10 +285,10 @@ public class WorkStealingTaskScheduler : TaskScheduler, IDisposable
 
 /// <summary>A work-stealing queue.</summary>
 /// <typeparam name="T">Specifies the type of data stored in the queue.</typeparam>
-internal class WorkStealingQueue<T> where T : class
+internal class WorkStealingQueue<T> where T : class?
 {
     private const int INITIAL_SIZE = 32;
-    private T[] m_array = new T[INITIAL_SIZE];
+    private T?[] m_array = new T?[INITIAL_SIZE];
     private int m_mask = INITIAL_SIZE - 1;
     private volatile int m_headIndex = 0;
     private volatile int m_tailIndex = 0;
@@ -316,7 +317,7 @@ internal class WorkStealingQueue<T> where T : class
                 if (count >= m_mask)
                 {
                     // We're full; expand the queue by doubling its size.
-                    T[] newArray = new T[m_array.Length << 1];
+                    T?[] newArray = new T?[m_array.Length << 1];
                     for (int i = 0; i < m_array.Length; i++)
                         newArray[i] = m_array[(i + head) & m_mask];
 
@@ -333,7 +334,7 @@ internal class WorkStealingQueue<T> where T : class
         }
     }
 
-    internal bool LocalPop(ref T obj)
+    internal bool LocalPop([NotNullWhen(true)] ref T? obj)
     {
         while (true)
         {
@@ -391,7 +392,7 @@ internal class WorkStealingQueue<T> where T : class
         }
     }
 
-    internal bool TrySteal(ref T obj)
+    internal bool TrySteal([NotNullWhen(true)] ref T? obj)
     {
         obj = null;
 
@@ -431,7 +432,7 @@ internal class WorkStealingQueue<T> where T : class
         }
     }
 
-    internal bool TryFindAndPop(T obj)
+    internal bool TryFindAndPop(T? obj)
     {
         // We do an O(N) search for the work item. The theory of work stealing and our
         // inlining logic is that most waits will happen on recently queued work.  And
@@ -479,7 +480,7 @@ internal class WorkStealingQueue<T> where T : class
         List<T> list = new List<T>();
         for (int i = m_tailIndex - 1; i >= m_headIndex; i--)
         {
-            T obj = m_array[i & m_mask];
+            T? obj = m_array[i & m_mask];
             if (obj != null) list.Add(obj);
         }
         return list.ToArray();

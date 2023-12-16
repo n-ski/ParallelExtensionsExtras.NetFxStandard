@@ -47,12 +47,12 @@ public static class Pipeline
 /// <typeparam name="TOutput">Specifies the type of the output data from this stage of the pipeline.</typeparam>
 public class Pipeline<TInput, TOutput>
 {
-    private readonly Func<TInput, TOutput> _stageFunc;
+    private readonly Func<TInput, TOutput>? _stageFunc;
     private readonly int _degreeOfParallelism;
 
     internal Pipeline(int degreeOfParallelism) : this(null, degreeOfParallelism) { }
 
-    internal Pipeline(Func<TInput, TOutput> func, int degreeOfParallelism)
+    internal Pipeline(Func<TInput, TOutput>? func, int degreeOfParallelism)
     {
         _stageFunc = func;
         _degreeOfParallelism = degreeOfParallelism;
@@ -145,7 +145,7 @@ public class Pipeline<TInput, TOutput>
             MaxDegreeOfParallelism = _degreeOfParallelism,
             TaskScheduler = Pipeline.Scheduler
         };
-        Parallel.ForEach(source, options, item => output.Add(_stageFunc(item)));
+        Parallel.ForEach(source, options, item => output.Add(_stageFunc!(item)));
     }
 
     /// <summary>Helper used to add a new stage to a pipeline.</summary>

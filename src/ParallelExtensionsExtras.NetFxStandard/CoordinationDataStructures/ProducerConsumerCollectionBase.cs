@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.Concurrent;
 
@@ -60,7 +61,7 @@ public abstract class ProducerConsumerCollectionBase<T> : IProducerConsumerColle
     /// <returns>
     /// <see langword="true"/> if an element was removed and returned from the collection; otherwise, <see langword="false"/>.
     /// </returns>
-    protected virtual bool TryTake(out T item) { return _contained.TryTake(out item); }
+    protected virtual bool TryTake([MaybeNullWhen(false)] out T item) { return _contained.TryTake(out item); }
 
     /// <summary>Attempts to add the specified value to the end of the deque.</summary>
     /// <param name="item">The item to add.</param>
@@ -75,7 +76,9 @@ public abstract class ProducerConsumerCollectionBase<T> : IProducerConsumerColle
     /// <returns>
     /// <see langword="true"/> if an element was removed and returned from the collection; otherwise, <see langword="false"/>.
     /// </returns>
-    bool IProducerConsumerCollection<T>.TryTake(out T item) { return TryTake(out item); }
+    #nullable disable warnings // Interface is missing MaybeNullWhen attribute in .NET Framework/.NET Standard.
+    bool IProducerConsumerCollection<T>.TryTake([MaybeNullWhen(false)] out T item) { return TryTake(out item); }
+    #nullable restore warnings
 
     /// <summary>Gets the number of elements contained in the collection.</summary>
     public int Count { get { return _contained.Count; } }

@@ -48,8 +48,8 @@ public sealed class RoundRobinSchedulerGroup
         // Queue a processing delegate to the ThreadPool
         ThreadPool.UnsafeQueueUserWorkItem(_ =>
         {
-            Task targetTask = null;
-            RoundRobinTaskSchedulerQueue queueForTargetTask = null;
+            Task? targetTask = null;
+            RoundRobinTaskSchedulerQueue? queueForTargetTask = null;
             lock (_queues)
             {
                 // Determine the order in which we'll search the schedulers for work
@@ -75,7 +75,7 @@ public sealed class RoundRobinSchedulerGroup
             }
 
             // If we found an item, run it
-            if (targetTask != null) queueForTargetTask.RunQueuedTask(targetTask);
+            if (targetTask != null) queueForTargetTask!.RunQueuedTask(targetTask);
         }, null);
     }
 

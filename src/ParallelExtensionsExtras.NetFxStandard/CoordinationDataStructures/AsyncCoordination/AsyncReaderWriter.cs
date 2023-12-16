@@ -60,7 +60,7 @@ public sealed class AsyncReaderWriter
         var task = _factory.Create(state =>
         {
             // Run the user-provided action
-            try { ((Action)state)(); }
+            try { ((Action?)state!)(); }
             // Ensure that we clean up when we're done
             finally { FinishExclusiveWriter(); }
         }, action);
@@ -89,7 +89,7 @@ public sealed class AsyncReaderWriter
         var task = _factory.Create(state =>
         {
             // Run the user-provided function
-            try { return ((Func<TResult>)state)(); }
+            try { return ((Func<TResult>?)state!)(); }
             // Ensure that we clean up when we're done
             finally { FinishExclusiveWriter(); }
         }, function);
@@ -118,7 +118,7 @@ public sealed class AsyncReaderWriter
         Task task = _factory.Create(state =>
         {
             // Run the user-provided action
-            try { ((Action)state)(); }
+            try { ((Action?)state!)(); }
             // Ensure that we clean up when we're done
             finally { FinishConcurrentReader(); }
         }, action);
@@ -147,7 +147,7 @@ public sealed class AsyncReaderWriter
         var task = _factory.Create(state =>
         {
             // Run the user-provided function
-            try { return ((Func<TResult>)state)(); }
+            try { return ((Func<TResult>?)state!)(); }
             // Ensure that we clean up when we're done
             finally { FinishConcurrentReader(); }
         }, function);

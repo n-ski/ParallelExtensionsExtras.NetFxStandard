@@ -17,7 +17,7 @@ public class SerialTaskQueue
     /// <summary>The ordered queue of tasks to be executed. Also serves as a lock protecting all shared state.</summary>
     private Queue<object> _tasks = new Queue<object>();
     /// <summary>The task currently executing, or <see langword="null"/> if there is none.</summary>
-    private Task _taskInFlight;
+    private Task? _taskInFlight;
 
     /// <summary>Enqueues the task to be processed serially and in order.</summary>
     /// <param name="taskGenerator">The function that generates a non-started task.</param>
@@ -63,8 +63,7 @@ public class SerialTaskQueue
     /// <param name="nextItem">The next task or function that returns a task.</param>
     private void StartTask_CallUnderLock(object nextItem)
     {
-        Task next = nextItem as Task;
-        if (next == null) next = ((Func<Task>)nextItem)();
+        if (nextItem is not Task next) next = ((Func<Task>)nextItem)();
 
         if (next.Status == TaskStatus.Created) next.Start();
         _taskInFlight = next;

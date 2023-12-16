@@ -26,7 +26,7 @@ public unsafe class FastBitmap : IDisposable
 {
     private Bitmap _bitmap;
     private int _width;
-    private BitmapData _bitmapData = null;
+    private BitmapData? _bitmapData = null;
     private byte* _pBase = null;
     private PixelData* _pInitPixel = null;
     private Point _size;
@@ -93,7 +93,7 @@ public unsafe class FastBitmap : IDisposable
     {
         if (!_locked) throw new InvalidOperationException("Not currently locked");
 
-        _bitmap.UnlockBits(_bitmapData);
+        _bitmap.UnlockBits(_bitmapData!);
         _bitmapData = null;
         _pBase = null;
         _locked = false;

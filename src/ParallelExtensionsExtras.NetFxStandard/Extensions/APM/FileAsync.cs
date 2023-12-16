@@ -124,7 +124,7 @@ public static class FileAsync
     {
         // First encode the string contents into a byte array
         var encoded = Task.Factory.StartNew(
-            state => Encoding.UTF8.GetBytes((string)state), 
+            state => Encoding.UTF8.GetBytes((string?)state!),
             contents);
 
         // When encoding is done, write all of the contents to the file.  Return

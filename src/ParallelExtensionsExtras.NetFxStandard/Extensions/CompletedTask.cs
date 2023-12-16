@@ -23,12 +23,12 @@ public static class CompletedTask<TResult>
     /// <summary>Initializes a <see cref="Task{TResult}"/>.</summary>
     static CompletedTask()
     {
-        var tcs = new TaskCompletionSource<TResult>();
+        var tcs = new TaskCompletionSource<TResult?>();
         tcs.TrySetResult(default(TResult));
         Default = tcs.Task;
     }
 
     /// <summary>Gets a completed <see cref="Task{TResult}"/>.</summary>
-    public readonly static Task<TResult> Default;
+    public readonly static Task<TResult?> Default;
 }
 #endif

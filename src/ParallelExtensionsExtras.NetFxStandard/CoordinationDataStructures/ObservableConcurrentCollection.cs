@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.Concurrent;
 
@@ -40,9 +41,9 @@ public class ObservableConcurrentCollection<T> :
     }
 
     /// <summary>Event raised when the collection changes.</summary>
-    public event NotifyCollectionChangedEventHandler CollectionChanged;
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
     /// <summary>Event raised when a property on the collection changes.</summary>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
     /// Notifies observers of <see cref="CollectionChanged"/> or <see cref="PropertyChanged"/> of an update to the dictionary.
@@ -77,7 +78,7 @@ public class ObservableConcurrentCollection<T> :
     }
 
 
-    protected override bool TryTake(out T item)
+    protected override bool TryTake([MaybeNullWhen(false)] out T item)
     {
         // Try to remove an item from the underlying collection.  If we were able to,
         // notify any listeners.

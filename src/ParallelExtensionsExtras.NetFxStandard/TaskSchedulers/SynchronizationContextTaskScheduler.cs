@@ -23,7 +23,7 @@ public sealed class SynchronizationContextTaskScheduler : TaskScheduler
 
     /// <summary>Initializes an instance of the <see cref="SynchronizationContextTaskScheduler"/> class.</summary>
     public SynchronizationContextTaskScheduler() :
-        this(SynchronizationContext.Current)
+        this(SynchronizationContext.Current!)
     {
     }
 
@@ -46,8 +46,7 @@ public sealed class SynchronizationContextTaskScheduler : TaskScheduler
         _tasks.Enqueue(task);
         _context.Post(delegate
         {
-            Task nextTask;
-            if (_tasks.TryDequeue(out nextTask)) TryExecuteTask(nextTask);
+            if (_tasks.TryDequeue(out var nextTask)) TryExecuteTask(nextTask);
         }, null);
     }
 

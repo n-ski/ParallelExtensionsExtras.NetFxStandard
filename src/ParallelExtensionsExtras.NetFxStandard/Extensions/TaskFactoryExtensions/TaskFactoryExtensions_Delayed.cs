@@ -38,7 +38,7 @@ public static partial class TaskFactoryExtensions
             return factory.FromCancellation(cancellationToken);
 
         // Create the timed task
-        var tcs = new TaskCompletionSource<object>(factory.CreationOptions);
+        var tcs = new TaskCompletionSource<object?>(factory.CreationOptions);
         var ctr = default(CancellationTokenRegistration);
 
         // Create the timer but don't start it yet.  If we start it now,
@@ -47,7 +47,7 @@ public static partial class TaskFactoryExtensions
         {
             // Clean up both the cancellation token and the timer, and try to transition to completed
             ctr.Dispose();
-            ((Timer)self).Dispose();
+            ((Timer?)self)!.Dispose();
             tcs.TrySetResult(null);
         });
 
@@ -146,7 +146,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task StartNewDelayed(
         this TaskFactory factory,
-        int millisecondsDelay, Action<object> action, object state)
+        int millisecondsDelay, Action<object?> action, object? state)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         return StartNewDelayed(factory, millisecondsDelay, action, state, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
@@ -161,7 +161,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task StartNewDelayed(
         this TaskFactory factory,
-        int millisecondsDelay, Action<object> action, object state,
+        int millisecondsDelay, Action<object?> action, object? state,
         TaskCreationOptions creationOptions)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -177,7 +177,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task StartNewDelayed(
         this TaskFactory factory,
-        int millisecondsDelay, Action<object> action, object state,
+        int millisecondsDelay, Action<object?> action, object? state,
         CancellationToken cancellationToken)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -195,7 +195,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task StartNewDelayed(
         this TaskFactory factory,
-        int millisecondsDelay, Action<object> action, object state,
+        int millisecondsDelay, Action<object?> action, object? state,
         CancellationToken cancellationToken, TaskCreationOptions creationOptions, TaskScheduler scheduler)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -204,7 +204,7 @@ public static partial class TaskFactoryExtensions
         if (scheduler == null) throw new ArgumentNullException(nameof(scheduler));
 
         // Create the task that will be returned; workaround for no ContinueWith(..., state) overload.
-        var result = new TaskCompletionSource<object>(state);
+        var result = new TaskCompletionSource<object?>(state);
 
         // Delay a continuation to run the action
         factory
@@ -292,7 +292,7 @@ public static partial class TaskFactoryExtensions
 
         // Create the trigger and the timer to start it
         var tcs = new TaskCompletionSource<object>();
-        var timer = new Timer(obj => ((TaskCompletionSource<object>)obj).SetResult(null),
+        var timer = new Timer(obj => ((TaskCompletionSource<object?>?)obj)!.SetResult(null),
             tcs, millisecondsDelay, Timeout.Infinite);
 
         // Return a task that executes the function when the trigger fires
@@ -311,7 +311,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task<TResult> StartNewDelayed<TResult>(
         this TaskFactory<TResult> factory,
-        int millisecondsDelay, Func<object, TResult> function, object state)
+        int millisecondsDelay, Func<object?, TResult> function, object? state)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         return StartNewDelayed(factory, millisecondsDelay, function, state, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
@@ -326,7 +326,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task<TResult> StartNewDelayed<TResult>(
         this TaskFactory<TResult> factory,
-        int millisecondsDelay, Func<object, TResult> function, object state,
+        int millisecondsDelay, Func<object?, TResult> function, object? state,
         CancellationToken cancellationToken)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -342,7 +342,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task<TResult> StartNewDelayed<TResult>(
         this TaskFactory<TResult> factory,
-        int millisecondsDelay, Func<object, TResult> function, object state,
+        int millisecondsDelay, Func<object?, TResult> function, object? state,
         TaskCreationOptions creationOptions)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -360,7 +360,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>The created <see cref="Task"/>.</returns>
     public static Task<TResult> StartNewDelayed<TResult>(
         this TaskFactory<TResult> factory,
-        int millisecondsDelay, Func<object, TResult> function, object state,
+        int millisecondsDelay, Func<object?, TResult> function, object? state,
         CancellationToken cancellationToken, TaskCreationOptions creationOptions, TaskScheduler scheduler)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -370,7 +370,7 @@ public static partial class TaskFactoryExtensions
 
         // Create the task that will be returned
         var result = new TaskCompletionSource<TResult>(state);
-        Timer timer = null;
+        Timer? timer = null;
 
         // Create the task that will run the user's function
         var functionTask = new Task<TResult>(function, state, creationOptions);
@@ -379,11 +379,11 @@ public static partial class TaskFactoryExtensions
         functionTask.ContinueWith(t =>
         {
             result.SetFromTask(t);
-            timer.Dispose();
+            timer!.Dispose();
         }, cancellationToken, ContinuationOptionsFromCreationOptions(creationOptions) | TaskContinuationOptions.ExecuteSynchronously, scheduler);
 
         // Start the timer for the trigger
-        timer = new Timer(obj => ((Task)obj).Start(scheduler),
+        timer = new Timer(obj => ((Task?)obj)!.Start(scheduler),
             functionTask, millisecondsDelay, Timeout.Infinite);
 
         return result.Task;

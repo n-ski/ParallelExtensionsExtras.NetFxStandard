@@ -18,7 +18,7 @@ public static class DelegateExtensions
     /// <param name="multicastDelegate">The delegate to be invoked.</param>
     /// <param name="args">An array of objects that are the arguments to pass to the delegates.</param>
     /// <returns>The return value of one of the delegate invocations.</returns>
-    public static object ParallelDynamicInvoke(this Delegate multicastDelegate, params object[] args)
+    public static object? ParallelDynamicInvoke(this Delegate multicastDelegate, params object?[] args)
     {
         if (multicastDelegate == null) throw new ArgumentNullException(nameof(multicastDelegate));
         if (args == null) throw new ArgumentNullException(nameof(args));
@@ -56,10 +56,10 @@ public static class DelegateExtensions
         return () =>
         {
             try { return function(); }
-            catch (Exception exc) 
+            catch (Exception exc)
             {
                 if (Debugger.IsAttached) Debugger.Break();
-                else Environment.FailFast("An unhandled exception occurred.", exc); 
+                else Environment.FailFast("An unhandled exception occurred.", exc);
             }
             throw new Exception("Will never get here");
         };

@@ -56,8 +56,8 @@ namespace System.Net.NetworkInformation
              var tcs = new TaskCompletionSource<object>(userToken);
 
             // Register a handler that will transfer completion results to the TCS Task
-            SendCompletedEventHandler handler = null;
-            handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => null, () => smtpClient.SendCompleted -= handler);
+            SendCompletedEventHandler handler = null!;
+            handler = (sender, e) => EAPCommon.HandleCompletion(tcs, e, () => null!, () => smtpClient.SendCompleted -= handler);
             smtpClient.SendCompleted += handler;
 
             // Try to start the async operation.  If starting it fails (due to parameter validation)

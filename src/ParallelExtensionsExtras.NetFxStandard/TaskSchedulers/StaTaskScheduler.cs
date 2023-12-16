@@ -8,6 +8,7 @@
 
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace System.Threading.Tasks.Schedulers;
@@ -19,7 +20,7 @@ namespace System.Threading.Tasks.Schedulers;
 public sealed class StaTaskScheduler : TaskScheduler, IDisposable
 {
     /// <summary>Stores the queued tasks to be executed by our pool of STA threads.</summary>
-    private BlockingCollection<Task> _tasks;
+    private BlockingCollection<Task>? _tasks;
     /// <summary>The STA threads used by the scheduler.</summary>
     private readonly List<Thread> _threads;
 
@@ -56,16 +57,22 @@ public sealed class StaTaskScheduler : TaskScheduler, IDisposable
 
     /// <summary>Queues a <see cref="Task"/> to be executed by this scheduler.</summary>
     /// <param name="task">The task to be executed.</param>
+    /// <exception cref="ObjectDisposedException">Object was disposed.</exception>
     protected override void QueueTask(Task task)
     {
+        ThrowIfDisposed();
+
         // Push it into the blocking collection of tasks
         _tasks.Add(task);
     }
 
     /// <summary>Provides a list of the scheduled tasks for the debugger to consume.</summary>
     /// <returns>An enumerable of all tasks currently scheduled.</returns>
+    /// <exception cref="ObjectDisposedException">Object was disposed.</exception>
     protected override IEnumerable<Task> GetScheduledTasks()
     {
+        ThrowIfDisposed();
+
         // Serialize the contents of the blocking collection of tasks for the debugger
         return _tasks.ToArray();
     }
@@ -106,5 +113,11 @@ public sealed class StaTaskScheduler : TaskScheduler, IDisposable
             _tasks.Dispose();
             _tasks = null;
         }
+    }
+
+    [MemberNotNull(nameof(_tasks))]
+    private void ThrowIfDisposed()
+    {
+        if (_tasks == null) throw new ObjectDisposedException(GetType().FullName);
     }
 }

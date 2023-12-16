@@ -143,13 +143,13 @@ public static partial class ParallelAlgorithms
     /// <param name="function">The function to use for the scan.</param>
     /// <param name="lowerBoundInclusive">The inclusive lower bound of the <paramref name="array"/> at which to start the scan.</param>
     /// <param name="upperBoundExclusive">The exclusive upper bound of the <paramref name="array"/> at which to end the scan.</param>
-    public static void ExclusiveScanInPlaceSerial<T>(T[] array, Func<T, T, T> function, int lowerBoundInclusive, int upperBoundExclusive)
+    public static void ExclusiveScanInPlaceSerial<T>(T?[] array, Func<T?, T?, T?> function, int lowerBoundInclusive, int upperBoundExclusive)
     {
-        T total = array[lowerBoundInclusive];
+        T? total = array[lowerBoundInclusive];
         array[lowerBoundInclusive] = default(T);
         for (int i = lowerBoundInclusive + 1; i < upperBoundExclusive; i++)
         {
-            T prevTotal = total;
+            T? prevTotal = total;
             total = function(total, array[i]);
             array[i] = prevTotal;
         }
@@ -201,7 +201,7 @@ public static partial class ParallelAlgorithms
         int procCount = Environment.ProcessorCount;
         T[] intermediatePartials = new T[procCount];
         using (var phaseBarrier = new Barrier(procCount, 
-                   _ => ExclusiveScanInPlaceSerial(intermediatePartials, function, 0, intermediatePartials.Length)))
+                   _ => ExclusiveScanInPlaceSerial(intermediatePartials, function!, 0, intermediatePartials.Length)))
         {
             // Compute the size of each range
             int rangeSize = array.Length / procCount;

@@ -30,7 +30,7 @@ public class ThreadSafeRandom : Random
     /// <returns>A 32-bit signed integer greater than or equal to zero and less than <see cref="int.MaxValue"/>.</returns>
     public override int Next()
     {
-        return _local.Value.Next();
+        return _local.Value!.Next();
     }
 
     /// <summary>Returns a nonnegative random number less than the specified maximum.</summary>
@@ -45,7 +45,7 @@ public class ThreadSafeRandom : Random
     /// </returns>
     public override int Next(int maxValue)
     {
-        return _local.Value.Next(maxValue);
+        return _local.Value!.Next(maxValue);
     }
 
     /// <summary>Returns a random number within a specified range.</summary>
@@ -62,20 +62,20 @@ public class ThreadSafeRandom : Random
     /// </returns>
     public override int Next(int minValue, int maxValue)
     {
-        return _local.Value.Next(minValue,  maxValue);
+        return _local.Value!.Next(minValue,  maxValue);
     }
 
     /// <summary>Returns a random number between 0.0 and 1.0.</summary>
     /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
     public override double NextDouble()
     {
-        return _local.Value.NextDouble();
+        return _local.Value!.NextDouble();
     }
 
     /// <summary>Fills the elements of a specified array of bytes with random numbers.</summary>
     /// <param name="buffer">An array of bytes to contain random numbers.</param>
     public override void NextBytes(byte[] buffer)
     {
-        _local.Value.NextBytes(buffer);
+        _local.Value!.NextBytes(buffer);
     }
 }

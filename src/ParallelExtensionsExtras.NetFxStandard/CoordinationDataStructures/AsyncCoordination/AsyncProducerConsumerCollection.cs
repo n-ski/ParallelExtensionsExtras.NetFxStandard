@@ -8,6 +8,7 @@
 
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace System.Threading.Async;
@@ -17,7 +18,7 @@ namespace System.Threading.Async;
 public sealed class AsyncProducerConsumerCollection<T> : IDisposable
 {
     /// <summary>Asynchronous semaphore used to keep track of asynchronous work.</summary>
-    private AsyncSemaphore _semaphore = new AsyncSemaphore();
+    private AsyncSemaphore? _semaphore = new AsyncSemaphore();
     /// <summary>The data stored in the collection.</summary>
     private IProducerConsumerCollection<T> _collection;
 
@@ -36,6 +37,8 @@ public sealed class AsyncProducerConsumerCollection<T> : IDisposable
     /// <param name="item">The item to be added.</param>
     public void Add(T item)
     {
+        ThrowIfDisposed();
+
         if (_collection.TryAdd(item)) _semaphore.Release();
         else throw new InvalidOperationException("Invalid collection");
     }
@@ -44,10 +47,11 @@ public sealed class AsyncProducerConsumerCollection<T> : IDisposable
     /// <returns>A <see cref="Task"/> that represents the element removed from the collection.</returns>
     public Task<T> Take()
     {
+        ThrowIfDisposed();
+
         return _semaphore.WaitAsync().ContinueWith(_ =>
         {
-            T result;
-            if (!_collection.TryTake(out result)) throw new InvalidOperationException("Invalid collection");
+            if (!_collection.TryTake(out var result)) throw new InvalidOperationException("Invalid collection");
             return result;
         }, TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnRanToCompletion);
     }
@@ -63,5 +67,11 @@ public sealed class AsyncProducerConsumerCollection<T> : IDisposable
             _semaphore.Dispose();
             _semaphore = null;
         }
+    }
+
+    [MemberNotNull(nameof(_semaphore))]
+    private void ThrowIfDisposed()
+    {
+        if (_semaphore == null) throw new ObjectDisposedException(GetType().FullName);
     }
 }

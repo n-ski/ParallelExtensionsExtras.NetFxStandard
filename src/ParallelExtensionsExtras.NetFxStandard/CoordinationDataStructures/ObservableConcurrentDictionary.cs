@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.Concurrent;
 
@@ -23,6 +24,7 @@ namespace System.Collections.Concurrent;
 public class ObservableConcurrentDictionary<TKey, TValue> :
     ICollection<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>,
     INotifyCollectionChanged, INotifyPropertyChanged
+    where TKey : notnull
 {
     private readonly SynchronizationContext _context;
     private readonly ConcurrentDictionary<TKey, TValue> _dictionary;
@@ -37,9 +39,9 @@ public class ObservableConcurrentDictionary<TKey, TValue> :
     }
 
     /// <summary>Event raised when the collection changes.</summary>
-    public event NotifyCollectionChangedEventHandler CollectionChanged;
+    public event NotifyCollectionChangedEventHandler? CollectionChanged;
     /// <summary>Event raised when a property on the collection changes.</summary>
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     /// <summary>
     /// Notifies observers of <see cref="CollectionChanged"/> or <see cref="PropertyChanged"/> of an update to the dictionary.
@@ -89,7 +91,7 @@ public class ObservableConcurrentDictionary<TKey, TValue> :
     /// <param name="key">The key of the item to be removed.</param>
     /// <param name="value">The value of the item removed.</param>
     /// <returns>Whether the removal was successful.</returns>
-    private bool TryRemoveWithNotification(TKey key, out TValue value)
+    private bool TryRemoveWithNotification(TKey key, [MaybeNullWhen(false)] out TValue value)
     {
         bool result = _dictionary.TryRemove(key, out value);
         if (result) NotifyObserversOfChange();
@@ -140,8 +142,7 @@ public class ObservableConcurrentDictionary<TKey, TValue> :
 
     bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
     {
-        TValue temp;
-        return TryRemoveWithNotification(item.Key, out temp);
+        return TryRemoveWithNotification(item.Key, out _);
     }
     #endregion
 
@@ -175,11 +176,12 @@ public class ObservableConcurrentDictionary<TKey, TValue> :
 
     public bool Remove(TKey key)
     {
-        TValue temp;
-        return TryRemoveWithNotification(key, out temp);
+        return TryRemoveWithNotification(key, out _);
     }
 
-    public bool TryGetValue(TKey key, out TValue value)
+#nullable disable warnings // Interface is missing MaybeNullWhen attribute in .NET Framework/.NET Standard.
+    public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
+#nullable restore warnings
     {
         return _dictionary.TryGetValue(key, out value);
     }

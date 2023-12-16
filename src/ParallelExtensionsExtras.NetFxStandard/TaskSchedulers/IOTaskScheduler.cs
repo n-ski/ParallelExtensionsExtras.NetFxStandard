@@ -21,12 +21,14 @@ public sealed class IOTaskScheduler : TaskScheduler, IDisposable
     /// <summary>Represents a task queued to the I/O pool.</summary>
     private unsafe class WorkItem
     {
-        internal IOTaskScheduler _scheduler;
+        internal IOTaskScheduler? _scheduler;
         internal NativeOverlapped* _pNOlap;
-        internal Task _task;
+        internal Task? _task;
 
         internal void Callback(uint errorCode, uint numBytes, NativeOverlapped* pNOlap)
         {
+            if (_scheduler == null || _task == null) return;
+
             // Execute the task
             _scheduler.TryExecuteTask(_task);
 
@@ -38,7 +40,7 @@ public sealed class IOTaskScheduler : TaskScheduler, IDisposable
     }
 
     // A pool of available WorkItem instances that can be used to schedule tasks
-    private ObjectPool<WorkItem> _availableWorkItems;
+    private ObjectPool<WorkItem>? _availableWorkItems;
 
     /// <summary>Initializes a new instance of the <see cref="IOTaskScheduler"/> class.</summary>
     public unsafe IOTaskScheduler()
@@ -75,6 +77,8 @@ public sealed class IOTaskScheduler : TaskScheduler, IDisposable
     /// <summary>Disposes of resources used by the scheduler.</summary>
     public unsafe void Dispose()
     {
+        if (_availableWorkItems == null) return;
+
         var pool = _availableWorkItems;
         _availableWorkItems = null;
         var workItems = pool.ToArrayAndClear();

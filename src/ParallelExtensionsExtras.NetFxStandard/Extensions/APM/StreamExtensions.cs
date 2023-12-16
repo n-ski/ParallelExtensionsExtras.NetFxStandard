@@ -170,7 +170,7 @@ public static class StreamExtensions
             // write operation.  We'll continually swap back and forth between them.
             byte[][] buffers = new byte[2][] { new byte[BUFFER_SIZE], new byte[BUFFER_SIZE] };
             int filledBufferNum = 0;
-            Task writeTask = null;
+            Task? writeTask = null;
             
             // Until there's no more data to be read
             while (true)

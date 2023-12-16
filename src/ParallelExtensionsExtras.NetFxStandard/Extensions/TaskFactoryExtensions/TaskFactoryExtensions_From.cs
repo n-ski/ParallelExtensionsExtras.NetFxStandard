@@ -73,7 +73,7 @@ public static partial class TaskFactoryExtensions
     private class DelegateCache<TResult>
     {
         /// <summary>Function that returns default(TResult).</summary>
-        internal static readonly Func<TResult> DefaultResult = () => default(TResult);
+        internal static readonly Func<TResult> DefaultResult = () => default(TResult)!;
     }
     #endregion
 

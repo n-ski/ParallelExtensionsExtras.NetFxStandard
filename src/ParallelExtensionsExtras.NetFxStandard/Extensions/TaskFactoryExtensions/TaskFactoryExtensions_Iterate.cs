@@ -21,7 +21,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source)
+        IEnumerable<object?> source)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         return Iterate(factory, source, null, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
@@ -34,7 +34,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, 
+        IEnumerable<object?> source,
         CancellationToken cancellationToken)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -48,7 +48,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, 
+        IEnumerable<object?> source,
         TaskCreationOptions creationOptions)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -62,7 +62,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, 
+        IEnumerable<object?> source,
         TaskScheduler scheduler)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -78,7 +78,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source,
+        IEnumerable<object?> source,
         CancellationToken cancellationToken, TaskCreationOptions creationOptions, TaskScheduler scheduler)
     {
         return Iterate(factory, source, null, cancellationToken, creationOptions, scheduler);
@@ -93,7 +93,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, object state)
+        IEnumerable<object?> source, object? state)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
         return Iterate(factory, source, state, factory.CancellationToken, factory.CreationOptions, factory.GetTargetScheduler());
@@ -107,7 +107,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, object state,
+        IEnumerable<object?> source, object? state,
         CancellationToken cancellationToken)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -122,7 +122,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, object state,
+        IEnumerable<object?> source, object? state,
         TaskCreationOptions creationOptions)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -137,7 +137,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, object state,
+        IEnumerable<object?> source, object? state,
         TaskScheduler scheduler)
     {
         if (factory == null) throw new ArgumentNullException(nameof(factory));
@@ -154,7 +154,7 @@ public static partial class TaskFactoryExtensions
     /// <returns>A <see cref="Task"/> that represents the complete asynchronous operation.</returns>
     public static Task Iterate(
         this TaskFactory factory,
-        IEnumerable<object> source, object state, 
+        IEnumerable<object?> source, object? state,
         CancellationToken cancellationToken, TaskCreationOptions creationOptions, TaskScheduler scheduler)
     {
         // Validate/update parameters
@@ -168,11 +168,11 @@ public static partial class TaskFactoryExtensions
 
         // Create the task to be returned to the caller.  And ensure
         // that when everything is done, the enumerator is cleaned up.
-        var trs = new TaskCompletionSource<object>(state, creationOptions);
+        var trs = new TaskCompletionSource<object?>(state, creationOptions);
         trs.Task.ContinueWith(_ => enumerator.Dispose(), CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
 
         // This will be called every time more work can be done.
-        Action<Task> recursiveBody = null;
+        Action<Task?>? recursiveBody = null;
         recursiveBody = antecedent =>
         {
             try
@@ -184,19 +184,19 @@ public static partial class TaskFactoryExtensions
                 if (enumerator.MoveNext())
                 {
                     var nextItem = enumerator.Current;
-                        
+
                     // If we got a Task, continue from it to continue iterating
                     if (nextItem is Task)
                     {
                         var nextTask = (Task)nextItem;
                         /**/ nextTask.IgnoreExceptions(); // TODO: Is this a good idea?
-                        nextTask.ContinueWith(recursiveBody).IgnoreExceptions();
+                        nextTask.ContinueWith(recursiveBody!).IgnoreExceptions();
                     }
                     // If we got a scheduler, continue iterating under the new scheduler,
                     // enabling hopping between contexts.
                     else if (nextItem is TaskScheduler)
                     {
-                        Task.Factory.StartNew(() => recursiveBody(null), CancellationToken.None, TaskCreationOptions.None, (TaskScheduler)nextItem).IgnoreExceptions();
+                        Task.Factory.StartNew(() => recursiveBody!(null), CancellationToken.None, TaskCreationOptions.None, (TaskScheduler)nextItem).IgnoreExceptions();
                     }
                     // Anything else is invalid
                     else trs.TrySetException(new InvalidOperationException("Task or TaskScheduler object expected in Iterate"));

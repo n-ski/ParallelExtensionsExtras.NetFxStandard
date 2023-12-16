@@ -28,7 +28,7 @@ public sealed class AsyncCall<T> : MarshalByRefObject
     /// <summary>The TaskFactory to use to launch new tasks.</summary>
     private readonly TaskFactory _tf;
     /// <summary>The options to use for parallel processing of data.</summary>
-    private readonly ParallelOptions _parallelOptions;
+    private readonly ParallelOptions? _parallelOptions;
     /// <summary>Whether a processing task has been scheduled.</summary>
     private int _processingCount;
 
@@ -37,7 +37,7 @@ public sealed class AsyncCall<T> : MarshalByRefObject
     /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
     /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
     /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
-    public AsyncCall(Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null) :
+    public AsyncCall(Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler? scheduler = null) :
         this(maxDegreeOfParallelism, maxItemsPerTask, scheduler)
     {
         if (actionHandler == null) throw new ArgumentNullException(nameof(actionHandler));
@@ -45,13 +45,13 @@ public sealed class AsyncCall<T> : MarshalByRefObject
     }
 
     /// <summary>
-    /// Initializes the <see cref="AsyncCall{T}"/> with a function to execute for each element.  The function returns a <see cref="Task"/> 
+    /// Initializes the <see cref="AsyncCall{T}"/> with a function to execute for each element.  The function returns a <see cref="Task"/>
     /// that represents the asynchronous completion of that element's processing.
     /// </summary>
     /// <param name="functionHandler">The function to run for every posted item.</param>
     /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
     /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
-    public AsyncCall(Func<T,Task> functionHandler, int maxDegreeOfParallelism = 1, TaskScheduler scheduler = null) :
+    public AsyncCall(Func<T,Task> functionHandler, int maxDegreeOfParallelism = 1, TaskScheduler? scheduler = null) :
         this(maxDegreeOfParallelism, 1, scheduler)
     {
         if (functionHandler == null) throw new ArgumentNullException(nameof(functionHandler));
@@ -62,7 +62,7 @@ public sealed class AsyncCall<T> : MarshalByRefObject
     /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
     /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
     /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
-    private AsyncCall(int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null)
+    private AsyncCall(int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler? scheduler = null)
     {
         // Validate arguments
         if (maxDegreeOfParallelism < 1) throw new ArgumentOutOfRangeException(nameof(maxDegreeOfParallelism));
@@ -77,6 +77,9 @@ public sealed class AsyncCall<T> : MarshalByRefObject
         {
             _parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = maxDegreeOfParallelism, TaskScheduler = scheduler };
         }
+
+        // This field is set in constructors that call into this constructor.
+        _handler = null!;
     }
 
     /// <summary>Post an item for processing.</summary>
@@ -119,8 +122,7 @@ public sealed class AsyncCall<T> : MarshalByRefObject
         // Yield the next elements to be processed until either there are no more elements
         // or we've reached the maximum number of elements that an individual task should process.
         int processedCount = 0;
-        T nextItem;
-        while (processedCount < _maxItemsPerTask && _queue.TryDequeue(out nextItem))
+        while (processedCount < _maxItemsPerTask && _queue.TryDequeue(out var nextItem))
         {
             yield return nextItem;
             processedCount++;
@@ -156,7 +158,7 @@ public sealed class AsyncCall<T> : MarshalByRefObject
     }
 
     /// <summary>Used as the body of a function task to process items in the queue.</summary>
-    private void ProcessItemFunctionTaskBody(object ignored)
+    private void ProcessItemFunctionTaskBody(object? ignored)
     {
         bool anotherTaskQueued = false;
         try
@@ -165,14 +167,13 @@ public sealed class AsyncCall<T> : MarshalByRefObject
             Func<T, Task> handler = (Func<T, Task>)_handler;
 
             // Get the next item from the queue to process
-            T nextItem;
-            if (_queue.TryDequeue(out nextItem))
+            if (_queue.TryDequeue(out var nextItem))
             {
                 // Run the handler and get the follow-on task.
                 // If we got a follow-on task, run this process again when the task completes.
                 // If we didn't, just start another task to keep going now.
                 var task = handler(nextItem);
-                if (task != null) task.ContinueWith(ProcessItemFunctionTaskBody, _tf.Scheduler);
+                if (task != null) task.ContinueWith(ProcessItemFunctionTaskBody, _tf.Scheduler!);
                 else _tf.StartNew(ProcessItemFunctionTaskBody, null);
 
                 // We've queued a task to continue processing, which means that logically
@@ -207,7 +208,7 @@ public static class AsyncCall
     /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
     /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
     /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
-    public static AsyncCall<T> Create<T>(Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler scheduler = null)
+    public static AsyncCall<T> Create<T>(Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue, TaskScheduler? scheduler = null)
     {
         return new AsyncCall<T>(actionHandler, maxDegreeOfParallelism, maxItemsPerTask, scheduler);
     }
@@ -219,7 +220,7 @@ public static class AsyncCall
     /// <param name="functionHandler">The function to run for every posted item.</param>
     /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
     /// <param name="scheduler">The scheduler to use.  If <see langword="null"/>, the default scheduler is used.</param>
-    public static AsyncCall<T> Create<T>(Func<T, Task> functionHandler, int maxDegreeOfParallelism = 1, TaskScheduler scheduler = null)
+    public static AsyncCall<T> Create<T>(Func<T, Task> functionHandler, int maxDegreeOfParallelism = 1, TaskScheduler? scheduler = null)
     {
         return new AsyncCall<T>(functionHandler, maxDegreeOfParallelism, scheduler);
     }
@@ -231,11 +232,11 @@ public static class AsyncCall
         /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
         public static AsyncCall<T> CreateInTargetAppDomain<T>(AppDomain targetDomain, Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue)
         {
-            return (AsyncCall<T>)targetDomain.CreateInstanceAndUnwrap(
-                typeof(AsyncCall<T>).Assembly.FullName, typeof(AsyncCall<T>).FullName,
+            return (AsyncCall<T>?)targetDomain.CreateInstanceAndUnwrap(
+                typeof(AsyncCall<T>).Assembly.FullName!, typeof(AsyncCall<T>).FullName!,
                 false, Reflection.BindingFlags.CreateInstance, null,
-                new object[] { actionHandler, maxDegreeOfParallelism, maxItemsPerTask, null },
-                null, null);
+                new object?[] { actionHandler, maxDegreeOfParallelism, maxItemsPerTask, null },
+                null, null)!;
         }
 
         /// <summary>
@@ -246,11 +247,11 @@ public static class AsyncCall
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
         public static AsyncCall<T> CreateInTargetAppDomain<T>(AppDomain targetDomain, Func<T, Task> functionHandler, int maxDegreeOfParallelism = 1)
         {
-            return (AsyncCall<T>)targetDomain.CreateInstanceAndUnwrap(
-                typeof(AsyncCall<T>).Assembly.FullName, typeof(AsyncCall<T>).FullName,
+            return (AsyncCall<T>?)targetDomain.CreateInstanceAndUnwrap(
+                typeof(AsyncCall<T>).Assembly.FullName!, typeof(AsyncCall<T>).FullName!,
                 false, Reflection.BindingFlags.CreateInstance, null,
-                new object[] { functionHandler, maxDegreeOfParallelism, null },
-                null, null);
+                new object?[] { functionHandler, maxDegreeOfParallelism, null },
+                null, null)!;
         }
 #endif
 }

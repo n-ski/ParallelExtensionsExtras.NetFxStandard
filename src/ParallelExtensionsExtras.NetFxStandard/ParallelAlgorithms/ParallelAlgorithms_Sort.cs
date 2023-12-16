@@ -18,14 +18,14 @@ public static partial class ParallelAlgorithms
     /// <param name="array">The array to be sorted.</param>
     public static void Sort<T>(T [] array)
     {
-        Sort(array, (IComparer<T>)null);
+        Sort(array, null);
     }
 
     /// <summary>Sorts an <paramref name="array"/> in parallel.</summary>
     /// <typeparam name="T">Specifies the type of data in the array.</typeparam>
     /// <param name="array">The array to be sorted.</param>
     /// <param name="comparer">The comparer used to compare two elements during the sort operation.</param>
-    public static void Sort<T>(T[] array, IComparer<T> comparer)
+    public static void Sort<T>(T[] array, IComparer<T>? comparer)
     {
         if (array == null) throw new ArgumentNullException(nameof(array));
         Sort<T, object>(array, null, 0, array.Length, comparer);
@@ -38,7 +38,7 @@ public static partial class ParallelAlgorithms
     /// <param name="length">The number of elements to be sorted, starting at the <paramref name="index"/>.</param>
     public static void Sort<T>(T [] array, Int32 index, Int32 length)
     {
-        Sort<T, object>(array, null, index, length, (IComparer<T>)null);
+        Sort<T, object>(array, null, index, length, null);
     }
 
     /// <summary>Sorts an <paramref name="array"/> in parallel.</summary>
@@ -47,7 +47,7 @@ public static partial class ParallelAlgorithms
     /// <param name="index">The index at which to start the sort, inclusive.</param>
     /// <param name="length">The number of elements to be sorted, starting at the <paramref name="index"/>.</param>
     /// <param name="comparer">The comparer used to compare two elements during the sort operation.</param>
-    public static void Sort<T>(T[] array, Int32 index, Int32 length, IComparer<T> comparer)
+    public static void Sort<T>(T[] array, Int32 index, Int32 length, IComparer<T>? comparer)
     {
         Sort<T,object>(array, null, index, length, comparer);
     }
@@ -57,9 +57,9 @@ public static partial class ParallelAlgorithms
     /// <typeparam name="TValue">Specifies the type of the data in the items array.</typeparam>
     /// <param name="keys">The keys to be sorted.</param>
     /// <param name="items">The items to be sorted based on the corresponding <paramref name="keys"/>.</param>
-    public static void Sort<TKey, TValue>(TKey[] keys, TValue[] items)
+    public static void Sort<TKey, TValue>(TKey[] keys, TValue[]? items)
     {
-        Sort(keys, items, 0, keys.Length, (IComparer<TKey>)null);
+        Sort(keys, items, 0, keys.Length, null);
     }
 
     /// <summary>Sorts key/value arrays in parallel.</summary>
@@ -68,7 +68,7 @@ public static partial class ParallelAlgorithms
     /// <param name="keys">The keys to be sorted.</param>
     /// <param name="items">The items to be sorted based on the corresponding <paramref name="keys"/>.</param>
     /// <param name="comparer">The comparer used to compare two elements during the sort operation.</param>
-    public static void Sort<TKey, TValue>(TKey[] keys, TValue[] items, IComparer<TKey> comparer)
+    public static void Sort<TKey, TValue>(TKey[] keys, TValue[]? items, IComparer<TKey>? comparer)
     {
         if (keys == null) throw new ArgumentNullException(nameof(keys));
         Sort(keys, items, 0, keys.Length, comparer);
@@ -81,9 +81,9 @@ public static partial class ParallelAlgorithms
     /// <param name="items">The items to be sorted based on the corresponding <paramref name="keys"/>.</param>
     /// <param name="index">The index at which to start the sort, inclusive.</param>
     /// <param name="length">The number of elements to be sorted, starting at the <paramref name="index"/>.</param>
-    public static void Sort<TKey, TValue>(TKey[] keys, TValue[] items, Int32 index, Int32 length)
+    public static void Sort<TKey, TValue>(TKey[] keys, TValue[]? items, Int32 index, Int32 length)
     {
-        Sort(keys, items, index, length, (IComparer<TKey>)null);
+        Sort(keys, items, index, length, null);
     }
 
     /// <summary>Sorts key/value arrays in parallel.</summary>
@@ -94,7 +94,7 @@ public static partial class ParallelAlgorithms
     /// <param name="index">The index at which to start the sort, inclusive.</param>
     /// <param name="length">The number of elements to be sorted, starting at the <paramref name="index"/>.</param>
     /// <param name="comparer">The comparer used to compare two elements during the sort operation.</param>
-    public static void Sort<TKey, TValue>(TKey [] keys, TValue [] items, Int32 index, Int32 length, IComparer<TKey> comparer)
+    public static void Sort<TKey, TValue>(TKey [] keys, TValue []? items, Int32 index, Int32 length, IComparer<TKey>? comparer)
     {
         if (keys == null) throw new ArgumentNullException(nameof(keys));
         if ((index < 0) || (length < 0)) throw new ArgumentOutOfRangeException(length < 0 ? nameof(length): nameof(index));
@@ -108,10 +108,10 @@ public static partial class ParallelAlgorithms
     private sealed class Sorter<TKey, TItem>
     {
         private TKey[] _keys;
-        private TItem[] _items;
+        private TItem[]? _items;
         private IComparer<TKey> _comparer;
 
-        public Sorter(TKey[] keys, TItem[] items, IComparer<TKey> comparer)
+        public Sorter(TKey[] keys, TItem[]? items, IComparer<TKey>? comparer)
         {
             if (comparer == null) comparer = Comparer<TKey>.Default;
             _keys = keys;

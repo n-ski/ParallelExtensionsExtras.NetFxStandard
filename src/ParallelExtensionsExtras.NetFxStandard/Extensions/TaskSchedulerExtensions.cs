@@ -36,7 +36,7 @@ public static class TaskSchedulerExtensions
         /// <summary>Dispatches an asynchronous message to the synchronization context.</summary>
         /// <param name="d">The <see cref="SendOrPostCallback"/> delegate to call.</param>
         /// <param name="state">The object passed to the delegate.</param>
-        public override void Post(SendOrPostCallback d, object state)
+        public override void Post(SendOrPostCallback d, object? state)
         {
             Task.Factory.StartNew(() => d(state), CancellationToken.None, TaskCreationOptions.None, _scheduler);
         }
@@ -44,7 +44,7 @@ public static class TaskSchedulerExtensions
         /// <summary>Dispatches a synchronous message to the synchronization context.</summary>
         /// <param name="d">The <see cref="SendOrPostCallback"/> delegate to call.</param>
         /// <param name="state">The object passed to the delegate.</param>
-        public override void Send(SendOrPostCallback d, object state)
+        public override void Send(SendOrPostCallback d, object? state)
         {
             Task t = new Task(() => d(state));
             t.RunSynchronously(_scheduler);

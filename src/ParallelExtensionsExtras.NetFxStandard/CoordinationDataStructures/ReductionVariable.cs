@@ -9,6 +9,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -21,16 +22,16 @@ namespace System.Threading;
 public sealed class ReductionVariable<T>
 {
     /// <summary>The factory used to initialize a value on a thread.</summary>
-    private readonly Func<T> _seedFactory;
+    private readonly Func<T>? _seedFactory;
     /// <summary>Thread-local storage for each thread's value.</summary>
-    private readonly ThreadLocal<StrongBox<T>> _threadLocal;
+    private readonly ThreadLocal<StrongBox<T?>> _threadLocal;
     /// <summary>The list of all thread-local values for later enumeration.</summary>
-    private readonly ConcurrentQueue<StrongBox<T>> _values = new ConcurrentQueue<StrongBox<T>>();
+    private readonly ConcurrentQueue<StrongBox<T?>> _values = new();
 
     /// <summary>Initializes the instances.</summary>
     public ReductionVariable()
     {
-        _threadLocal = new ThreadLocal<StrongBox<T>>(CreateValue);
+        _threadLocal = new ThreadLocal<StrongBox<T?>>(CreateValue);
     }
 
     /// <summary>Initializes the instances.</summary>
@@ -38,29 +39,30 @@ public sealed class ReductionVariable<T>
     /// The function invoked to provide the initial value for a thread.  
     /// If <see langword="null"/>, the default value of &lt;T&gt; will be used as the seed.
     /// </param>
-    public ReductionVariable(Func<T> seedFactory) : this()
+    public ReductionVariable(Func<T>? seedFactory) : this()
     {
         _seedFactory = seedFactory;
     }
 
     /// <summary>Creates a value for the current thread and stores it in the central list of values.</summary>
     /// <returns>The boxed value.</returns>
-    private StrongBox<T> CreateValue()
+    private StrongBox<T?> CreateValue()
     {
-        var s = new StrongBox<T>(_seedFactory != null ? _seedFactory() : default(T));
+        var s = new StrongBox<T?>(_seedFactory != null ? _seedFactory() : default(T));
         _values.Enqueue(s);
         return s;
     }
 
     /// <summary>Gets or sets the value for the current thread.</summary>
+    [MaybeNull]
     public T Value
     {
-        get { return _threadLocal.Value.Value; }
-        set { _threadLocal.Value.Value = value; }
+        get { return _threadLocal.Value!.Value; }
+        set { _threadLocal.Value!.Value = value; }
     }
 
     /// <summary>Gets the values for all of the threads that have used this instance.</summary>
-    public IEnumerable<T> Values { get { return _values.Select(s => s.Value); } }
+    public IEnumerable<T> Values { get { return _values.Select(s => s.Value!); } }
 
     /// <summary>Applies an accumulator function over the values in this variable.</summary>
     /// <param name="function">An accumulator function to be invoked on each value.</param>

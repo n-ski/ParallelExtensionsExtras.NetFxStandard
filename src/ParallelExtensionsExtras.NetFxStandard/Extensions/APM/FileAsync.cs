@@ -45,6 +45,9 @@ public static class FileAsync
 #endif
     public static Task<byte[]> ReadAllBytes(string path)
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+        return File.ReadAllBytesAsync(path);
+#else
         // Open the file for reading
         var fs = OpenRead(path);
 
@@ -61,6 +64,7 @@ public static class FileAsync
         // Return the task that represents the entire operation being complete and that returns the
         // file's contents
         return closedFile;
+#endif
     }
 
     /// <summary>
@@ -74,6 +78,9 @@ public static class FileAsync
 #endif
     public static Task WriteAllBytes(string path, byte[] bytes)
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+        return File.WriteAllBytesAsync(path, bytes);
+#else
         // Open the file for writing
         var fs = OpenWrite(path);
 
@@ -90,6 +97,7 @@ public static class FileAsync
 
         // Return a task that represents the operation having completed
         return closedFile;
+#endif
     }
 
     /// <summary>
@@ -102,6 +110,9 @@ public static class FileAsync
 #endif
     public static Task<string> ReadAllText(string path)
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+        return File.ReadAllTextAsync(path);
+#else
         // Create a StringBuilder to store the text from the file and an encoding object to decode the
         // contents of the file
         var text = new StringBuilder();
@@ -121,6 +132,7 @@ public static class FileAsync
             if (e != null) throw e;
             return text.ToString();
         }, TaskContinuationOptions.ExecuteSynchronously);
+#endif
     }
 
     /// <summary>
@@ -134,6 +146,9 @@ public static class FileAsync
 #endif
     public static Task WriteAllText(string path, string contents)
     {
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+        return File.WriteAllTextAsync(path, contents);
+#else
         // First encode the string contents into a byte array
         var encoded = Task.Factory.StartNew(
             state => Encoding.UTF8.GetBytes((string?)state!),
@@ -142,5 +157,6 @@ public static class FileAsync
         // When encoding is done, write all of the contents to the file.  Return
         // a task that represents the completion of that write.
         return encoded.ContinueWith(t => WriteAllBytes(path, t.Result)).Unwrap();
+#endif
     }
 }

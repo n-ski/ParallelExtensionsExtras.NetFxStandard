@@ -53,8 +53,12 @@ public static partial class TaskFactoryExtensions
     /// <returns>The completed <see cref="Task"/>.</returns>
     public static Task FromCancellation(this TaskFactory factory, CancellationToken cancellationToken)
     {
+#if NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+        return Task.FromCanceled(cancellationToken);
+#else
         if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
         return new Task(() => { }, cancellationToken);
+#endif
     }
 
     /// <summary>Creates a <see cref="Task"/> that has completed in the <see cref="TaskStatus.Canceled"/> state with the specified <see cref="CancellationToken"/>.</summary>
@@ -64,10 +68,15 @@ public static partial class TaskFactoryExtensions
     /// <returns>The completed <see cref="Task"/>.</returns>
     public static Task<TResult> FromCancellation<TResult>(this TaskFactory factory, CancellationToken cancellationToken)
     {
+#if NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+        return Task.FromCanceled<TResult>(cancellationToken);
+#else
         if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
         return new Task<TResult>(DelegateCache<TResult>.DefaultResult, cancellationToken);
+#endif
     }
 
+#if !NET46_OR_GREATER && !NETSTANDARD1_3_OR_GREATER && !NETCOREAPP
     /// <summary>A cache of delegates.</summary>
     /// <typeparam name="TResult">The result type.</typeparam>
     private class DelegateCache<TResult>
@@ -75,6 +84,8 @@ public static partial class TaskFactoryExtensions
         /// <summary>Function that returns default(TResult).</summary>
         internal static readonly Func<TResult> DefaultResult = () => default(TResult)!;
     }
+#endif
+
     #endregion
 
     #region TaskFactory<TResult>
@@ -109,8 +120,12 @@ public static partial class TaskFactoryExtensions
     /// <returns>The completed <see cref="Task"/>.</returns>
     public static Task<TResult> FromCancellation<TResult>(this TaskFactory<TResult> factory, CancellationToken cancellationToken)
     {
+#if NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+        return Task.FromCanceled<TResult>(cancellationToken);
+#else
         if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
         return new Task<TResult>(DelegateCache<TResult>.DefaultResult, cancellationToken);
+#endif
     }
     #endregion
 }

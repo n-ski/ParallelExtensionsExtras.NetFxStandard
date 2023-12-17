@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace System.Threading.Async;
 
 /// <summary>Provides an asynchronous producer/consumer collection.</summary>
-[DebuggerDisplay("Count={CurrentCount}")]
+[DebuggerDisplay("Count={Count}")]
 public sealed class AsyncProducerConsumerCollection<T> : IDisposable
 {
     /// <summary>Asynchronous semaphore used to keep track of asynchronous work.</summary>

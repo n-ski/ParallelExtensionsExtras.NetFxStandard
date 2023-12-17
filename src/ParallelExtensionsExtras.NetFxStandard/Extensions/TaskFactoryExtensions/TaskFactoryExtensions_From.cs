@@ -53,7 +53,11 @@ public static partial class TaskFactoryExtensions
     /// <returns>The completed <see cref="Task"/>.</returns>
     public static Task FromCancellation(this TaskFactory factory, CancellationToken cancellationToken)
     {
-#if NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+#if NET5_0_OR_GREATER
+        var tcs = new TaskCompletionSource(factory.CreationOptions);
+        tcs.SetCanceled(cancellationToken);
+        return tcs.Task;
+#elif NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
         return Task.FromCanceled(cancellationToken);
 #else
         if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
@@ -68,7 +72,11 @@ public static partial class TaskFactoryExtensions
     /// <returns>The completed <see cref="Task"/>.</returns>
     public static Task<TResult> FromCancellation<TResult>(this TaskFactory factory, CancellationToken cancellationToken)
     {
-#if NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+#if NET5_0_OR_GREATER
+        var tcs = new TaskCompletionSource<TResult>(factory.CreationOptions);
+        tcs.SetCanceled(cancellationToken);
+        return tcs.Task;
+#elif NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
         return Task.FromCanceled<TResult>(cancellationToken);
 #else
         if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));
@@ -120,7 +128,11 @@ public static partial class TaskFactoryExtensions
     /// <returns>The completed <see cref="Task"/>.</returns>
     public static Task<TResult> FromCancellation<TResult>(this TaskFactory<TResult> factory, CancellationToken cancellationToken)
     {
-#if NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+#if NET5_0_OR_GREATER
+        var tcs = new TaskCompletionSource<TResult>(factory.CreationOptions);
+        tcs.SetCanceled(cancellationToken);
+        return tcs.Task;
+#elif NET46_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
         return Task.FromCanceled<TResult>(cancellationToken);
 #else
         if (!cancellationToken.IsCancellationRequested) throw new ArgumentOutOfRangeException(nameof(cancellationToken));

@@ -14,6 +14,9 @@ namespace System.Threading;
 /// <summary>
 /// Represents a thread-safe, pseudo-random number generator.
 /// </summary>
+#if NET6_0_OR_GREATER
+[Obsolete("This API is superseded by System.Threading.Random.Shared.")]
+#endif
 public class ThreadSafeRandom : Random
 {
     /// <summary>Seed provider.</summary>

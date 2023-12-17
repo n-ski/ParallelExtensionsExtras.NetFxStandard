@@ -40,6 +40,9 @@ public static class FileAsync
     /// </summary>
     /// <param name="path">The path to the file to be read.</param>
     /// <returns>A <see cref="Task"/> that will contain the contents of the file.</returns>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+    [Obsolete("This API is superseded by System.IO.File.ReadAllBytesAsync().")]
+#endif
     public static Task<byte[]> ReadAllBytes(string path)
     {
         // Open the file for reading
@@ -66,6 +69,9 @@ public static class FileAsync
     /// <param name="path">The path to the file to be written.</param>
     /// <param name="bytes">An array of bytes to be written.</param>
     /// <returns>A <see cref="Task"/> that will signal the completion of the operation.</returns>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+    [Obsolete("This API is superseded by System.IO.File.WriteAllBytesAsync().")]
+#endif
     public static Task WriteAllBytes(string path, byte[] bytes)
     {
         // Open the file for writing
@@ -91,6 +97,9 @@ public static class FileAsync
     /// </summary>
     /// <param name="path">The path to the file to be read.</param>
     /// <returns>A <see cref="Task"/> that will contain the contents of the file.</returns>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+    [Obsolete("This API is superseded by System.IO.File.ReadAllTextAsync().")]
+#endif
     public static Task<string> ReadAllText(string path)
     {
         // Create a StringBuilder to store the text from the file and an encoding object to decode the
@@ -120,6 +129,9 @@ public static class FileAsync
     /// <param name="path">The path to the file to be written.</param>
     /// <param name="contents">The string to write to the file.</param>
     /// <returns>A <see cref="Task"/> that will signal the completion of the operation.</returns>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
+    [Obsolete("This API is superseded by System.IO.File.WriteAllTextAsync().")]
+#endif
     public static Task WriteAllText(string path, string contents)
     {
         // First encode the string contents into a byte array

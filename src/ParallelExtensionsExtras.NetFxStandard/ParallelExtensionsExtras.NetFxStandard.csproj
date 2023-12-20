@@ -4,6 +4,7 @@
     <TargetFrameworks>netstandard2.0;net40;net45;net6.0;net6.0-windows</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>$(NoWarn);CS1572;CS1573;CS1591</NoWarn>
+    <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">

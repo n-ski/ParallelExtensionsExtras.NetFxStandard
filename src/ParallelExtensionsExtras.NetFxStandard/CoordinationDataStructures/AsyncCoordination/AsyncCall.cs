@@ -10,6 +10,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+#if NET
+using System.Diagnostics.CodeAnalysis;
+#endif
+
 namespace System.Threading.Tasks;
 
 /// <summary>Asynchronously invokes a handler for every posted item.</summary>
@@ -230,6 +234,9 @@ public static class AsyncCall
         /// <param name="actionHandler">The action to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
         /// <param name="maxItemsPerTask">The maximum number of items to be processed per task.  If not specified, <see cref="int.MaxValue"/> is used.</param>
+#if NET
+        [RequiresUnreferencedCode("Type and its constructor could be removed")]
+#endif
         public static AsyncCall<T> CreateInTargetAppDomain<T>(AppDomain targetDomain, Action<T> actionHandler, int maxDegreeOfParallelism = 1, int maxItemsPerTask = Int32.MaxValue)
         {
             return (AsyncCall<T>?)targetDomain.CreateInstanceAndUnwrap(
@@ -245,6 +252,9 @@ public static class AsyncCall
         /// </summary>
         /// <param name="functionHandler">The action to run for every posted item.</param>
         /// <param name="maxDegreeOfParallelism">The maximum degree of parallelism to use.  If not specified, 1 is used for serial execution.</param>
+#if NET
+        [RequiresUnreferencedCode("Type and its constructor could be removed")]
+#endif
         public static AsyncCall<T> CreateInTargetAppDomain<T>(AppDomain targetDomain, Func<T, Task> functionHandler, int maxDegreeOfParallelism = 1)
         {
             return (AsyncCall<T>?)targetDomain.CreateInstanceAndUnwrap(

@@ -19,7 +19,6 @@ public static class ProducerConsumerCollectionExtensions
     /// <param name="collection">The collection to be cleared.</param>
     public static void Clear<T>(this IProducerConsumerCollection<T> collection)
     {
-        T ignored;
         while (collection.TryTake(out _));
     }
 

@@ -28,10 +28,7 @@ For examples of how to use this library, please visit https://devblogs.microsoft
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/n-ski/ParallelExtensionsExtras.NetFxStandard</RepositoryUrl>
-    <PackageReleaseNotes>- Added .NET 6 target
-- Enabled nullable annotations
-- Obsoleted ThreadSafeRandom and FileAsync
-- Updated System.Drawing.Common to 6.0.0</PackageReleaseNotes>
+    <PackageReleaseNotes>- Added trimming and native AOT support</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">

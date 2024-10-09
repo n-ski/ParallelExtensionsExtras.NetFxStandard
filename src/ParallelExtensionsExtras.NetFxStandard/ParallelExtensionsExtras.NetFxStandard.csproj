@@ -37,12 +37,6 @@ For examples of how to use this library, please visit https://devblogs.microsoft
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Condition="!Exists('packages.config')">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' and !$(TargetFramework.Contains('-windows'))">
     <PackageReference Include="System.Drawing.Common" />
   </ItemGroup>

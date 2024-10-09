@@ -5,7 +5,6 @@
   <PropertyGroup>
     <NoWarn>$(NoWarn);CS1572;CS1573;CS1591</NoWarn>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">

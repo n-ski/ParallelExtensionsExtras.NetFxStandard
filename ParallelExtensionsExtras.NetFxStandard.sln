@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source Code", "Source Code"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelExtensionsExtras.NetFxStandard", "src\ParallelExtensionsExtras.NetFxStandard\ParallelExtensionsExtras.NetFxStandard.csproj", "{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParallelExtensionsExtras.NetFxStandard.Windows", "src\ParallelExtensionsExtras.NetFxStandard.Windows\ParallelExtensionsExtras.NetFxStandard.Windows.csproj", "{3237347E-4C80-495B-91EC-251912BB25B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A430DA9B-F8C6-45E2-B953-3BBA94FEC706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3237347E-4C80-495B-91EC-251912BB25B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3237347E-4C80-495B-91EC-251912BB25B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3237347E-4C80-495B-91EC-251912BB25B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3237347E-4C80-495B-91EC-251912BB25B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +58,6 @@ Global
 		{2B2EB379-64E3-47AE-B473-B9FFCD1F9E84} = {D0F92072-0B82-4ECF-B327-846E1944F804}
 		{C7E4BF25-A888-40E1-828A-9293594B2848} = {2B2EB379-64E3-47AE-B473-B9FFCD1F9E84}
 		{A430DA9B-F8C6-45E2-B953-3BBA94FEC706} = {79FF3FC1-EC2C-42AD-BA9A-14331F8BBE3B}
+		{3237347E-4C80-495B-91EC-251912BB25B3} = {79FF3FC1-EC2C-42AD-BA9A-14331F8BBE3B}
 	EndGlobalSection
 EndGlobal

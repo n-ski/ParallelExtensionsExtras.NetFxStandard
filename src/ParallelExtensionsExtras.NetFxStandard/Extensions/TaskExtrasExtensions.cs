@@ -1,15 +1,12 @@
 ﻿//--------------------------------------------------------------------------
-// 
-//  Copyright (c) Microsoft Corporation.  All rights reserved. 
-// 
+//
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//
 //  File: TaskExtensions.cs
 //
 //--------------------------------------------------------------------------
 
 using System.Linq;
-#if NETFRAMEWORK || WINDOWS
-using System.Windows.Threading;
-#endif
 
 namespace System.Threading.Tasks;
 
@@ -66,7 +63,7 @@ public static class TaskExtrasExtensions
 
     #region ToAsync(AsyncCallback, object)
     /// <summary>
-    /// Creates a <see cref="Task"/> that represents the completion of another <see cref="Task"/>, and 
+    /// Creates a <see cref="Task"/> that represents the completion of another <see cref="Task"/>, and
     /// that schedules an <see cref="AsyncCallback"/> to run upon completion.
     /// </summary>
     /// <param name="task">The antecedent <see cref="Task"/>.</param>
@@ -114,9 +111,9 @@ public static class TaskExtrasExtensions
     /// <returns>The original <see cref="Task"/>.</returns>
     public static Task IgnoreExceptions(this Task task)
     {
-        task.ContinueWith(t => { var ignored = t.Exception; }, 
+        task.ContinueWith(t => { var ignored = t.Exception; },
             CancellationToken.None,
-            TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnFaulted, 
+            TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnFaulted,
             TaskScheduler.Default);
         return task;
     }
@@ -289,19 +286,6 @@ public static class TaskExtrasExtensions
     #endregion
 
     #region Waiting
-#if NETFRAMEWORK || WINDOWS
-    /// <summary>Waits for the <see cref="Task"/> to complete execution, pumping in the meantime.</summary>
-    /// <param name="task">The <see cref="Task"/> for which to wait.</param>
-    /// <remarks>This method is intended for usage with Windows Presentation Foundation.</remarks>
-    public static void WaitWithPumping(this Task task)
-    {
-        if (task == null) throw new ArgumentNullException(nameof(task));
-        var nestedFrame = new DispatcherFrame();
-        task.ContinueWith(_ => nestedFrame.Continue = false);
-        Dispatcher.PushFrame(nestedFrame);
-        task.Wait();
-    }
-#endif
 
     /// <summary>Waits for the <see cref="Task"/> to complete execution, returning the <see cref="Task"/>'s final status.</summary>
     /// <param name="task">The <see cref="Task"/> for which to wait.</param>

@@ -1,21 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net40;net45;net6.0;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net40;net45;net6.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-    <UseWindowsForms>true</UseWindowsForms>
-    <UseWpf>true</UseWpf>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' and !$(TargetFramework.Contains('-windows'))">
     <PackageReference Include="System.Drawing.Common" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-    <Reference Include="WindowsBase" />
   </ItemGroup>
 
 </Project>

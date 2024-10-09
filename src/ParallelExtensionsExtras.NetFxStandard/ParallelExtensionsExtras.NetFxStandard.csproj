@@ -3,38 +3,11 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45;net6.0;net6.0-windows</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>$(NoWarn);CS1572;CS1573;CS1591</NoWarn>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IsTrimmable>true</IsTrimmable>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">
-    <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
     <UseWindowsForms>true</UseWindowsForms>
     <UseWpf>true</UseWpf>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Packaging">
-    <Product>Parallel Extensions Extras</Product>
-    <Description>Parallel Extensions for the .NET Framework and .NET Standard.
-For examples of how to use this library, please visit https://devblogs.microsoft.com/pfxteam/tag/parallelextensionsextras/</Description>
-    <Copyright>Copyright © Microsoft Corporation.  All rights reserved.</Copyright>
-    <Authors>Microsoft, Sergey Volkov</Authors>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageTags>pfx tpl plinq task parallel extensions extras</PackageTags>
-    <PackageLicenseFile>license.txt</PackageLicenseFile>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/n-ski/ParallelExtensionsExtras.NetFxStandard</RepositoryUrl>
-    <PackageReleaseNotes>- Added trimming and native AOT support</PackageReleaseNotes>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' and !$(TargetFramework.Contains('-windows'))">
@@ -43,11 +16,6 @@ For examples of how to use this library, please visit https://devblogs.microsoft
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
     <Reference Include="WindowsBase" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\license.txt" Pack="true" PackagePath="\" />
-    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

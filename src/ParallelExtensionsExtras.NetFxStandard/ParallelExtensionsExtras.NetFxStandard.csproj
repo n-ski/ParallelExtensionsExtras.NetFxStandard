@@ -5,8 +5,4 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework' and !$(TargetFramework.Contains('-windows'))">
-    <PackageReference Include="System.Drawing.Common" />
-  </ItemGroup>
-
 </Project>

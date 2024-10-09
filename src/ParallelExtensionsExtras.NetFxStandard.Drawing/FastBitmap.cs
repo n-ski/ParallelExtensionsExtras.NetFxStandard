@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------------
-// 
-//  Copyright (c) Microsoft Corporation.  All rights reserved. 
-// 
+//
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//
 //  File: FastBitmap.cs
 //
 //--------------------------------------------------------------------------
@@ -72,9 +72,9 @@ public unsafe class FastBitmap : IDisposable
 
         Rectangle bounds = new Rectangle(0, 0, _bitmap.Width, _bitmap.Height);
 
-        // Figure out the number of bytes in a row. This is rounded up to be a multiple 
+        // Figure out the number of bytes in a row. This is rounded up to be a multiple
         // of 4 bytes, since a scan line in an image must always be a multiple of 4 bytes
-        // in length. 
+        // in length.
         _width = bounds.Width * sizeof(PixelData);
         if (_width % 4 != 0) _width = 4 * (_width / 4 + 1);
 
